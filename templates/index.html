@@ -45,7 +45,7 @@
       <img src="{{ url_for('static', filename='img/banner.jpg') }}">
     </div>
     <div class="text">
-      <h2>What is postmarketOS?</h2>
+      <h2>A real Linux distribution on the phone</h2>
       <p>postmarketOS (<i>pmOS</i>), is a touch-optimized, pre-configured <a
               href="https://alpinelinux.org">Alpine Linux</a> that can be installed on smartphones and other mobile
         devices. The project is at very early stages of development and is not yet usable for most users.</p>
@@ -83,17 +83,38 @@
       <img src="{{ url_for('static', filename='img/cmus.jpg') }}">
     </div>
     <div class="text fl w-two-thirds">
-      <h2>What's in the box?</h2>
+      <h2>Package and run anything you want</h2>
       <p>
         With postmarketOS you will have the freedom to customize your Linux experience. There are multiple open options
         available in the current Linux community like KDE Plasma Mobile, UBports, Enlightenment or you can just use a
         plain shell.
       </p>
       <p>
-        PostmarketOS will not impose arbitrary restrictions on you. Use the apps from any ecosystem you want! even run
+        postmarketOS will not impose arbitrary restrictions on you. Use the apps from any ecosystem you want! even run
         desktop software if you want. If your favorite option is not available then help us improving postmarketOS.
       </p>
+    </div>
+  </div>
+</section>
 
+<section class="inverted img-text">
+  <div class="mw8 center">
+    <div class="text">
+      <h2>Getting better security</h2>
+      <p>
+        Current Android devices run on old Linux kernels. This is mainly because SoC vendors modify the current kernel
+        on introduction of the chipset with their own code. This code doesn't get mainlined and thus doesn't benefit from
+        security updates that are made by Linus's kernel team. Only on select devices you will get some backported security
+        patches.
+      </p>
+      <p>
+        postmarketOS aims to get as much devices as possible running on a mainline linux kernel. Which is the most we
+        can currently do to get more security on the devices. For a better overview of the security in the mobile world
+        see the <a href="https://ollieparanoid.github.io/post/security-warning/">security warning blog post</a>.
+      </p>
+    </div>
+    <div class="img-valign">
+      <img src="{{ url_for('static', filename='img/backlit.jpg') }}">
     </div>
   </div>
 </section>
