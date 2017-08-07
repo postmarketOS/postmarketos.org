@@ -23,15 +23,15 @@ def blog():
     posts = map(parse_post, posts)
     return render_template('blog.html', posts=posts)
 
-@app.route('/blog/<y>/<m>/<d>/<title>/')
-def blog_post(y, m, d, title):
-    post_path = f'{y}-{m}-{d}-{title}'
+@app.route('/blog/<y>/<m>/<d>/<slug>/')
+def blog_post(y, m, d, slug):
+    post_path = f'{y}-{m}-{d}-{slug}'
     with open(f'{BLOG_CONTENT_DIR}/{post_path}.md', 'r') as f:
         text = f.read()
         _, header, body = text.split('---')
-        for h in header:
+        for h in header.split('\n'):
             if h.startswith('title'):
-                title = h.split('title:')[0].strip()
+                title = h.split('title:')[1].strip()
         html = markdown.markdown(body, extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
         return render_template('blog-post.html', title=title, html=html)
 

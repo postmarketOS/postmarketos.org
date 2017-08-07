@@ -1,3 +1,11 @@
+h1 img {
+    height: 1.4em;
+}
+
+h1 span {
+    vertical-align: top;
+}
+
 div.menu ul {
     list-style: none;
     padding-left: 7px;
