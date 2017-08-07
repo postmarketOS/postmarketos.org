@@ -1,6 +1,6 @@
 import markdown
 
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 from os import listdir
 
 app = Flask(__name__)
@@ -15,7 +15,7 @@ def home():
 def parse_post(post):
     y, m, d, *title = post[:-3].split('-')
     slug = '-'.join(title)
-    return {'url': f'/blog/{y}/{m}/{d}/{slug}/', 'title': ' '.join(title)}
+    return {'url': url_for('blog_post', y=y, m=m, d=d, slug=slug), 'title': ' '.join(title)}
 
 @app.route('/blog/')
 def blog():
@@ -38,7 +38,7 @@ def blog_post(y, m, d, slug):
 def parse_page(page):
     slug = page[:-3]
     title = slug.replace('-', ' ')
-    return {'url': f'/wiki/{slug}/', 'title': title}
+    return {'url': url_for('wiki_page', slug=slug), 'title': title}
 
 @app.route('/wiki/')
 def wiki():

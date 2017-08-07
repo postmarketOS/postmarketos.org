@@ -21,7 +21,7 @@
   <body>
     <div class="mw7 center">
       <div class="cf ph2-ns">
-        <a class="title" href="/">
+        <a class="title" href="{{ url_for('home') }}">
           <h1 class="f2 lh-title">
             <img src="{{ url_for('static', filename='img/recycle.png') }}"></img>
             <span>postmarketOS</span>
@@ -29,9 +29,9 @@
         </a>
         <div class="menu">
         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/wiki/">Wiki</a></li>
-          <li><a href="/blog/">Blog</a></li>
+          <li><a href="{{ url_for('home') }}">Home</a></li>
+          <li><a href="{{ url_for('wiki') }}">Wiki</a></li>
+          <li><a href="{{ url_for('blog') }}">Blog</a></li>
         </ul>
         </div>
         {% block body %}
