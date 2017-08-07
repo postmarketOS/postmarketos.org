@@ -1,8 +1,13 @@
-h1 img {
+a.title {
+    text-decoration: none;
+    color: black;
+}
+
+a.title h1 img {
     height: 1.4em;
 }
 
-h1 span {
+a.title h1 span {
     vertical-align: top;
 }
 
