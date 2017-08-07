@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Installing-packages-on-a-running-phone/">
+
+    <link href="/pmosweb/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/pmosweb/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="mw7 center">
+      <div class="cf ph2-ns">
+        <a class="title" href="/pmosweb/">
+          <h1 class="f2 lh-title">
+            <img src="/pmosweb/static/img/recycle.png"></img>
+            <span>postmarketOS</span>
+          </h1>
+        </a>
+        <div class="menu">
+        <ul>
+          <li><a href="/pmosweb/">Home</a></li>
+          <li><a href="/pmosweb/wiki/">Wiki</a></li>
+          <li><a href="/pmosweb/blog/">Blog</a></li>
+        </ul>
+        </div>
+        
+<h1>Installing packages on a running phone</h1>
+<ol>
+<li>Go to the pmbootstrap packages dir (by default it's <code>~/.local/var/pmbootstrap/packages</code>)</li>
+<li>Start a webserver <code>python3 -m http.server</code></li>
+<li>Change repository on the phone to point to your dev machine in <code>/etc/apk/repositories</code>:</li>
+</ol>
+<pre class="codehilite"><code># You can remove this line
+/home/user/packages/user
+
+# Add your dev machine, change the ip-address for your network
+http://192.168.2.42:8000
+
+https://nl.alpinelinux.org/alpine/edge/main
+https://nl.alpinelinux.org/alpine/edge/community
+https://nl.alpinelinux.org/alpine/edge/testing</code></pre>
+
+
+<ol>
+<li>Upgrade the package you built with <code>apk upgrade [package name]</code></li>
+</ol>
+
+      </div>
+    </div>
+  </body>
+</html>

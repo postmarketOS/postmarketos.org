@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/blog/2017/05/26/intro/">
+
+    <link href="/pmosweb/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/pmosweb/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="mw7 center">
+      <div class="cf ph2-ns">
+        <a class="title" href="/pmosweb/">
+          <h1 class="f2 lh-title">
+            <img src="/pmosweb/static/img/recycle.png"></img>
+            <span>postmarketOS</span>
+          </h1>
+        </a>
+        <div class="menu">
+        <ul>
+          <li><a href="/pmosweb/">Home</a></li>
+          <li><a href="/pmosweb/wiki/">Wiki</a></li>
+          <li><a href="/pmosweb/blog/">Blog</a></li>
+        </ul>
+        </div>
+        
+<h2>postmarketOS: Aiming for a 10 year life-cycle for smartphones</h2>
+<p><em>Introduction post to <a href="https://github.com/postmarketOS/">postmarketOS</a>, a touch-optimized, pre-configured <a href="https://alpinelinux.org/">Alpine Linux</a> with own packages, that can be installed on smartphones. (Not usable for most people yet!)</em></p>
+<p><small></p>
+<p><em>Update: Alpine Linux developers do not see their distribution as "GNU/Linux", so I won't be using this term for Alpine or pmOS anymore. One of these developers, ^7heo, <a href="https://github.com/ollieparanoid/ollieparanoid.github.io/pull/1">helped me</a> to reword this article and other pages on this blog accordingly, thank you!</em></p>
+<p></small><a href="#index">Index</a></p>
+<ul>
+<li><a href="#10-year-old-pcs">Minimalistic Linux distributions run fine on ten year old PCs.</a></li>
+<li><a href="#why-is-android-different">Why are Android/Linux phones different?</a></li>
+<li><a href="#we-can-fix-this">We can fix this as a community.</a></li>
+<li><a href="#architecture">postmarketOS architecture</a></li>
+<li><a href="#prototype">Prototype</a></li>
+<li><a href="#pmbootstrap">pmbootstrap</a></li>
+<li><a href="#future">Future goals and where you could help</a></li>
+<li><a href="#more">There is so much more...</a></li>
+</ul>
+<p><a href="#10-year-old-pcs">Minimalistic Linux distributions run fine on ten year old PCs.</a></p>
+<p>It is 2017. Pick an average PC from 2007 and install a minimal Linux based operating system. You will be able to do basic computing tasks (eg. surfing the web, reading E-Mails, listening to music, chatting) just like on an <em>expensive</em> modern PC. You will even get security updates, so your old computer is protected, just like as a new one.</p>
+<p><a href="#why-is-android-different">Why are Android/Linux phones different?</a></p>
+<p>Androids architecture is based on <strong>forking</strong> (one might as well say <em>copy-pasting</em>) <strong>the entire code-base for each and every device <em>and</em> Android version.</strong> And then working on that independent, basically instantly incompatible version. Especially adding device-specific drivers plays an important role.</p>
+<p>This workflow makes it next to impossible to patch all Android devices with security updates in time or at all (<em>Stagefright</em> vulnerabilities for example rendered <a href="https://threatpost.com/stagefright-2-0-vulnerabilities-affect-1-billion-android-devices/114863/">one billion devices</a> vulnerable). And even if the vendor provides updates, it will only be for a limited time and then you must buy a new device to get security updates or the latest Android version. How convenient!</p>
+<p>Alright, so there is the <a href="https://lineageos.org/">LineageOS</a> community, which provides weekly updates for an impressive number of smartphones. They provide a practical solution today, and I am very grateful for that. However, such Android based projects will always run behind Google and the phone industry, fixing only symptoms but never the root-cause.</p>
+<p><em>This is just the tip of the iceberg. Android has way more problems, read Cascardo's <a href="https://cascardo.eti.br/blog/GNU_on_Smartphones_part_II/">GNU on Smartphones (part II)</a> for more nightmares.</em></p>
+<p><a href="#we-can-fix-this">We can fix this as a community.</a></p>
+<p>Here is the solution: Bend an existing Linux distribution to run on smartphones. Apply all necessary changes as small patches and upstream them, where it makes sense.</p>
+<p>Of course I am not the only one, that came to this conclusion - especially in the last few weeks with the <a href="https://halium.org/">Halium</a> project rising <em>(greetings!)</em>. I am all-in for working together — sharing udev rules, merging Android kernels together, whatever makes sense!</p>
+<p><a href="https://ollieparanoid.github.io/img/2017-05-26/i9100/telnet.jpg"><img alt="Unlocking encrypted rootfs via telnet" src="https://ollieparanoid.github.io/img/2017-05-26/i9100/telnet-thumb.jpg" title="Unlocking encrypted rootfs via telnet" /></a> </p>
+<p><a href="#architecture">postmarketOS architecture</a></p>
+<p>I'm working on an Alpine Linux based distribution called postmarketOS where each phone will have <strong>only one <a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/device-samsung-i9100/">unique</a> <a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/device-lg-mako">package</a></strong> — all other packages are shared among all devices.</p>
+<p>These <code>device-$vendor-$name</code> packages contain a so-called <code>/etc/deviceinfo</code> file, which <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/device-samsung-i9100/deviceinfo">describes</a> <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/device-lg-mako/deviceinfo">what</a> makes the device special: SD card availability, which flash software to use and other information. The file format is not stable yet, and once we have common kernels for multiple devices, I'd like to include the required modules and <code>dtb</code> name.</p>
+<p>And just to make it clear, postmarketOS does not fit the Halium model, as it avoids the Android build system entirely and does <em>not</em> run any part of the Android userspace next to its more or less typical Linux userspace. <em>(At least not in the regular install, but it could come at some point in the future as optional compatibility layer for Android applications if someone wants to work on it. Personally, I'd rather have native Linux applications (in the case of Alpine: linked against <a href="https://www.musl-libc.org/">musl</a>, dynamically or statically) than Android apps on my phone.)</em></p>
+<p><a href="#prototype">Prototype</a></p>
+<p>So much for the theory. Practically I can show you a sophisticated chroot/build/flash tool called <strong>pmbootstrap</strong> which should allow <strong>fast and clean development progress</strong>, both in porting to new phones and in implementing hardware support for the existing ports <em>(more on pmbootstrap below)</em>. That is also where most of the time went during development so far, so don't expect too much of postmarketOS. Most drivers don't work so you can't make phone calls or use the WiFi. Nevertheless, here is the current state of postmarketOS.</p>
+<p>Devices:</p>
+<ul>
+<li>Samsung Galaxy SII (samsung-i9100)</li>
+<li>Google Nexus 4 (lg-mako)</li>
+</ul>
+<p>Features:</p>
+<ul>
+<li>Encrypted root file system (password needs to be typed in via USB telnet right now)</li>
+<li>Installation on SD card or internal memory</li>
+<li>Weston with working touchscreen</li>
+<li>Weston demos work performantly (<em>without</em> proprietary 3D acceleration!)</li>
+<li>SSH access via USB</li>
+<li>Kernels compiled from LineageOS source</li>
+<li>Clean package manager based installation</li>
+</ul>
+<p><a href="https://ollieparanoid.github.io/img/2017-05-26/i9100/demos.jpg"><img alt="postmarketOS demos menu" src="https://ollieparanoid.github.io/img/2017-05-26/i9100/demos-thumb.jpg" title="postmarketOS demos menu" /> </a> <a href="https://ollieparanoid.github.io/img/2017-05-26/i9100/firefox.jpg"> <img alt="Firefox running in XWayland" src="https://ollieparanoid.github.io/img/2017-05-26/i9100/firefox-thumb.jpg" title="Firefox running in XWayland" /> </a> <a href="https://ollieparanoid.github.io/img/2017-05-26/i9100/htop.jpg"> <img alt="htop in two weston-terminals" src="https://ollieparanoid.github.io/img/2017-05-26/i9100/htop-thumb.jpg" title="htop in two weston-terminals" /> </a> <a href="https://ollieparanoid.github.io/img/2017-05-26/i9100/smoke.jpg"> <img alt="Weston smoke demo" src="https://ollieparanoid.github.io/img/2017-05-26/i9100/smoke-thumb.jpg" title="Weston smoke demo" /> </a> <a href="https://ollieparanoid.github.io/img/2017-05-26/mako/editor.jpg"><img alt="lg-mako: colors all red, but weston-editor works due to the bigger screen size" src="https://ollieparanoid.github.io/img/2017-05-26/mako/editor-thumb.jpg" title="lg-mako: colors all red, but weston-editor works due to the bigger screen size" /></a> </p>
+<p>Generally speaking, the samsung-i9100 port works better than the lg-mako port. The latter has some strange driver bugs. The boot splash images only appear for a second, XWayland does not work there and the colors in Weston are all red. I even <a href="https://patchwork.freedesktop.org/patch/150943/">had to patch Weston</a> before it worked at all. Without the patch it assumes it should draw with 0 Hz — in other words: Never ;)</p>
+<p>It should be noted, that the <a href="https://www.replicant.us/">Replicant</a>, the free software clone of Android, also targets the <a href="https://redmine.replicant.us/projects/replicant/wiki/GalaxyS2I9100">samsung-i9100</a> and has <a href="https://redmine.replicant.us/projects/replicant/wiki/Samsung-RIL">open source user-space drivers for the modem</a>, which I plan to package for postmarketOS/Alpine Linux.</p>
+<p><a href="#pmbootstrap">pmbootstrap</a></p>
+<p><em>Technical details incoming! If you're not into that, skip this section.</em></p>
+<p>Alpine Linux is <em>really small</em>. A base installation is only about 6 MB in size and takes not more than a few seconds to extract! Thanks to this characteristic, I was able to write a bootstrap program that abstracts everything in <a href="https://en.wikipedia.org/wiki/chroot">chroots</a> and therefore basically runs on top of any Linux distribution (GNU-based or not), which has Python 3 and the <code>openssl</code> command line program available.</p>
+<p>Consequently, the host system does not get touched when installing the required programs (<a href="https://en.wikipedia.org/wiki/Android_software_development#Fastboot"><code>fastboot</code></a> etc.) and your distribution doesn't even need to have them packaged.</p>
+<p>Quick feature rundown:</p>
+<ul>
+<li>Chroot setup (with distro-independent <a href="https://wiki.debian.org/QemuUserEmulation">QEMU user emulation</a>):<ul>
+<li><code>x86_64</code>* (building, flashing, ...)</li>
+<li><code>armhf</code>* (building)</li>
+<li><code>armhf</code>* (target rootfs)</li>
+</ul>
+</li>
+<li>Clean chroot shutdown (<code>umount</code>) and zapping</li>
+<li>Build software as packages:<ul>
+<li>Wraps <code>abuild</code>, the <a href="https://github.com/alpinelinux/abuild/blob/master/abuild.in#L3">"light version of <code>makepkg</code>"</a></li>
+<li>Alpine Linux' <a href="https://wiki.alpinelinux.org/wiki/APKBUILD_Reference"><code>APKBUILD</code>s</a> are very similar to Arch Linux' <code>PKGBUILD</code>s</li>
+</ul>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Cross_compiler">Cross-compile</a> <strong>all</strong> <code>armhf</code>-packages:<ul>
+<li>Linux Kernel: build with cross-compiler in <code>x86_64</code> chroot</li>
+<li>Other: build in <code>armhf</code> chroot, use cross-compiler with <a href="https://en.wikipedia.org/wiki/distcc"><code>distcc</code></a> from <code>x86_64</code> chroot (<a href="https://archlinuxarm.org/wiki/Distcc_Cross-Compiling">alarm-style</a>)</li>
+<li>Use Alpine Linux' shipped modern <code>gcc</code>, no pre-built Android toolchain</li>
+</ul>
+</li>
+<li>Effective caching out of the box (survives chroot zaps):<ul>
+<li><a href="https://ccache.samba.org/"><code>ccache</code></a> (also works with <code>distcc</code>/cross-compiler)</li>
+<li>Alpine Linux package cache</li>
+</ul>
+</li>
+<li>Installation targets:<ul>
+<li>Raw image file (flash as "system" partition)</li>
+<li>SD card</li>
+</ul>
+</li>
+<li>Flasher abstraction:<ul>
+<li><a href="https://en.wikipedia.org/wiki/Android_software_development#Fastboot"><code>fastboot</code></a></li>
+<li><a href="http://glassechidna.com.au/heimdall/"><code>heimdall</code></a></li>
+<li>... really easy to add more!</li>
+</ul>
+</li>
+<li>Logging:<ul>
+<li>all shell commands executed are logged in an extra file</li>
+<li>readable overview is displayed on the screen</li>
+</ul>
+</li>
+<li>Security:<ul>
+<li>Initial package manager download<ul>
+<li>Signature verification with <code>openssl</code> against keys shipped with pmbootstrap</li>
+<li>Minimum installed version check (for downloaded package and version reported by the extracted binary)</li>
+</ul>
+</li>
+<li>All executed shell commands get properly escaped with Python's built-in <a href="https://docs.python.org/3/library/shlex.html">shlex</a></li>
+<li>Working testcases for the above two points</li>
+<li>Only using root rights where necessary (through sudo)</li>
+<li>No default passwords in the installation: The <code>install</code> action asks for the <em>user's</em> and for the <em>root partition</em> password.</li>
+</ul>
+</li>
+</ul>
+<p><small>* <code>x86_64</code>/<code>armhf</code>: Example architectures for host/target. The code is generic, so it should work with any architectures supported by Alpine Linux.</small></p>
+<p><a href="#future">Future goals and where <em>you</em> could help</a></p>
+<p>Rough direction of where I'd like postmarketOS to head to. In case you're a hacker who wants to help, feel free to do so. But please write into the <a href="https://github.com/postmarketOS/pmbootstrap/issues">tracker</a> before starting serious work. This way we can make sure, that we do not have redundant work.</p>
+<h3>Devices</h3>
+<p>Pick an old Android device, that you don't need anymore and start porting postmarketOS for it. It should be pretty straight forward. One <code>device-*</code> package, one for the kernel, calibrate the touchscreen, and the demos should more or less work already!</p>
+<p>If you're feeling adventurous, try a non-Android device. <a href="https://en.wikipedia.org/wiki/OpeniBoot">How about iPhones</a>? I'll probably be working on a port for at least one non-Android device myself for demonstration purposes.</p>
+<h3>Drivers</h3>
+<p>Fix the lg-mako screen colors and/or make the following peripherals work:</p>
+<ul>
+<li>WiFi</li>
+<li>Audio</li>
+<li>Modem (Phone calls, mobile internet)</li>
+<li>Hardware buttons (Volume keys, home button)</li>
+<li>Camera</li>
+<li>...</li>
+</ul>
+<p>In most cases, the drivers are already provided by the Android/LineageOS kernels, that we currently use and only need to be configured in the userspace (for example with <a href="https://en.wikipedia.org/wiki/Udev">udev rules</a>).</p>
+<p>The long time goal is using the <a href="https://lwn.net/Articles/680109/">mainline kernel</a>.</p>
+<h3>Phone interface</h3>
+<p>Package a Linux-based phone interface. <a href="https://plasma-mobile.org/">Plasma mobile</a> <em>seems</em> to be the most complete one right now (although still not stable). But I'd also be interested in <a href="https://ubports.com/">ubports</a> (fork of the discontinued <a href="https://en.wikipedia.org/wiki/Ubuntu_Touch">Ubuntu Touch</a>) once it matures. Or maybe writing a minimal Android-like interface based on <a href="https://github.com/wayland-project/weston">libweston</a>.</p>
+<p>From what I understand, the <a href="https://together.jolla.com/question/20488/which-parts-of-sailfish-are-closed-source-why-and-will-that-change/">SailfishOS interface is closed source</a>, so that will not be an option.</p>
+<p><em>postmarketOS is developed in the spirit of regular Linux distributions, so there's no problem in having multiple phone interfaces (just like KDE/Gnome/XFCE/...) and let the user choose.</em></p>
+<h3>Security</h3>
+<p>Great care has been taken to make pmbootstrap safe, as it will run on productive systems of postmarketOS developers. This is not the case for postmarketOS in its current proof-of-concept state (Weston runs as root, ...) so we must work on that before it can be used in real life. Even better would be <a href="https://en.wikipedia.org/wiki/Privilege_separation">privilege separation</a> throughout the entire OS.</p>
+<p><a href="#more">There is so much more...</a></p>
+<p>...but the blog post is long enough as it is, so I'll wrap it up. Thanks for reading, thanks to my friends who reviewed earlier versions of this blog post. Thanks to Replicant, LineageOS, Halium. Together, we can make the vision of long-lasting, open source smartphone operating systems a reality!</p>
+<p><strong>Tell your friends!</strong></p>
+
+      </div>
+    </div>
+  </body>
+</html>

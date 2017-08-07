@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="fl w-100 w-50-ns pa2">
+  <img class="banner" src="{{ url_for('static', filename='img/banner.jpg') }}"></img>
+</div>
+<div class="fl w-100 w-50-ns pa2">
+  <p class="intro">postmarketOS (<i>pmOS</i>), is a touch-optimized, pre-configured <a href="https://alpinelinux.org">Alpine Linux</a> that can be installed on smartphones and other mobile devices. The project is at very early stages of development and is not yet usable for most users.</p>
+  <p class="intro">For further details read our <a href="{{ url_for('blog_post', y='2017', m='05', d='26', slug='intro') }}">introductory blog post</a>.</p>
+  <p>Find us on:</p>
+  <ul>
+    <li><a href="https://github.com/postmarketOS">GitHub</a></li>
+    <li><a href="https://reddit.com/r/postmarketOS">/r/postmarketOS</a></li>
+    <li><a href="https://chat.disroot.org/#/room/#postmarketos:disroot.org">#postmarketos:disroot.org</a></li>
+    <li>#postmarketos on Freenode IRC</li>
+  </ul>
+</div>
+{% endblock %}
