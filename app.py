@@ -33,7 +33,7 @@ def blog_post(y, m, d, title):
             if h.startswith('title'):
                 title = h.split('title:')[0].strip()
         html = markdown.markdown(body, extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
-        return render_template('post.html', title=title, html=html)
+        return render_template('blog-post.html', title=title, html=html)
 
 def parse_page(page):
     slug = page[:-3]
