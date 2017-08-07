@@ -1,3 +1,19 @@
+div.menu ul {
+    list-style: none;
+    padding-left: 7px;
+}
+
+div.menu ul li {
+    display: inline-block;
+    padding-right: 1.3em;
+}
+
+div.menu ul li a {
+    font-size: 1.2em;
+    color: #444;
+    text-decoration: none;
+}
+
 p.intro {
     font-size: 1.3em;
     line-height: 1.3em;

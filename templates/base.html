@@ -20,8 +20,18 @@
 
   <body>
     <div class="mw7 center">
-    {% block body %}
-    {% endblock %}
+      <div class="cf ph2-ns">
+        <h1 class="f2 lh-title">postmarketOS</h1>
+        <div class="menu">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/wiki/">Wiki</a></li>
+          <li><a href="/blog/">Blog</a></li>
+        </ul>
+        </div>
+        {% block body %}
+        {% endblock %}
+      </div>
     </div>
   </body>
 </html>

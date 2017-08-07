@@ -1,20 +1,17 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="cf ph2-ns">
-  <h1 class="f2 lh-title">postmarketOS</h1>
-  <div class="fl w-100 w-50-ns pa2">
-    <img src="{{ url_for('static', filename='img/banner.jpg') }}"></img>
-  </div>
-  <div class="fl w-100 w-50-ns pa2">
-    <p class="intro">postmarketOS, or <i>pmOS</i> in short, is a touch-optimized, pre-configured <a href="https://alpinelinux.org">Alpine Linux</a> with own packages, that can be installed on smartphones (Not usable for most people yet!).</p>
-    <p>Find us on:</p>
-    <ul>
-      <li><a href="https://github.com/postmarketOS">GitHub</a></li>
-      <li><a href="https://reddit.com/r/postmarketOS">/r/postmarketOS</a></li>
-      <li><a href="https://chat.disroot.org/#/room/#postmarketos:disroot.org">#postmarketos:disroot.org</a></li>
-      <li>#postmarketos on Freenode IRC</li>
-    </ul>
-  </div>
+<div class="fl w-100 w-50-ns pa2">
+  <img src="{{ url_for('static', filename='img/banner.jpg') }}"></img>
+</div>
+<div class="fl w-100 w-50-ns pa2">
+  <p class="intro">postmarketOS, or <i>pmOS</i> in short, is a touch-optimized, pre-configured <a href="https://alpinelinux.org">Alpine Linux</a> with own packages, that can be installed on smartphones (Not usable for most people yet!).</p>
+  <p>Find us on:</p>
+  <ul>
+    <li><a href="https://github.com/postmarketOS">GitHub</a></li>
+    <li><a href="https://reddit.com/r/postmarketOS">/r/postmarketOS</a></li>
+    <li><a href="https://chat.disroot.org/#/room/#postmarketos:disroot.org">#postmarketos:disroot.org</a></li>
+    <li>#postmarketos on Freenode IRC</li>
+  </ul>
 </div>
 {% endblock %}
