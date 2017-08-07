@@ -4,6 +4,7 @@ from os import listdir
 
 freezer = Freezer(app)
 app.config['FREEZER_DESTINATION'] = 'docs'
+app.config['FREEZER_BASE_URL'] = 'https://yuvadm.github.io/pmosweb/'
 
 @freezer.register_generator
 def blog_post():
