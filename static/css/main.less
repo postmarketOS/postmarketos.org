@@ -51,11 +51,6 @@ body.homepage {
   }
   section {
     margin-bottom: 32px;
-    & > div {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
 
     .img-valign {
       display: inline-block;
@@ -74,6 +69,11 @@ body.homepage {
     }
 
     &.img-text {
+      & > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
       .img-valign {
         flex: 1;
         width: 33.3%;
