@@ -4,10 +4,12 @@
 
 ### Python Requirements Setup
 
+Install all requirements, preferably within a virtualenv:
+
 ```bash
 $ python -m venv venv
 $ source venv/bin/activate
-$ pip install -r requirements.txt
+(venv)$ pip install -r requirements.txt
 ```
 
 ### Update Wiki Content
@@ -32,11 +34,11 @@ $ cat >content/blog/2017-12-31-happy-new-year.md << EOF
 ### Dev Server
 
 ```bash
-$ FLASK_DEBUG=1 FLASK_APP=app.py flask run
+(venv)$ FLASK_DEBUG=1 FLASK_APP=app.py flask run
 ```
 
 ### Build
 
 ```bash
-$ python freeze.py
+(venv)$ python freeze.py
 ```
