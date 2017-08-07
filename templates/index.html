@@ -1,18 +1,108 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
 
-{% block body %}
-<div class="fl w-100 w-50-ns pa2">
-  <img class="banner" src="{{ url_for('static', filename='img/banner.jpg') }}"></img>
-</div>
-<div class="fl w-100 w-50-ns pa2">
-  <p class="intro">postmarketOS (<i>pmOS</i>), is a touch-optimized, pre-configured <a href="https://alpinelinux.org">Alpine Linux</a> that can be installed on smartphones and other mobile devices. The project is at very early stages of development and is not yet usable for most users.</p>
-  <p class="intro">For further details read our <a href="{{ url_for('blog_post', y='2017', m='05', d='26', slug='intro') }}">introductory blog post</a>.</p>
-  <p>Find us on:</p>
-  <ul>
-    <li><a href="https://github.com/postmarketOS">GitHub</a></li>
-    <li><a href="https://reddit.com/r/postmarketOS">/r/postmarketOS</a></li>
-    <li><a href="https://chat.disroot.org/#/room/#postmarketos:disroot.org">#postmarketos:disroot.org</a></li>
-    <li>#postmarketos on Freenode IRC</li>
-  </ul>
-</div>
-{% endblock %}
+  <title>{% block title %}postmarketOS{% endblock %}</title>
+
+  <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+  <meta name="keywords" content="postmarketOS">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all">
+
+  <link rel="canonical" href="https://postmarketos.org{{ request.path }}">
+
+  <link href="{{ url_for('static', filename='css/tachyons.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+</head>
+
+<body class="homepage">
+<main class="mw8 center">
+  <div class="cf ph2-ns">
+    <header>
+      <a class="title" href="{{ url_for('home') }}">
+        <h1 class="f2 lh-title branding">
+          <img src="{{ url_for('static', filename='img/recycle.png') }}">
+          <span>postmarketOS</span>
+        </h1>
+      </a>
+      <div class="menu">
+        <ul>
+          <li><a href="{{ url_for('home') }}">Home</a></li>
+          <li><a href="{{ url_for('wiki') }}">Wiki</a></li>
+          <li><a href="{{ url_for('blog') }}">Blog</a></li>
+        </ul>
+      </div>
+    </header>
+  </div>
+</main>
+
+<section class=" img-text">
+  <div class="mw8 center">
+    <img src="{{ url_for('static', filename='img/banner.jpg') }}" class="fl w-third">
+    <div class="text fl w-two-thirds">
+      <h2>What is postmarketOS?</h2>
+      <p>postmarketOS (<i>pmOS</i>), is a touch-optimized, pre-configured <a
+              href="https://alpinelinux.org">Alpine Linux</a> that can be installed on smartphones and other mobile
+        devices. The project is at very early stages of development and is not yet usable for most users.</p>
+
+    </div>
+  </div>
+</section>
+
+<section class="inverted img-text">
+  <div class="mw8 center">
+    <div class="text fl w-two-thirds">
+      <h2>Why would you run this?</h2>
+      <p>It is 2017. Pick an average PC from 2007 and install a minimal Linux based operating system. You will be able
+        to do basic computing tasks (eg. surfing the web, reading E-Mails, listening to music, chatting) just like on an
+        expensive modern PC. You will even get security updates, so your old computer is protected, just like as a new
+        one.
+      </p>
+      <p>
+        On the current mobile landscape you get none of this. Even if you buy a very expensive phone you will only get
+        two years of support if you're lucky. But if you treat your smartphone as a real Linux system and use a
+        distribution instead of a "ROM" and use a package manager instead of a "store" you can just keep using your
+        devices until they break.
+      </p>
+
+    </div>
+    <img src="{{ url_for('static', filename='img/phonepile.jpg') }}" class="fl w-third">
+  </div>
+</section>
+
+<section class="img-text">
+  <div class="mw8 center">
+    <img src="{{ url_for('static', filename='img/cmus.jpg') }}" class="fl w-third">
+    <div class="text fl w-two-thirds">
+      <h2>What's in the box?</h2>
+      <p>
+        With postmarketOS you will have the freedom to customize your Linux experience. There are multiple open options
+        available in the current Linux community like KDE Plasma Mobile, UBports, Enlightenment or you can just use a
+        plain shell.
+      </p>
+      <p>
+        PostmarketOS will not impose arbitrary restrictions on you. Use the apps from any ecosystem you want! even run
+        desktop software if you want. If your favorite option is not available then help us improving postmarketOS.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<section class="call-to-action">
+  <div class="mw8 center">
+    <h2>Come help us</h2>
+    <ul>
+      <li><a href="https://github.com/postmarketOS">GitHub</a></li>
+      <li><a href="https://reddit.com/r/postmarketOS">/r/postmarketOS</a></li>
+      <li><a href="https://chat.disroot.org/#/room/#postmarketos:disroot.org">#postmarketos:disroot.org</a></li>
+      <li>#postmarketos on Freenode IRC</li>
+    </ul>
+  </div>
+</section>
+
+</body>
+</html>
