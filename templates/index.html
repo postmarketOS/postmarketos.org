@@ -41,8 +41,10 @@
 
 <section class=" img-text">
   <div class="mw8 center">
-    <img src="{{ url_for('static', filename='img/banner.jpg') }}" class="fl w-third">
-    <div class="text fl w-two-thirds">
+    <div class="img-valign">
+      <img src="{{ url_for('static', filename='img/banner.jpg') }}">
+    </div>
+    <div class="text">
       <h2>What is postmarketOS?</h2>
       <p>postmarketOS (<i>pmOS</i>), is a touch-optimized, pre-configured <a
               href="https://alpinelinux.org">Alpine Linux</a> that can be installed on smartphones and other mobile
@@ -54,8 +56,8 @@
 
 <section class="inverted img-text">
   <div class="mw8 center">
-    <div class="text fl w-two-thirds">
-      <h2>Why would you run this?</h2>
+    <div class="text">
+      <h2>We develop a <em>sustainable</em> mobile OS</h2>
       <p>It is 2017. Pick an average PC from 2007 and install a minimal Linux based operating system. You will be able
         to do basic computing tasks (eg. surfing the web, reading E-Mails, listening to music, chatting) just like on an
         expensive modern PC. You will even get security updates, so your old computer is protected, just like as a new
@@ -69,13 +71,17 @@
       </p>
 
     </div>
-    <img src="{{ url_for('static', filename='img/phonepile.jpg') }}" class="fl w-third">
+    <div class="img-valign">
+      <img src="{{ url_for('static', filename='img/phonepile.jpg') }}">
+    </div>
   </div>
 </section>
 
 <section class="img-text">
   <div class="mw8 center">
-    <img src="{{ url_for('static', filename='img/cmus.jpg') }}" class="fl w-third">
+    <div class="img-valign fl w-third">
+      <img src="{{ url_for('static', filename='img/cmus.jpg') }}">
+    </div>
     <div class="text fl w-two-thirds">
       <h2>What's in the box?</h2>
       <p>
