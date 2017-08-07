@@ -6,6 +6,7 @@ from os import listdir
 app = Flask(__name__)
 
 BLOG_CONTENT_DIR = 'content/blog'
+WIKI_CONTENT_DIR = 'content/wiki'
 
 @app.route('/')
 def home():
@@ -33,3 +34,22 @@ def blog_post(y, m, d, title):
                 title = h.split('title:')[0].strip()
         html = markdown.markdown(body, extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
         return render_template('post.html', title=title, html=html)
+
+def parse_page(page):
+    slug = page[:-3]
+    title = slug.replace('-', ' ')
+    return {'url': f'/wiki/{slug}/', 'title': title}
+
+@app.route('/wiki/')
+def wiki():
+    pages = sorted(listdir(WIKI_CONTENT_DIR), reverse=True)
+    pages = map(parse_page, pages)
+    return render_template('wiki.html', pages=pages)
+
+@app.route('/wiki/<slug>/')
+def wiki_page(slug):
+    with open(f'{WIKI_CONTENT_DIR}/{slug}.md') as f:
+        text = f.read()
+        title = slug.replace('-', ' ')
+        html = markdown.markdown(text, extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
+        return render_template('wiki-page.html', title=title, html=html)

@@ -2,6 +2,12 @@
 
 ## Dev
 
+### Update Wiki Content
+
+```bash
+$ git submodule update --recursive --remote 
+```
+
 ### Dev Server
 
 ```bash
