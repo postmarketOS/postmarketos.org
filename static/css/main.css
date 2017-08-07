@@ -27,6 +27,10 @@ div.menu ul li a {
     text-decoration: none;
 }
 
+img.banner {
+    margin-top: 8px;
+}
+
 p.intro {
     font-size: 1.3em;
     line-height: 1.3em;
