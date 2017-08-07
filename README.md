@@ -9,6 +9,18 @@ $ git submodule update --init --recursive
 $ git pull --recurse-submodules
 ```
 
+### New Blog Content
+
+```bash
+$ cat >content/blog/2017-12-31-happy-new-year.md << EOF
+> ---
+> title: Happy New Year!
+> ---
+>
+> This is a *markdown* **formatted** post.
+> EOF
+```
+
 ### Dev Server
 
 ```bash
