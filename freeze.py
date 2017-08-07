@@ -3,6 +3,7 @@ from app import app, BLOG_CONTENT_DIR, WIKI_CONTENT_DIR
 from os import listdir
 
 freezer = Freezer(app)
+app.config['FREEZER_DESTINATION'] = 'docs'
 
 @freezer.register_generator
 def blog_post():
