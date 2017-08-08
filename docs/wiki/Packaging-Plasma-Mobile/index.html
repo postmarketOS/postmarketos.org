@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Packaging-Plasma-Mobile/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Packaging Plasma Mobile</h1>
+<p>This page keeps track of what needs to be packaged to get Plasma Mobile working (<a href="https://github.com/postmarketOS/pmbootstrap/issues/161">#161</a>). The minimal set of programs is already packaged (thanks to PureTryOut!). See [[Plasma Mobile]] for further documentation on getting it running.</p>
+<p>The dependencies listed are dependencies of packages not packaged by Alpine. This list is subject to change. The list is based on <a href="https://github.com/blue-systems/pm-arch/tree/master/packages">this Arch repository</a>.</p>
+<h3>Packages already in the Alpine repositories</h3>
+<table>
+<thead>
+<tr>
+<th>Required packages</th>
+<th>Dependency of</th>
+<th>Packaged by Alpine</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>qt5-qttools-dev</td>
+<td>baloo, kfilemetadata, ki18n, karchive, kpty, kdelibs4support, threadweaver, plasma-framework, kwayland, plasma-workspace, kpeople, kcoreaddons, kunitconversion, kitemmodels, kemoticons, kparts, kdesignerplugin, kactivities, kdeclarative, kjsembed, knotifyconfig, ktexteditor, kholidays, kwin, krunner, kxmlrpcclient, networkmanager-qt, kdesignerplugin, kservice, kwidgetsaddons, kitemviews, kplotting, kconfig, kwindowsystem, kpackage, kdesu, kcmutils, kcrash, kdbusaddons, kcodecs, kauth, kguiaddons, knewstuff, ki18n, kdoctools, kjsembed, kservice, kcontacts, kpackage</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>lmdb-dev</td>
+<td>baloo</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>docbook-xsl</td>
+<td>kdoctools, appstream-qt, libaccounts-glib</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>taglib-dev</td>
+<td>kfilemetadata</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>qt5-qtdeclarative</td>
+<td>kpeople, kactivities, qt5-qtwebchannel, qt5-qtlocation</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>qt5-qtdeclarative-dev</td>
+<td>ki18n, plasma-maliit-framework, plasma-maliit-plugin</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>py3-qt5</td>
+<td>ki18n, kcoreaddons, kitemmodels, kwidgetsaddons, kitemviews, kconfig, kdbusaddons, kcodecs, kauth, kguiaddons, kconfigwidgets</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>qt5-qtbase</td>
+<td>karchive, threadweaver, kwayland, kcoreaddons, kitemmodels, kjs, kholidays, appstream-qt, networkmanager-qt, kwidgetsaddons, kitemviews, kplotting, kconfig, kcodecs, kdecoration, qt5-qtpolkit, qt5-qtpackagekit</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>qt5-qtsvg</td>
+<td>kjsembed</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>qt5-qtgraphicaleffects</td>
+<td>plasma-phone-components</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>networkmanager</td>
+<td>networkmanager-qt, packagekit</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>networkmanager-dev</td>
+<td>kdelibs4support</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>mesa-dev</td>
+<td>threadweaver, kservice, kplotting, kcrash, kguiaddons, kconfigwidgets</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>giflib</td>
+<td>khtml</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>gperf-dev</td>
+<td>khtml, kcodecs</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>qt5-qtquickcontrols</td>
+<td>plasma-framework</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libgit2</td>
+<td>ktexteditor</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libxml2</td>
+<td>libqalculate, appstream-qt, libaccounts-glib</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>wayland</td>
+<td>kwayland</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>gpsd-dev</td>
+<td>plasma-workspace</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libepoxy</td>
+<td>kdeclarative</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>gconf-dev</td>
+<td>qt5-qtlocation</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>util-macros</td>
+<td>xmessage</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>glib</td>
+<td>libqalculate, appstream-qt</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>perl-xml-parser</td>
+<td>libqalculate</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>intltool</td>
+<td>libqalculate, packagekit</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libxaw</td>
+<td>xmessage</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>font-noto</td>
+<td>plasma-integration</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>gobject-introspection</td>
+<td>appstream-qt, packagekit</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>itstool</td>
+<td>appstream-qt</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>vala</td>
+<td>appstream-qt, packagekit</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>gtk-doc</td>
+<td>libaccounts-glib, packagekit</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libical</td>
+<td>kcalcore</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>dbus-glib</td>
+<td>libaccounts-glib, packagekit</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>sqlite</td>
+<td>libaccounts-glib, packagekit</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>py-gobject</td>
+<td>libaccounts-glib</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libxfixes</td>
+<td>kwindowsystem</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>automoc4</td>
+<td>breeze, kdelibs. qt5-qtpolkit</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>polkit</td>
+<td>packagekit</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>polkit-dev</td>
+<td>qt5-qtpolkit</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>shared-mime-info</td>
+<td>packagekit</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>snowball</td>
+<td>appstream-qt</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>dbus-glib</td>
+<td>telepathy-glib</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>gtk-doc</td>
+<td>telepathy-farstream</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>glib-doc</td>
+<td>telepathy-farstream</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>vala</td>
+<td>telepathy-glib</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>gobject-introspection</td>
+<td>telepathy-farstream, telepathy-glib</td>
+<td>yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>Packages yet to be packaged</h3>
+<table>
+<thead>
+<tr>
+<th>Required packages</th>
+<th>Dependency of</th>
+<th>Packaged by Alpine</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>extra-cmake-modules</td>
+<td>all KDE packages</td>
+<td>no, only an outdated version (5.31.x rather than 5.36.x)</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>karchive</td>
+<td>kdoctools, kfilemetadata, kemoticons, kpackage</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>qt5-qtscript-dev</td>
+<td>ki18n</td>
+<td>yes for all architectures, except armhf due to a build failure. It however compiles fine now</td>
+<td>upstreamed</td>
+</tr>
+<tr>
+<td>kdecoration</td>
+<td>breeze</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>autoconf-archive</td>
+<td>packagekit</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>libyaml</td>
+<td>appstream-qt</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kwindowsystem</td>
+<td>kactivities, kcrash</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kwidgetsaddons</td>
+<td>kpeople, kconfigwidgets</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kitemviews</td>
+<td>kpeople</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kcoreaddons</td>
+<td>kpty, kactivities, kcontacts, kpackage, kcrash, kauth</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kunitconversion</td>
+<td>kdelibs4support</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kitemmodels</td>
+<td>kdelibs4support</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>libutempter</td>
+<td>kpty</td>
+<td>no</td>
+<td>doesn't compile, glibc is required</td>
+</tr>
+<tr>
+<td>kwayland</td>
+<td>plasma-maliit-framework, plasma-framework, plasma-integration, kscreenlocker</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>poppler-qt5</td>
+<td>kfilemetadata</td>
+<td>no, only a qt4 version</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kdoctools</td>
+<td>plasma-mobile, kdelibs4support, plasma-framework, plasma-workspace, kded, kdesignerplugin, kjs, kjsembed, kde-cli-tools, milou, kwin, krunner, kdesignerplugin, kservice, kcalcore, kinit, kpackage, kscreenlocker</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kfilemetadata</td>
+<td>baloo</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kidletime</td>
+<td>baloo, kscreenlocker</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>polkit-qt5</td>
+<td>kauth</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kcrash</td>
+<td>kservice</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kdbusaddons</td>
+<td>kservice, kio</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kcodecs</td>
+<td>kcontacts, kconfigwidgets</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kconfig</td>
+<td>kactivities, kservice, kcontacts, kio, kconfigwidgets</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kpackage</td>
+<td>kdeclarative, frameworkintegration</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>networkmanager-qt</td>
+<td>plasma-workspace</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kservice</td>
+<td>kpeople, kemoticons, kdesu, kinit, kio</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>solid</td>
+<td>kio</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>media-player-info</td>
+<td>kio</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kauth</td>
+<td>kconfigwidgets</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kguiaddons</td>
+<td>kconfigwidgets</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kconfigwidgets</td>
+<td>libksysguard, kbookmarks</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kiconthemes</td>
+<td>kbookmarks</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kcompletion</td>
+<td>ktextwidgets</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>sonnet</td>
+<td>ktextwidgets</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>ktextwidgets</td>
+<td>kxmlgui</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kglobalaccel</td>
+<td>kxmlgui</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kxmlgui</td>
+<td>kbookmarks</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kbookmarks</td>
+<td>kio</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kjobwidgets</td>
+<td>kio</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kio</td>
+<td>baloo, kparts, kdesignerplugin, kdeclarative, knotifyconfig, kactivitymanagerd, plasma-integration, kxmlrpcclient, kdesignerplugin, kinit, knewstuff</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kactivitymanagerd</td>
+<td>plasma-workspace</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>knotifyconfig</td>
+<td>plasma-workspace</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kjs</td>
+<td>khtml, kjsembed</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kactivities</td>
+<td>plasma-framework</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kdeclarative</td>
+<td>plasma-framework, kcmutils, kscreenlocker</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>knotifications</td>
+<td>plasma-framework</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>plasma-framework</td>
+<td>plasma-samegame, plasma-settings, kwin</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>cln</td>
+<td>libqalculate</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kemoticons</td>
+<td>kdelibs4support</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kinit</td>
+<td>kded</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kded</td>
+<td>kdelibs4support</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kparts</td>
+<td>kdelibs4support, khtml, ktexteditor</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kpeople</td>
+<td>plasma-phone-components</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kjsembed</td>
+<td>plasma-workspace</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kdesignerplugin</td>
+<td>plasma-workspace, kdelibs4support, kcalcore</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kdelibs4support</td>
+<td>plasma-settings, plasma-workspace, kcalcore</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>frameworkintegration</td>
+<td>breeze</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kpty</td>
+<td>kdesu</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kdesu</td>
+<td>kde-cli-tools</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kcmutils</td>
+<td>kde-cli-tools, kwin, kscreenlocker, breeze</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>ktexteditor</td>
+<td>plasma-workspace</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>threadweaver</td>
+<td>krunner</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>krunner</td>
+<td>breeze, plasma-workspace, milou</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kscreenlocker</td>
+<td>kwin</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>breeze</td>
+<td>kwin, plasma-integration</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kwin</td>
+<td>plasma-workspace</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>milou</td>
+<td>plasma-workspace</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>baloo</td>
+<td>plasma-mobile, plasma-workspace</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>plasma-workspace</td>
+<td>plasma-phone-components, plasma-mobile</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>plasma-mobile</td>
+<td></td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>farstream</td>
+<td>telepathy-farstream</td>
+<td>yes, but upstream APKBUILD has wrong dependency and fails</td>
+<td>upstreamed</td>
+</tr>
+<tr>
+<td>telepathy-glib</td>
+<td>telepathy-farstream</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>telepathy-farstream</td>
+<td>telepathy-qt5</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>telepathy-qt5</td>
+<td>plasma-phone-components</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>plasma-phone-components</td>
+<td></td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+</tbody>
+</table>
+<h3>Optional (extra apps and functionality, but not required to get the base working)</h3>
+<table>
+<thead>
+<tr>
+<th>Required packages</th>
+<th>(Optional) Dependency of</th>
+<th>Packaged by Alpine</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>qt5-qtdeclarative-dev</td>
+<td>libqofono-qt5</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libqofono-qt5</td>
+<td></td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>bluez</td>
+<td>gypsy</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>bluez-libs</td>
+<td>gypsy</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libgudev</td>
+<td>gypsy</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>dbus-glib</td>
+<td>gypsy</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libxslt</td>
+<td>gypsy</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libxslt</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libxdamage</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>minizip</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>ffmpeg</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>jsoncpp-dev</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>ninja</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libvpx</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libevent</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libsrtp</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>snappy</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>nss</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>protobuf</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libxcomposite</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>libxrandr</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>pciutils</td>
+<td>qt5-qtwebengine</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>gperf-dev</td>
+<td>khtml, qt5-qtwebengine, kcodecs</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr>
+<td>gypsy</td>
+<td>qt5-qtlocation</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>qt5-qtwebchannel</td>
+<td>qt5-qtwebengine</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>qt5-qtlocation</td>
+<td>qt5-qtwebengine</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>kdoctools</td>
+<td>kconfigwidgets</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>qt5-qtwebengine</td>
+<td>plasma-angelfish</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>knewstuff</td>
+<td>frameworkintegration</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kcontacts</td>
+<td>libkgapi</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>kcalcore</td>
+<td>libkgapi</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>libkgapi</td>
+<td>plasma-settings</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>kplotting</td>
+<td>kdesignerplugin</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>plasma-integration</td>
+<td>plasma-workspace</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>plasma-maliit-framework</td>
+<td>plasma-maliit-plugin</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>plasma-maliit-plugin</td>
+<td></td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>plasma-settings</td>
+<td></td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>libqalculate</td>
+<td>plasma-workspace</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>kde-cli-tools</td>
+<td>plasma-workspace</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>plasma-samegame</td>
+<td></td>
+<td>no</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<h3>Plasma Mobile Browser</h3>
+<table>
+<thead>
+<tr>
+<th>Required packages</th>
+<th>Dependency of</th>
+<th>Packaged by Alpine</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>plasma-angelfish</td>
+<td></td>
+<td>no</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<h3>Plasma Calendar</h3>
+<table>
+<thead>
+<tr>
+<th>Required packages</th>
+<th>Dependency of</th>
+<th>Packaged by Alpine</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>kholidays</td>
+<td>plasma-workspace</td>
+<td>no</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<h3>Plasma Camera</h3>
+<table>
+<thead>
+<tr>
+<th>Required packages</th>
+<th>Dependency of</th>
+<th>Packaged by Alpine</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>plasma-framework</td>
+<td>plasma-camera</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>plasma-camera</td>
+<td></td>
+<td>no</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<h3>Okular Universal Document Viewer</h3>
+<table>
+<thead>
+<tr>
+<th>Required packages</th>
+<th>Dependency of</th>
+<th>Packaged by Alpine</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>kdelibs4support</td>
+<td>okular-frameworks</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>khtml</td>
+<td>okular-frameworks</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>chmlib</td>
+<td>okular-frameworks</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>threadweaver</td>
+<td>okular-frameworks</td>
+<td>no</td>
+<td>compiles</td>
+</tr>
+<tr>
+<td>kactivities-frameworks</td>
+<td>okular-frameworks</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>kpty</td>
+<td>okular-frameworks</td>
+<td>no</td>
+<td>?</td>
+</tr>
+<tr>
+<td>okular-frameworks</td>
+<td></td>
+<td>no</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<h3>Koko Image Gallery</h3>
+<table>
+<thead>
+<tr>
+<th>Required packages</th>
+<th>Dependency of</th>
+<th>Packaged by Alpine</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>koko</td>
+<td></td>
+<td>no</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+    </main>
+  </body>
+</html>

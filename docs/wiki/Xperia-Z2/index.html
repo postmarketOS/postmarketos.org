@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all">
 
-    <link rel="canonical" href="https://postmarketos.org/blog/">
+    <link rel="canonical" href="https://postmarketos.org/wiki/Xperia-Z2/">
 
     <link href="/static/css/tachyons.min.css" rel="stylesheet">
     <link href="/static/css/main.css" rel="stylesheet">
@@ -37,10 +37,27 @@
           </div>
         </header>
         
+<h1>Xperia Z2</h1>
+<h3>Contributors</h3>
 <ul>
-
-  <li><a href="/blog/2017/05/26/intro/">intro</a></li>
-
+<li>rcstar6696</li>
+<li>opendata26</li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Compiling the kernel</li>
+<li>Fastboot flash</li>
+<li>SSH</li>
+<li>Setting Brightness</li>
+</ul>
+<p><strong>Current status</strong>: The framebuffer doesent seem to work correctly (it just sits on boot logo) running cat <code>/dev/urandom &gt; /dev/fb0</code> does nothing and running <code>cat /dev/urandom &gt; /dev/fb2</code> makes the screen go black
+the same happens with <code>cat /sys/devices/virtual/graphics/fb0/mode &gt; /sys/devices/virtual/graphics/fb0/modes</code></p>
+<p><strong>What i've tried</strong>:
+<em> Using 3.10 instead of 3.4 (Gives same isue as anami)
+</em> Setting fb settings same as twrp (does nothing)</p>
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/rcstar6696/android_kernel_sony_msm8974">Kernel Source</a></li>
 </ul>
 
       </div>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Troubleshooting:grsec/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Troubleshooting:grsec</h1>
+<h3>TLDR: Grsec based kernels are not supported, because <a href="https://wiki.debian.org/QemuUserEmulation">qemu user emulation</a> appears to be broken and we couldn't fix this right away. But if you want to add support for a kernel based on the grsec patchset, please go ahead. See also: <a href="https://github.com/postmarketOS/pmbootstrap/issues/107">#107</a></h3>
+<hr />
+<p><a href="https://en.wikipedia.org/wiki/Grsec">Grsec</a> is the name of a patchset, that used to be freely available to harden the Linux kernel. Alpine has a <code>linux-hardened</code> kernel for example, which uses a fork of that patchset. When you run a kernel based on that patchset on your host Linux system, you will probably run into problems with pmbootstrap because it does some things inside chroots, that is blocked by default in that patchset. One example is setting file permissions (<a href="https://github.com/postmarketOS/pmbootstrap/issues/107">#107</a>).</p>
+<p>You have two options now. Either run pmbootstrap with a regular kernel, or disable the grsec specific features with sysctl while running pmbootstrap (you will probably run into other issues though, which have not been resolved - <strong>the quick solution is really using the regular kernel</strong>).</p>
+<h3>Disable some grsec-specific features while running pmbootstrap</h3>
+<p>We don't really know all options, that need to be disabled. Please extend this wiki page, if you are interested in this and figure it out. However, user cmdr2 <a href="https://github.com/postmarketOS/pmbootstrap/issues/107#issuecomment-312506089">reported</a>, that you can do the following to disable <em>all</em> grsec features, and pmbootstrap will work then:</p>
+<blockquote>
+<p>To comprehensively disable grsec until the next reboot, I suggest:
+<code>ls -1 /proc/sys/kernel/grsecurity | xargs -I '___' sudo sysctl -w kernel.grsecurity.___=0</code></p>
+</blockquote>
+<h3>Commands to non-native chroots hang</h3>
+<p>This can only be partially resolved as of now, see <a href="https://github.com/postmarketOS/pmbootstrap/issues/140">#140</a>.
+For starters, disable the <code>RANDMMAP</code> PaX flag:</p>
+<pre class="codehilite"><code class="language-shell">sudo apk add paxctl
+sudo paxctl -C ~/.local/var/pmbootstrap/chroot_rootfs_samsung-s7562/usr/bin/qemu-arm-static
+sudo paxctl -r ~/.local/var/pmbootstrap/chroot_rootfs_samsung-s7562/usr/bin/qemu-arm-static</code></pre>
+
+      </div>
+    </main>
+  </body>
+</html>

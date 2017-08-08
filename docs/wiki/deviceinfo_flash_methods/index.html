@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/deviceinfo_flash_methods/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>deviceinfo_flash_methods</h1>
+<h2>Introduction</h2>
+<p>Here is a guide on how to find the correct value for <code>deviceinfo_flash_methods</code>, and some pitfalls you need to look out for depending on your flasher application. Please note, that all flasher mode implementations on the phones 
+listed here are proprietary (even if the flashing software is open source). But they are hard to <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Firmware">replace</a> (if we can do that at all), so we will use them for now to flash pmOS on the devices.</p>
+<h2>Android</h2>
+<p>Boot your phone into the bootloader menu. Usually this can be done by holding <code>Volume Down</code> and the <code>Power</code> button, until something changes on the screen, then only holding the <code>Volume Down</code> button until the menu appears. It should say either "Fastboot mode" or "Odin mode", read the appropriate section below. If 
+you don't know the combination for your device, please search the Internet. (It is also a good idea to write this combination to your device's pmOS wiki page, so we can look it up quickly.)</p>
+<h3>Fastboot mode</h3>
+<p>Most Android devices are compatible with the open source fastboot protocol. That is good, because we simply can use the fastboot application to flash them, and no one needs to reverse engineer the protocol. You are done here, if you have a <code>fastboot</code> compatible device.</p>
+<h3>Odin mode</h3>
+<p>This uses a proprietary flashing protocol from Samsung. There has been great effort put into Heimdall, an open source program that tries to be compatible to the odin protocol. But it does not work perfectly yet, and some devices are not 
+supported at all.</p>
+<p>So first check if your device also supports fastboot - some Samsung devices (such as the Galaxy Nexus) actually have both protocols (you would need to press another key combination to enter fastboot mode - search the Internet for the 
+supported flash modes of your device). If you can use fastboot, please do so.</p>
+<p>For postmarketOS we're going to use Heimdall, but we use it in two different configurations - <code>heimdall-isorec</code> and <code>heimdall-bootimg</code>. You will need to find out the correct one for your device.</p>
+<h4>Isorec or bootimg?</h4>
+<p>A <code>boot.img</code> file contains a Linux kernel and an initramfs, along with some other configuration, such as the kernel command line. Some Samsung devices support these <code>boot.img</code> files, while others only support flashing a kernel with 
+a baked-in initramfs. To find out what your device has, download a known working image for your device 
+(e.g. from the vendor, or a LineageOS ROM, ...). Usually they come in zip files. Extract the zip file, and you will find a <code>boot.img</code> inside. Run the command <code>file</code> on that to find out, whether it is a real <code>boot.img</code> file, or just a 
+<code>vmlinuz</code> file:</p>
+<pre class="codehilite"><code class="language-shell">file boot.img # real boot.img file -&gt; use heimdall-bootimg
+Android bootimg, kernel, ramdisk, page size: 2048</code></pre>
+
+
+<pre class="codehilite"><code class="language-shell">file boot.img # actually a vmlinuz file -&gt; use heimdall-isorec
+boot.img: Linux kernel ARM boot executable zImage (little-endian)</code></pre>
+
+
+<h5><code>heimdall-bootimg</code></h5>
+<p>When using that flasher, make sure that you also add <code>mkbootimg</code> to your <code>depends</code> line in the <code>APKBUILD</code>, and that you set <code>deviceinfo_generate_bootimg</code> in your <code>deviceinfo</code> file to <code>"true"</code>.
+To generate a working boot.img, in the <code>deviceinfo</code> you also need to specify the variables for the various offset, follow this <a href="https://github.com/postmarketOS/pmbootstrap/wiki/How-to-find-device-specific-information#fastboot-bootimg-flash-offsets">guide</a> to find the correct values for your device.</p>
+<h5><code>heimdall-isorec</code></h5>
+<p>Usually the initramfs would get packed into the vmlinuz file, when it has no support for the <code>boot.img</code> format. But this is a problem for postmarketOS, because we want to generate the initramfs explicitly <em>after</em> compiling the 
+kernel, like it is done in typical Linux distributions.</p>
+<p>So what we do instead, is putting the real initramfs on the recovery partition (or any other free partition, such as "kernel2", but the name comes from "isolated recovery" and was coined by <a href="https://forum.xda-developers.com/galaxy-s2/orig-development/isorec-isolated-recovery-galaxy-s2-t3291176">Lanchon</a>). The initramfs baked into the kernel only extracts the real initramfs, and executes its init script.</p>
+<p>You will need to adjust the <code>init</code> script of your kernel's built in initramfs to point to the right partition. Use the <code>linux-samsung-i9100</code> package for reference.</p>
+<h4>Odin</h4>
+<p>In case you can't get it working with Heimdall, you could use the proprietary Odin program for Windows (e.g. in a VM) and flash from there. To do that, run the following commands to export all generated files from <code>pmbootstrap</code> and create an Odin-compatible tar file:</p>
+<pre class="codehilite"><code class="language-shell">pmbootstrap install
+pmbootstrap flasher export --odin</code></pre>
+
+
+<p>It would be great if you could record your flashing session with a USB sniffer and send it to the Heimdall developers (as ticket) or even implement support for your device in Heimdall yourself (C++ knowledge required). Please expand this wiki page on how to actually sniff the USB traffic, if you do that.</p>
+<h2>Maemo</h2>
+<p>The correct flasher is <code>0xffff</code> (which reverse engineered Nokia's proprietary flashing protocol). Right now we do not have abstracted it in the pmbootstrap config (so <code>pmbootstrap flasher flash_kernel</code> etc. will not work). That is 
+because the Maemo devices have an SD card slot, and it is possible to install uboot on them - so flashing was not really required yet. But it is easy to extend the config to implement that abstraction when it is needed.
+Simply edit the <code>0xffff</code> part in <code>pmb/config/__init__.py</code> (and please make a pull-request after you have tested it).</p>
+
+      </div>
+    </main>
+  </body>
+</html>

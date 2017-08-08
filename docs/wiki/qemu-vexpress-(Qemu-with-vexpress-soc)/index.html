@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/qemu-vexpress-(Qemu-with-vexpress-soc)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>qemu vexpress (Qemu with vexpress soc)</h1>
+<p>This device is used to emulate an ARM Versatile Express for Cortex-A9.</p>
+<p>Vexpress (Versatile Express) is the reference architecture from the ARM Foundation. It simulates the armv7 architecture and a lot of other hardware (like graphics hardware).</p>
+<p>QEMU supports many other ARM architectures (see <code>qemu-system-arm -machine help</code>).</p>
+<h3>Contributors</h3>
+<ul>
+<li>MartijnBraam</li>
+<li>mmaret</li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Compilation of kernel, system and initramfs</li>
+<li>It boots but only if you specify a seperate <code>-dtb</code> flag, it doesn't use the embedded dtb</li>
+<li>Storage</li>
+<li>Network</li>
+</ul>
+<h3>What does not work</h3>
+<ul>
+<li>Keyboard and mouse</li>
+</ul>
+<h3>Starting qemu</h3>
+<pre class="codehilite"><code class="language-bash">$ ./pmbootstrap.py install
+$ ./pmbootstrap.py flasher export
+$ cp ~/.local/var/pmbootstrap/chroot_rootfs_qemu-vexpress/usr/share/dtb/vexpress-v2p-ca9.dtb .
+$ qemu-system-arm \
+    -kernel vmlinuz-postmarketos \
+    -initrd initramfs-postmarketos \
+    -M vexpress-a9 \
+    -m 1024 \
+    -sd qemu-vexpress.img \
+    -append &quot;console=ttyAMA0,38400n8 console=tty1 PMOS_NO_OUTPUT_REDIRECT&quot; \
+    -dtb vexpress-v2p-ca9.dtb</code></pre>
+
+
+<h3>Links</h3>
+<ul>
+<li>https://wiki.linaro.org/PeterMaydell/QemuVersatileExpress</li>
+</ul>
+<h3>Screenshot</h3>
+<p><img alt="Qemu unlock screen" src="http://i.imgur.com/Hwq0ryI.png" />
+<img alt="Weston" src="http://i.imgur.com/AWRDDQ1.png" /></p>
+
+      </div>
+    </main>
+  </body>
+</html>

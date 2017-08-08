@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/LG-G3-Global/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>LG G3 Global</h1>
+<h3>Contributors</h3>
+<ul>
+<li>Nutcake</li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Compiling the LineageOS kernel</li>
+<li>SSH</li>
+<li>Booting (see "Signing the boot image" to boot without pmbootstrap command)</li>
+<li>Flash light    <ul>
+<li>Use led:flash_torch in /sys/class/leds. led:flash_0 and led:flash_1 can be used to individually address the dual-tone flash LEDs but they turn off again after a second.</li>
+</ul>
+</li>
+<li>RGB front LED</li>
+<li>Backlight control</li>
+<li>Battery</li>
+<li>Weston + Touchscreen</li>
+</ul>
+<h3>What does not work</h3>
+<ul>
+<li>WiFi, Bluetooth, etc...</li>
+<li>USB OTG</li>
+<li>Graphical terminal in weston crashes instantly  </li>
+</ul>
+<p>There is also a bug where the screen is not updated. Workaround: login using ssh and run the following command:</p>
+<pre class="codehilite"><code>ssh user@172.16.42.1
+sudo su
+while [ ! ]; do cat /sys/class/graphics/fb0/modes &gt; /sys/class/graphics/fb0/mode; done</code></pre>
+
+
+<p>As this devices' screen is 1440x2560px, small elements in weston are extremely hard to click and the on-screen keyboard is pretty much unusable, so DPI scaling is needed in weston. However, right now the fbdev backend doesn't support scaling. </p>
+<h3>Fastboot</h3>
+<p>Before you can use fastboot on this device you need to remove LGs Download mode, which hides the standard fastboot mode. You can do this by zeroing out a partition called 'laf':</p>
+<pre class="codehilite"><code class="language-bash">adb shell
+su
+dd if=/dev/block/platform/msm_sdcc.1/by-name/laf of=/sdcard/laf.img #backup LGs Download mode to the internal SD just in case
+dd if=/dev/zero of=/dev/block/platform/msm_sdcc.1/by-name/laf #Overwrite laf with zeroes, enabling fastboot
+exit
+adb reboot bootloader #reboot directly to fastboot</code></pre>
+
+
+<p>More detailed instructions for this can be found <a href="https://forum.xda-developers.com/tmobile-lg-g3/general/how-to-boot-lg-g3-fastboot-mode-t3087445">here</a></p>
+<p>Afterwards, you can boot into fastboot by following these steps:</p>
+<pre class="codehilite"><code>1. Turn of phone completely
+2. Hold Volume Up.
+3. Plug in USB-cable while still holding Vol. Up until fastboot pops up</code></pre>
+
+
+<h3>Signing the boot image</h3>
+<p>pmbootstrap will successfully flash system and kernel, however the device will only boot if you use the 
+<code>pmbootstrap flasher boot</code> command, as it will otherwise show this error:</p>
+<pre class="codehilite"><code>ERROR : boot certification verify
+[630]_________________________________________
+[640]
+[640] Secure booting Error!
+[640] Cause : boot certification verify
+[640]
+[640]_________________________________________</code></pre>
+
+
+<p>The message is shown for 3 seconds, then the screen blacks out and the LED will blink red and blue indefinitely.<br />
+This happens because the bootloader on the d855 variant of the LG G3 can not be unlocked and you have to trick the bootloader into thinking your boot image is legitimate.<br />
+To do this, you need to first export your boot.img-lg-d855:</p>
+<pre class="codehilite"><code>mkdir -p /tmp/pmOS_export
+pmbootstrap flasher export /tmp/pmOS_export</code></pre>
+
+
+<p>Then we need a tool called <a href="https://github.com/CyboLabs/Open_Bump">Open_Bump</a>, which can sign boot images for our device. (Requires Python 2. Also works for older LG devices?):</p>
+<pre class="codehilite"><code>git clone https://github.com/CyboLabs/Open_Bump
+cd Open_Bump
+python2 open_bump.py &quot;/tmp/pmOS_export/boot.img-lg-d855&quot;</code></pre>
+
+
+<p>This will create a signed image called <code>boot_bumped.img-lg-d855</code> in <code>/tmp/pmOS_export/</code>.
+Now first flash System and kernel images using pmbootstrap and then manually flash the signed image over these:</p>
+<pre class="codehilite"><code>pmbootstrap flasher flash_system
+pmbootstrap flasher flash_kernel
+fastboot flash boot /tmp/pmOS_export/boot_bumped.img-lg-d855</code></pre>
+
+
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/LineageOS/android_kernel_lge_g3">Original Kernel Source</a></li>
+</ul>
+<h2>Photos</h2>
+<ul>
+<li><a href="http://i.imgur.com/2bpw0Bo.jpg">Weston running with demos</a></li>
+<li><a href="http://i.imgur.com/XYhmjwQ.png">Secure booting error when using unsigned image</a></li>
+<li><a href="https://www.reddit.com/r/postmarketOS/comments/6jvb2i/postmarketos_on_the_lg_g3_global_d855/">/r/postmarketOS post</a></li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/How-to-find-device-specific-information/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>How to find device specific information</h1>
+<h1>Android</h1>
+<h2>Generic device information</h2>
+<ul>
+<li><a href="https://github.com/LineageOS/lineage_wiki/blob/master/_data/devices/">LineageOS devices database</a> (hardware specs: architecture, screen resolution, ... and key combinations for flash/recovery mode)</li>
+</ul>
+<h2>Fastboot (boot.img) flash offsets</h2>
+<p><em>If you can't find a full ROM image for your device, consider extracting the boot.img file directly from your device <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Using-prebuilt-kernels">with adb</a>.</em>
+1. Find the download link for a full image on https://download.lineageos.org/
+2. Run the following commands (replace the download link accordingly)</p>
+<pre class="codehilite"><code class="language-shell">pmbootstrap build unpackbootimg
+pmbootstrap chroot
+apk add unpackbootimg
+su - user
+mkdir /tmp/bootimg_info
+cd /tmp/bootimg_info
+wget &quot;https://mirrorbits.lineageos.org/full/hammerhead/20170530/lineage-14.1-20170530-nightly-hammerhead-signed.zip&quot;
+unzip *.zip
+unpackbootimg -i boot.img</code></pre>
+
+
+<ol>
+<li>Example output:</li>
+</ol>
+<pre class="codehilite"><code>Android magic found at: 0
+BOARD_KERNEL_CMDLINE console=ttyHSL0,115200,n8 androidboot.hardware=hammerhead
+user_debug=31 maxcpus=2 msm_watchdog_v2.enable=1
+androidboot.bootdevice=msm_sdcc.1 buildvariant=userdebug
+BOARD_KERNEL_BASE 00008000
+BOARD_RAMDISK_OFFSET 02900000
+BOARD_SECOND_OFFSET 00f00000
+BOARD_TAGS_OFFSET 02700000
+BOARD_PAGE_SIZE 2048
+BOARD_SECOND_SIZE 0
+BOARD_DT_SIZE 0</code></pre>
+
+
+<p>Translate the variables as follows into your deviceinfo:
+<em> <code>BOARD_KERNEL_BASE</code> -&gt; <code>deviceinfo_flash_offset_kernel</code>
+</em> <code>BOARD_RAMDISK_OFFSET</code> -&gt; <code>deviceinfo_flash_offset_ramdisk</code>
+<em> <code>BOARD_SECOND_OFFSET</code> -&gt; <code>deviceinfo_flash_offset_second</code>
+</em> <code>BOARD_TAGS_OFFSET</code> -&gt; <code>deviceinfo_flash_offset_tags</code>
+<em> <code>BOARD_PAGE_SIZE</code> -&gt; <code>deviceinfo_flash_pagesize</code>
+</em> <code>BOARD_SECOND_SIZE</code> -&gt; <code>deviceinfo_flash_offset_second</code>
+* (contents of the extracted <code>boot.img-base</code> file)  -&gt; <code>deviceinfo_flash_offset_base</code> (defaults to <code>0x10000000</code>)</p>
+<hr />
+<p><em>NOTE: Some useful info can be pulled via fastboot too (in case you have the device at hand) by executing <code>fastboot getvar all</code></em></p>
+<h2>Kernel version</h2>
+<ul>
+<li><a href="https://stackoverflow.com/a/12151781">Look at the Makefile inside the kernel repository</a></li>
+</ul>
+<h2>Device Architecture</h2>
+<ul>
+<li>You can find the architecture while the device is running another kernel (e.g. original Android or TWRP). Run <code>adb shell</code> to gain access to the console on the device, and type <code>uname -m</code>.</li>
+<li>pmOS supports the <code>armhf</code> and <code>aarch64</code> architectures. If the output is <code>armv7l</code>, for example, you should use <code>armhf</code> as your device architecture.</li>
+</ul>
+<h2>Device code name</h2>
+<ul>
+<li><a href="http://wiki.lineageos.org/devices.html">LineageOS List</a></li>
+<li><a href="http://www.droidviews.com/codenames-of-samsung-galaxy-devices/">List for Samsung Galaxy Devices</a></li>
+</ul>
+<h2>LineageOS kernel source repository</h2>
+<ul>
+<li>Find out the code name of your device (see above)</li>
+<li>Usually, you can find the <em>kernel</em> source repository by typing in the code name of your device into the <a href="https://github.com/LineageOS?utf8=%E2%9C%93&amp;q=&amp;type=&amp;language=">LineageOS GitHub page</a></li>
+<li>If you can't find it, but you found a repository starting with <code>android_device_</code>, open that repository and look into the <code>lineage.dependencies</code> file. It lists other LineageOS repositories there - open these repositories, until you finally find the repository with "kernel" in the name. Example: <a href="https://github.com/LineageOS/android_device_htc_evita/blob/cm-14.1/lineage.dependencies#L3">First</a>, <a href="https://github.com/LineageOS/android_device_htc_s4-common/blob/630a97ee53f1b6a43f02f9fb3841db026967f5ed/lineage.dependencies#L11">Second</a>, <a href="https://github.com/LineageOS/android_kernel_htc_msm8960">Third: Kernel repo!</a></li>
+</ul>
+<h2>Other locations for kernel repositories</h2>
+<ul>
+<li><a href="https://legacyxperia.github.io/">legacyxperia project</a></li>
+<li><a href="http://opensource.samsung.com/reception.do">Samsung Opensource Release Center</a></li>
+</ul>
+<h2>Kernel defconfig (default config)</h2>
+<ul>
+<li><code>DEFCONFIG=</code> line inside the <code>build.config</code> inside the kernel repository (if available) (<a href="https://github.com/LineageOS/android_kernel_lge_hammerhead/blob/cm-14.1/build.config#L4">example</a>)</li>
+<li><a href="https://source.android.com/source/building-kernels">Official listing</a></li>
+<li>If you found the <code>android_device_</code> repository (as shown in <em>LineageOS kernel source repository</em> above), look for a <code>TARGET_KERNEL_CONFIG</code> line in the <a href="https://github.com/LineageOS/android_device_htc_evita/blob/25b93bf95fac520fa1952a8b756b536d4fd4fcab/BoardConfig.mk#L42">BoardConfig.mk</a>.</li>
+</ul>
+<p>In the case where you have located the kernel source for your device but there is no <code>build.config</code>, have a look at the <code>arch/arm/configs/</code> directory. E.g. for Moto G 2014 "titan" that uses android_kernel_motorola_msm8226 you have a <a href="https://github.com/LineageOS/android_kernel_motorola_msm8226/blob/cm-14.1/arch/arm/configs/titan_defconfig">titan_defconfig</a> file there.</p>
+<h2>Misc info from BoardConfig.mk</h2>
+<p><a href="https://github.com/LineageOS/android_device_lge_hammerhead/blob/4bacb98a5dc736a6c832fe1e03d3bbe7320cd7f5/BoardConfig.mk#L25-L30">Example</a>, contains the following information:
+<em> kernel commandline
+</em> ramdisk offset, tags offset, pagesize, base
+* boot partition size</p>
+<h2>Firmware files</h2>
+<p>Find the LineageOS repository for your device by using the repository filter function <a href="https://github.com/LineageOS/">here</a> and typing in your device's code name. You need the repository starting with <code>android_device_</code>. Inside that repository, there should be a <code>proprietary_components.txt</code> or <code>proprietary-files.txt</code>, which has among lots of files, that we do not need, the paths to the firmware files - starting with <code>/vendor/firmware</code>. Combined with some additional research, you should be able to find the files needed for the hardware, that you want to get running (e.g. wifi). Now you have the names of the firmware files. First look if they are provided by <a href="https://pkgs.alpinelinux.org/contents?file=&amp;path=&amp;name=linux-firmware&amp;branch=&amp;repo=&amp;arch="><code>linux-firmware</code></a>, and if not, find them elsewhere and package them yourself (as in <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Samsung-i9070-%28Samsung-Galaxy-S-Advance%29">samsung-i9070</a>).</p>
+<p>See also: <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Wifi">Wifi</a></p>
+
+      </div>
+    </main>
+  </body>
+</html>

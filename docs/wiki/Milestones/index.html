@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Milestones/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Milestones</h1>
+<p>postmarketOS aims to be like a typical Linux distribution - with lots of possibilities to choose from. And with a default selection of components, that are most useful to casual users.
+This means, that there is no concrete plan, that everyone must follow for it to succeed. Instead, <strong>everyone is encouraged to work on what they enjoy most!</strong></p>
+<p>In consequence, pmOS does not use a regular milestone plan with versions (at least right now). Here is a list with what individuals are working on. <strong>Feel free to add yourself here and what you are interested in</strong> (optionally with priorities and estimated finish date), but you don't have to! If you do, please keep your section of this list updated, and remove finished tasks.</p>
+<p><strong>These are all estimations</strong> and the community is expected to understand when something does not work out as planned here. This is a free time project after all, so be grateful, that the individuals step up and share their plans at all.</p>
+<hr />
+<h3>ollieparanoid</h3>
+<p><em>Right now, my primary focus is recruiting more developers by keeping the development enjoyable. Apart from fixing bugs as highest priority, I focus on the following list. Feel free to discuss the importance of these items with me in <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Matrix-and-IRC">Matrix/IRC</a> or on <a href="https://reddit.com/r/postmarketOS">/r/postmarketOS</a> (for longer discussions).</em></p>
+<ol>
+<li>Binary package repository (<a href="https://github.com/postmarketOS/pmbootstrap/issues/64">#64</a>, expecting to have a working version at: <code>2017-08-14</code> - but expect delays due to how fast everything is moving, as said above: helping the others is a higher priority!)</li>
+<li>Extend initramfs hooks: allow adding files, multiple hook points (e.g. before and after initramfs-extra was loaded) <a href="https://github.com/postmarketOS/pmbootstrap/issues/165">#165</a></li>
+<li>Run the <a href="https://github.com/postmarketOS/pmbootstrap/tree/master/test">full testsuite</a> with Travis CI for each commit/PR</li>
+<li>Show code coverage in the <code>README.md</code> (with a link to details: which files are not covered by testcases etc.)</li>
+<li>Use <a href="https://www.shellcheck.net/"><code>shellcheck</code></a> for more shell scripts in the repo (maybe for all <code>APKBUILD</code>s?), <a href="https://github.com/postmarketOS/pmbootstrap/issues/110">automatically format shell scripts</a></li>
+<li>Update the deviceinfo format:</li>
+<li>Add more information: <a href="https://github.com/postmarketOS/pmbootstrap/issues/58">system partition size</a>, ~~<a href="https://github.com/postmarketOS/pmbootstrap/issues/50">kernel commandline</a>~~</li>
+<li>~~Create a reference page in the Wiki~~ pablog <a href="https://github.com/postmarketOS/pmbootstrap/wiki/deviceinfo-reference">beat me to it</a>, thanks! :D</li>
+<li>Write a <a href="https://en.wikipedia.org/wiki/Lint_(software)">linter</a> for deviceinfo files as part of <code>pmbootstrap</code></li>
+<li>Add that linting to the static code analysis script for CI</li>
+<li>Various device improvements. I'd like to <em>try out</em> (with no expectations, that this will work anytime soon!) mainline for <code>lg-mako</code> (<a href="https://github.com/postmarketOS/pmbootstrap/issues/91">#91</a>, <a href="https://github.com/postmarketOS/pmbootstrap/issues/12">#12</a>)</li>
+</ol>
+<h3>MartijnBraam</h3>
+<ol>
+<li>Try to post as much different devices as portable to find edgecases in the build process</li>
+</ol>
+<h3>AndrewMcSwain</h3>
+<ol>
+<li>Evangelization </li>
+<li>project-specific (devs)</li>
+<li>Means: current: word of mouth in Sao Paulo ; future: meetups, talks, panels, presentations</li>
+<li>philosophy and anthropology of tool-making (gateway for layperson to the hacking community)</li>
+<li>Means: writings and discussions with intellectuals, the urban youth, the homeless, and the elite of Sao Paulo society</li>
+<li>On-boarding and new dev integration</li>
+<li>Documentation
+-(<em>more details to come</em>)-</li>
+</ol>
+<h3>ata2001</h3>
+<ol>
+<li>Implement a feature in pmbootstrap, what will allow users to create recovery flashable zips for android devices. (<a href="https://github.com/postmarketOS/pmbootstrap/issues/109">#109</a>)</li>
+<li>Make postmarketOS work on the following devices:<ul>
+<li>Sony Xperia Z1 Compact (amami)</li>
+<li>Motorola Moto G 3rd gen. (osprey)</li>
+<li>Motorola Defy+ (jordanplus)</li>
+</ul>
+</li>
+</ol>
+<h3>Pablo Castellano</h3>
+<ol>
+<li>Add support for new devices (actually focused on <a href="https://github.com/postmarketOS/pmbootstrap/wiki/motorola-titan-%28Moto-G-2014%29">Moto G 2014</a>). If you want, you can send me your device by mail and I will try to add pmOS support to it. After that I will return the device back to you.</li>
+<li>Make pmOS debugging easier for new developers</li>
+<li>Improve documentation &amp; usability of <code>pmboostrap</code>/<code>pmOS</code></li>
+</ol>
+<h3><a href="https://github.com/craftyguy">craftyguy</a></h3>
+<ol>
+<li>
+<p>Make the greatest device ever, a Nokia N900, the best device to use with postmarketOS.</p>
+</li>
+<li>
+<p>Assist with documentation.</p>
+</li>
+<li>
+<p>Do what I can to help with packaging a GUI.</p>
+</li>
+</ol>
+<h3><a href="https://github.com/drebrez">drebrez</a></h3>
+<ul>
+<li>[x] Optimizing the pmOS system image size by creating the partitions as small as possible and resize them during the first boot (<a href="https://github.com/postmarketOS/pmbootstrap/pull/127">#127</a>)</li>
+<li>[x] Add possibility to export an Odin flashable file for samsung devices (<code>pmbootstrap flasher export --odin</code>)</li>
+<li>[ ] Add support for <a href="https://en.wikipedia.org/wiki/Memory_Technology_Device">MTD</a> devices (generate yaffs2 image, adapt initramfs script)</li>
+<li>[ ] Add support for new devices</li>
+</ul>
+<h3>PureTryOut</h3>
+<p>In general, get postmarketOS to a ready for daily usage state, in my case getting packages and UI packaged for the end user to install. Right now focus is on:</p>
+<ol>
+<li>
+<p>Packaging Phone UI: Plasma Mobile</p>
+</li>
+<li>
+<p>Packaging Phone UI: UBports/Yunit</p>
+</li>
+</ol>
+<h3>bshah</h3>
+<ol>
+<li>
+<p>Getting postmarketOS working on my device locally</p>
+</li>
+<li>
+<p>Helping to make Plasma Mobile working on postmarketOS</p>
+</li>
+</ol>
+<h3><a href="https://github.com/mcbitter">McBitter</a></h3>
+<ol>
+<li>
+<p>Get bootloader for Coolpad Modena 2 opensourced and unlocked. Requires lots of reverse engineering work.</p>
+</li>
+<li>
+<p>Eventually start porting device to pmOS.</p>
+</li>
+<li>
+<p>Write open source replacement for SP flashtool (very low priority).</p>
+</li>
+</ol>
+
+      </div>
+    </main>
+  </body>
+</html>

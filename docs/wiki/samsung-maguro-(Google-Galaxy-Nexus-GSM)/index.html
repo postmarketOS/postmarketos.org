@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/samsung-maguro-(Google-Galaxy-Nexus-GSM)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>samsung maguro (Google Galaxy Nexus GSM)</h1>
+<h3>Contributors</h3>
+<ul>
+<li>lawl</li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Booting the system, SSH</li>
+<li>Weston with touchscreen</li>
+<li>Xwayland</li>
+</ul>
+<h3>What does not work</h3>
+<ul>
+<li>Unknown, but probably everything else</li>
+</ul>
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/device-samsung-maguro">Device package</a></li>
+<li><a href="https://github.com/lawl/pmbootstrap">lawl's development branch</a></li>
+</ul>
+<h3>Additional info</h3>
+<p>The volume buttons of my device are broken, so if I softbrick it, there is no way for me to get back into fastboot, because of that I didn't flash the kernel yet, and likely never will, all of this is tested by booting the kernel directly (<code>pmbootstrap flasher boot</code>).</p>
+<p>The system image is a bit too large for the default <code>system</code> parition. You can either repartition or, use the easy way out. Simply flash the system image to your <code>userdata</code> partition, which is big enough. pmOS doesn't care, it just looks for a partition with a LUKS header, so this requires no changes at all to pmOS.</p>
+<h3>Photos</h3>
+<ul>
+<li><a href="https://www.reddit.com/r/postmarketOS/comments/6f7iky/postmarketos_running_on_the_galaxy_nexus_feat/">Galaxy Nexus feat. Weston and a working touch-screen</a></li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

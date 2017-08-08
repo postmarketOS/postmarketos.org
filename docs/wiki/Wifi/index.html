@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Wifi/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Wifi</h1>
+<p><em>This is heavily work in progress - if you're working on this, make sure to join the <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Matrix-and-IRC">IRC/matrix</a> channel and to extend this wiki page with everything you find out.</em></p>
+<h3>General information</h3>
+<p>To get wireless LAN working, most WiFi chips need a proprietary firmware blob. While it would be more secure to replace that with open source software in the long term, it isn't feasible right now, so we try to get it working with that closed source firmware.
+A great place to start looking for information about many available WiFi chips is <a href="https://wireless.wiki.kernel.org/en/users/drivers">this kernel.org page</a>. It often provides driver sources and the required firmware blobs as well.</p>
+<h3>Android</h3>
+<p>We haven't quite figured it out yet, but for starters you need to [[find the WiFi firmware|How-to-find-device-specific-information#firmware-files]], make sure it gets installed and adjust the path in your kernel config (see <a href="https://github.com/postmarketOS/pmbootstrap/pull/122">#122</a>). Some firmwares need additional config files with calibration data, these can usually be found in the LineageOS or Google repositories.</p>
+<p><strong>Wifi <em>is working</em> for the [[i9070|Samsung-i9070-(Samsung-Galaxy-S-Advance)]], all steps are listed on the device's wiki page!</strong> (see <a href="https://github.com/postmarketOS/pmbootstrap/pull/138">PR #138</a>) (Feel free to put them here in a more generic way)</p>
+<h3>Debugging</h3>
+<p>First find the wifi device name with <code>ip link</code>. This is <code>wlan0</code> on most phones.
+Try to start the wlan interface with <code>ip link set wlan0 up</code>. This will most likely end with an error. Now to get the detailed error from the driver/firmware start <code>dmesg</code> and search for the relevant log lines. Here you will find errors about possible missing firmware and the filename that it wants.</p>
+<h3>Path to firmware</h3>
+<p>Usually your Android kernel expects the firmware files to be in a folder like <code>/system/vendor/firmware</code> and you need to patch the kernel and change the path to <code>/lib/firmware/postmarketos</code> (see <a href="https://github.com/postmarketOS/pmbootstrap/blob/2fe8eb0fdfa37381d521844b6137c03593279002/aports/linux-samsung-i9070/04_change_dhd_firmware_dir.patch">this patch</a>. Sometimes there is no need to patch, but simply change a kernel option that defines this path.</p>
+
+      </div>
+    </main>
+  </body>
+</html>

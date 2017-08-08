@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/deviceinfo-reference/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>deviceinfo reference</h1>
+<p>Most of the variables in <code>deviceinfo</code> have self-explanatory names and are used both when you are building postmarketOS and during runtime (it is available at <code>/etc/deviceinfo</code>).</p>
+<p>All variables start with <code>deviceinfo_</code> in the file - this is omitted here to save space.</p>
+<h2>device</h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+<th>Possibles values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>format_version</code></td>
+<td>Used to distinguish between different versions of this file. It is usually "0"</td>
+<td></td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>Device model (e.g. "Google Nexus 5")</td>
+<td></td>
+</tr>
+<tr>
+<td><code>manufacturer</code></td>
+<td>Device manufacturer (e.g. "LG")</td>
+<td></td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td>Release date of the device</td>
+<td></td>
+</tr>
+<tr>
+<td><code>keyboard</code></td>
+<td>The device has a hardware keyboard.</td>
+<td><code>true</code>, <code>false</code></td>
+</tr>
+<tr>
+<td><code>nonfree</code></td>
+<td>Components of the device, that only run with closed source firmware. We have to do more research on this topic and specify a list of possible values, for now all devices have <code>????</code> here.</td>
+<td><code>????</code></td>
+</tr>
+<tr>
+<td><code>dtb</code></td>
+<td>Name of the <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Glossary#dtb">device tree blob</a> file. This will be necessary for the <a href="https://github.com/postmarketOS/pmbootstrap/issues/91">mainline kernel</a>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>modules_initfs</code></td>
+<td>Kernel modules to include in the initramfs image. Note: modules to be loaded <em>after</em> the initramfs can be specified like in a <code>modules-load.conf</code> (<a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/device-samsung-i9070">example</a>).</td>
+<td></td>
+</tr>
+<tr>
+<td><code>external_disk</code></td>
+<td>Does the device have an sdcard or other external storage medium?</td>
+<td><code>true</code>, <code>false</code></td>
+</tr>
+<tr>
+<td><code>external_disk_install</code></td>
+<td>Allow installing to sdcard</td>
+<td><code>true</code>, <code>false</code></td>
+</tr>
+<tr>
+<td><code>flash_methods</code></td>
+<td>Method used to flash the device ([[more info</td>
+<td>deviceinfo_flash_methods]])</td>
+</tr>
+<tr>
+<td><code>arch</code></td>
+<td>Device architecture, must be supported by Alpine Linux</td>
+<td><code>armhf</code>, <code>aarch64</code></td>
+</tr>
+</tbody>
+</table>
+<h3>flash</h3>
+<p>These are used for flashing and booting the device, and most of them are fastboot specific. <strong><a href="https://github.com/postmarketOS/pmbootstrap/wiki/How-to-find-device-specific-information#fastboot-bootimg-flash-offsets">Here is a guide on how to get these values for a specific Android device (by extracting the <code>boot.img</code>)</a></strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+<th>Possible values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>flash_offset_kernel</code></td>
+<td>Kernel offset used for flashing</td>
+<td></td>
+</tr>
+<tr>
+<td><code>flash_offset_ramdisk</code></td>
+<td>Ramdisk offset used for flashing</td>
+<td></td>
+</tr>
+<tr>
+<td><code>flash_offset_second</code></td>
+<td>Used for flashing</td>
+<td></td>
+</tr>
+<tr>
+<td><code>flash_offset_tags</code></td>
+<td>Used for flashing</td>
+<td></td>
+</tr>
+<tr>
+<td><code>flash_offset_base</code></td>
+<td>Used for flashing</td>
+<td>Default: <code>0x10000000</code></td>
+</tr>
+<tr>
+<td><code>flash_pagesize</code></td>
+<td>Page size</td>
+<td>Usually "2048"</td>
+</tr>
+<tr>
+<td><code>flash_sparse</code></td>
+<td>Set this to true if your device expects a <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Troubleshooting#invalid-sparse-file-format-at-header-magi">sparse system image</a> flashed</td>
+<td></td>
+</tr>
+<tr>
+<td><code>kernel_cmdline</code></td>
+<td>Kernel command line</td>
+<td></td>
+</tr>
+<tr>
+<td><code>generate_bootimg</code></td>
+<td>Set this to true for fastboot device, so the <code>mkinitfs</code> command will generate a <code>boot.img</code> file after creating the <code>initfs</code>. Add <code>mkbootimg</code> as dependency to your device's APKBUILD!</td>
+<td><code>true, false</code></td>
+</tr>
+<tr>
+<td><code>generate_legacy_uboot_initfs</code></td>
+<td>For the <a href="https://github.com/postmarketOS/pmbootstrap/wiki/nokia-rx51-%28Nokia-N900%29">N900</a>, we use a legacy version of the <a href="https://en.wikipedia.org/wiki/Das_U-Boot">uboot</a> bootloader right now. When setting this variable to true, the initramfs will generate an uboot legacy compatible initramfs file. Modern versions of uboot can load regular initramfs files.</td>
+<td><code>true, false</code></td>
+</tr>
+<tr>
+<td>## weston</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+<th>Possibles values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>weston_pixman_type</code></td>
+<td>(optional) Use it as a workaround for <a href="https://github.com/postmarketOS/pmbootstrap/issues/54">issue #54</a>.</td>
+<td>mostly <code>"2"</code> for ARGB, <a href="https://github.com/postmarketOS/pmbootstrap/issues/141#issuecomment-314211363">all values</a></td>
+</tr>
+<tr>
+<td><code>weston_core_modules</code></td>
+<td>Module(s) to load on device when using Weston</td>
+<td>See the <a href="http://manpages.ubuntu.com/manpages/wily/man5/weston.ini.5.html#contenttoc3">weston.ini manpage</a> for a list of valid modules</td>
+</tr>
+<tr>
+<td><code>weston_core_backend</code></td>
+<td>Weston backend to use</td>
+<td>See the <a href="http://manpages.ubuntu.com/manpages/wily/man5/weston.ini.5.html#contenttoc3">weston.ini manpage</a> for a list of valid backends. Note that not all of these may be compiled into Weston for Alpine Linux. If not set, this defaults to 'fbdev-backend.so'</td>
+</tr>
+<tr>
+<td><code>weston_keymap_rules</code></td>
+<td>Keyboard keymap rule to use.</td>
+<td>Valid rules are listed in <code>/usr/share/X11/xkb/rules/</code>.</td>
+</tr>
+<tr>
+<td><code>weston_keymap_model</code></td>
+<td>Keyboard keymap model to use.</td>
+<td>Valid models are listed in <code>/usr/share/X11/xkb/rules/symbols</code>, typically buried in a particular symbol file. For example, the model for the Nokia N900 is found in the file <code>/usr/share/X11/xkb/symbols/nokia_vndr/rx-51</code>, with a line that specifies <code>-model nokiarx51</code>. To set the keymap model for the N900, you would set <code>weston_keymap_model=nokiarx51</code> in the appropriate <code>deviceinfo</code> file</td>
+</tr>
+</tbody>
+</table>
+<h2>splash</h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+<th>Possibles values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>screen_width</code></td>
+<td>The width of the display</td>
+<td>800, 720, 1440... anything really</td>
+</tr>
+<tr>
+<td><code>screen_height</code></td>
+<td>The height of the display</td>
+<td>1280, 2560... other</td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+    </main>
+  </body>
+</html>

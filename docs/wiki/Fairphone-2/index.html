@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Fairphone-2/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Fairphone 2</h1>
+<h2>Contributors</h2>
+<ul>
+<li>z3ntu</li>
+</ul>
+<h2>What works</h2>
+<ul>
+<li>The building process</li>
+</ul>
+<h3>Current Boot Process</h3>
+<p>This is what I did:
+Use the efidroid lk.img (have to compile yourself right now) for working around an fastboot/lk issue in the stock Fairphone bootloader.</p>
+<pre class="codehilite"><code>fastboot boot lk.img
+fastboot flash system pmOS_system.img</code></pre>
+
+
+<p>Booting the boot.img doesn't work currently because of dt problems. Probably a similar issue as on the <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Mozilla-Flame#current-boot-process">Mozilla Flame</a>.</p>
+<p>pmOS branch: https://github.com/postmarketOS/pmbootstrap/tree/device-fairphone-fp2
+z3ntu's branch (maybe more up-to-date): https://github.com/z3ntu/pmbootstrap</p>
+<h2>Abbreviations</h2>
+<p><strong>lk</strong> = Little Kernel (that's what the bootloader which includes fastboot is based on for most newer devices)</p>
+<p><strong>dt</strong> = Device Tree (method of describing hardware, see https://www.devicetree.org/)</p>
+
+      </div>
+    </main>
+  </body>
+</html>

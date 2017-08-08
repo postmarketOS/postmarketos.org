@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/The-mainline-kernel/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>The mainline kernel</h1>
+<p>One of the major goals of the postmarketOS project is getting as many devices as possible working on the mainline upstream Linux kernel. The majority of the current devices run some form of Android kernel tree like AOSP, LineageOS or CyanogenMOD.</p>
+<p>The current progress of the mainlining effort is in the <code>linux-postmarketos</code> package, which can be used by multiple devices. The only pmOS-supported device that is usable with Linux 4.12 is the [[Nokia N900|nokia-rx51-(Nokia-N900)]]. The [[Qemu|qemu-vexpress-(Qemu-with-vexpress-soc)]] packages also use the <code>linux-postmarketos</code> package.</p>
+<p>To make the kernel work with multiple devices, it no longer appends the dtb file to the kernel image. It generate a <code>vmlinuz-postmarketos</code> file in the boot partition and puts all dtb files for the current architecture in <code>/usr/share/dtb</code>. The <code>postmarketos-mkinitfs</code> package appends the dtb file defined in the [[deviceinfo|deviceinfo-reference]] to the linux image in the boot partition.</p>
+<h2>Enable the mainline kernel for a new device</h2>
+<p><em>Before proceeding, make sure that you know that your device is supported by the mainline kernel. Otherwise use the source code of a vendor's fork of the kernel, which is known to work as described in the [[porting guide|Porting-to-a-new-device]].</em></p>
+<ol>
+<li>run <code>pmbootstrap.py menuconfig linux-postmarketos</code> and adjust the kernel config to add the drivers for the device if they are not enabled yet. Set as much drivers to build as external module as possible so the main vmlinuz filesize doesn't increase too much.</li>
+<li>Set the kernel dependency to <code>linux-postmarketos</code> in the APKBUILD for the device package if you want to make it the default kernel (<a href="https://github.com/postmarketOS/pmbootstrap/issues/91#issuecomment-318825285">more information</a>).</li>
+<li>Add the name of the generated dtb file (without path or extension) to the <code>deviceinfo_dtb</code> file in the deviceinfo file.</li>
+</ol>
+<p>A good example of a device using a mainline kernel is the <code>device-nokia-rx51</code> package.</p>
+<h2>Porting drivers from a Linux fork to the mainline kernel</h2>
+<p><em>This is a massive amount of work, and you will need C knowledge, as well as knowledge about <a href="https://kernelnewbies.org/KernelHacking">how to contribute to the kernel</a>. It is probably a very frustrating path, so make sure that you are either up to that or consider contributing in pmOS in another, from a developers point of view, more enjoyable way. Documentation from our side is also pretty thin on this, so if you actually work on this, please expand it. Thanks!</em></p>
+<h3>Preparation</h3>
+<ul>
+<li>Get a working [[serial cable|Serial-debugging]]</li>
+<li>Find out hardware details about your device, such as CPU, GPU, display, ...</li>
+</ul>
+<h3>Boot with serial output and shell</h3>
+<p>You probably need to copy over the device tree source, from which the <code>dtb</code> file gets generated, to the mainline kernel. <em>Please expand this.</em></p>
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/freedreno/freedreno/wiki/DSI-Panel-Driver-Porting">Freedreno wiki: Display driver porting</a></li>
+<li><a href="https://github.com/postmarketOS/pmbootstrap/issues/91">#91: "The Mainline Kernel"</a></li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

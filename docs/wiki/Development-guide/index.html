@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Development-guide/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Development guide</h1>
+<h2>Tips</h2>
+<p>If happens often that we commit changes and then we realize that we forgot to regenerate APKBUILD checksums. This is noticed by Travis (<a href="https://travis-ci.org/postmarketOS/pmbootstrap/builds/261056579">example</a>) but you might want to avoid it. </p>
+<p>You can install the following git hook that is run every time before you commit. </p>
+<p>Copy the following code to <code>.git/hooks/pre-commit</code> inside your <code>pmbootstrap</code> repository:</p>
+<pre class="codehilite"><code class="language-bash">#!/bin/bash
+#
+# PostmarketOS pre-commit hook
+# Checks for bad checksums
+
+./test/check_checksums.py</code></pre>
+
+
+<p>Now this is what happens when you forgot to regenerate checksums for some aport and try to commit</p>
+<pre class="codehilite"><code class="language-bash">$ git commit -a
+Checking device-qemu-aarch64 for correct checksums
+[13:45:23] (native) generate checksums for device-qemu-aarch64
+[13:45:23] Done
+MM aports/device/device-qemu-aarch64/APKBUILD
+
+diff --git a/aports/device/device-qemu-aarch64/APKBUILD b/aports/device/device-qemu-aarch64/APKBUILD
+index 99b811b..c4cee6c 100644
+--- a/aports/device/device-qemu-aarch64/APKBUILD
++++ b/aports/device/device-qemu-aarch64/APKBUILD
+@@ -21,4 +21,4 @@ package() {
+                &quot;$pkgdir&quot;/etc/deviceinfo
+ }
+
+-sha512sums=&quot;a18ab789c19d8802be6a9e9c842f4c304f267bd78f46b096b4ba6609430d1544e0a9eca9bc22db67a0728efae3aad6c2def9f7e64157d31aeb31b4bb839076d5  deviceinfo&quot;
++sha512sums=&quot;8df46383685a40a96b7c604c29d413ecdd4b4a9b92cb61f452283042f189b1ca01cb70632fec0711dd67229e0501729762c6841359ac7ea455f516b512abce9c  deviceinfo&quot;
+
+** The checksums are not correct</code></pre>
+
+
+<p>After that, simply do <code>git commit -a --amend -n</code> (<code>-n</code> is necessary so that this time the hook is not triggered).</p>
+
+      </div>
+    </main>
+  </body>
+</html>

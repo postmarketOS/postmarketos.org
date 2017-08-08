@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Xperia-E-Dual/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Xperia E Dual</h1>
+<h3>Contributors</h3>
+<ul>
+<li>Nicknack</li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Compiling the kernel </li>
+</ul>
+<h3>What does not work</h3>
+<ul>
+<li>Flashing, there are problems with Sony's boot image format</li>
+</ul>
+<p>The built kernel boots with a black screen and no further sign of acitivity. Fastboot flashes without errors but flash offsets are probably wrong. Only known working kernels have a different ELF file format.</p>
+<h3>Boot image format</h3>
+<p>There is one tool avaiable for unpacking Sony's ELF boot format into the normal ANDROID format:
+<a href="https://github.com/Tasssadar/libbootimg">libbootimg</a></p>
+<p>Sadly, even unpacking and repacking a working prebuilt kernel doesn't seem to work.</p>
+<p>I had more luck with mkelf.py script from Sony. You can loosely follow the tutorial <a href="https://www.netzgewitter.com/2013/10/compiling-android-linux-kernel-for-xperia/">here</a>. This time unpacking a working kernel elf image and repacking it with mkefl.py worked. Needed to change only a few bits with vbindiff. Now we only need to find a working set of offsets and image parts to do the same with a custom kernel!</p>
+<p>Here are some links describing the problem with Sony's boot format:
+<em> https://github.com/chenxiaolong/DualBootPatcher/issues/181
+</em> https://github.com/Tasssadar/libbootimg/pull/2/commits/8986984b5d618be0b753e55d6b9d9d1744bc4094
+* https://books.google.de/books?id=2qo6AwAAQBAJ&amp;pg=PA313&amp;lpg=PA313&amp;dq=sony+boot.img+format&amp;source=bl&amp;ots=0mtMMle9eZ&amp;sig=adCVtfarXK9cticvd5qqYA6g39Y&amp;hl=de&amp;sa=X&amp;ved=0ahUKEwjgp5mfx5XVAhUHWRQKHWSeDZcQ6AEIQzAB#v=onepage&amp;q&amp;f=false</p>
+<h3>Next possible steps</h3>
+<ul>
+<li>Try booting pmOS with a prebuilt kernel.</li>
+<li>Try repacking built kernel into ELF format</li>
+<li>UART debugging?</li>
+</ul>
+<h3>Links</h3>
+<ul>
+<li>
+<p><a href="https://github.com/Nicknack/pmOs_device_sony_nanhu">Device package</a></p>
+</li>
+<li>
+<p><a href="https://github.com/Klozz/android_kernel_sony_msm7x27a-nanhu">Kernel Source</a></p>
+</li>
+<li><a href="https://github.com/LineageOS/android_kernel_sony_msm7x27a/">Kernel Source LineageOS</a></li>
+<li><a href="https://github.com/der-koenig/android_kernel_sony_msm7x27a/tree/c5738aa4dbfa5f4b36331f07396e5eeaa12c9782">Kernel Source FreeXperia</a></li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

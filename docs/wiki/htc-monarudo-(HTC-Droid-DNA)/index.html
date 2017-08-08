@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/htc-monarudo-(HTC-Droid-DNA)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>htc monarudo (HTC Droid DNA)</h1>
+<h3>Contributors</h3>
+<ul>
+<li>Ross Schulman</li>
+</ul>
+<h3>Current Status</h3>
+<ul>
+<li>Kernel builds</li>
+<li>Trying to boot the kernel with <code>fastboot boot ...</code> freezes the phone, as does using <code>pmbootstrap.py flasher boot</code></li>
+<li>Trying to flash the kernel with <code>pmboostrap.py flasher flash_system</code> or <code>flash_kernel</code> results in a <code>remote:not allowed</code> error, although this may be related to a corrupted partition table on my particular device.</li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Nothing yet</li>
+</ul>
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/postmarketOS/pmbootstrap/tree/device-htc-dlx">Working branch</a></li>
+<li><a href="https://github.com/rschulman/pmbootstrap/tree/dlx">Working branch</a></li>
+<li><a href="https://github.com/rschulman/pmbootstrap-htc-dlx-debug">Working CM boot.img and non-working pmOS kernel binaries</a></li>
+</ul>
+<h3>Partition layout</h3>
+<table>
+<thead>
+<tr>
+<th>device</th>
+<th>size</th>
+<th>filesystem</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mmcblk0p16</td>
+<td>25 MiB</td>
+<td>vfat</td>
+<td>~</td>
+</tr>
+<tr>
+<td>mmcblk0p17</td>
+<td>5 MiB</td>
+<td>vfat</td>
+<td>~</td>
+</tr>
+<tr>
+<td>mmcblk0p24</td>
+<td>10 MiB</td>
+<td>ext4</td>
+<td>~</td>
+</tr>
+<tr>
+<td>mmcblk0p31</td>
+<td>48 MiB</td>
+<td>vfat</td>
+<td>~</td>
+</tr>
+<tr>
+<td>mmcblk0p32</td>
+<td>928 MiB</td>
+<td>ext4</td>
+<td>android system</td>
+</tr>
+<tr>
+<td>mmcblk0p33</td>
+<td>320 MiB</td>
+<td>ext4</td>
+<td>android cache</td>
+</tr>
+<tr>
+<td>mmcblk0p34</td>
+<td>5.8 GiB</td>
+<td>ext4</td>
+<td>android userdata</td>
+</tr>
+</tbody>
+</table>
+<h3>What have I tried so far</h3>
+<ul>
+<li>Pulling flash offsets from two different dlx ROMS. Both match each other and what we're using.</li>
+<li><code>adb push</code>ing the .img file and attempting to use <code>dd</code> to write into the system partition. Only succeeded in mangling the partition.</li>
+<li>Reflashing CM-12 just to be sure that the phone isn't totally bricked, but CM installs just fine and boots properly.</li>
+</ul>
+<h3>Some theories</h3>
+<ul>
+<li>Ross Schulman's particular HTC Droid DNA is individually broken and/or not unlocked properly (but see the ability to flash and boot multiple different CyanogenMod versions) </li>
+<li>Somehow the offsets are incorrect (haunting feeling this is it, but numbers were taken from previously mentioned CyanogenMod boot.img)</li>
+<li>The dlx doesn't actually use the m7's kernel at all (this doesn't seem plausible given the number of places that have indicated it is true)</li>
+<li>Ross is just mis-executing commands in some fundamental ways (the most likely of the bunch)</li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

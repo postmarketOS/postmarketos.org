@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Initramfs-development/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Initramfs development</h1>
+<h3>We have two initramfs files</h3>
+<p>After the installation, you will have <strong>two</strong> initramfs files in your device's <code>/boot</code> folder.</p>
+<pre class="codehilite"><code>% ls ~/.local/var/pmbootstrap/chroot_rootfs_samsung-i9100/boot
+initramfs-samsung-i9100  initramfs-samsung-i9100-extra  vmlinuz-samsung-i9100</code></pre>
+
+
+<p>Regular Linux distributions only have <strong>one</strong> initramfs file. <strong>We have split it</strong> into two to work around the <a href="https://github.com/postmarketOS/pmbootstrap/issues/126">size limitations</a>, that some devices have. The regular initramfs is relatively small (<em>~1.5 mb, and we could make it smaller if necessary!</em>) and loads the contents of the initramfs-extra from the pmOS boot partition during the boot process.</p>
+<p>The pmOS boot partition is a <strong>sub</strong>partition of the system partition (<em>SD cards: simply a real partition on the SD card</em>), so we can make it almost as big as we want.</p>
+<h3>Recommended development workflow</h3>
+<ul>
+<li>Only do one small change at a time</li>
+<li>Rebuild and test on device (<code>pmbootstrap initfs</code>, <code>pmbootstrap flasher flash_kernel</code>)</li>
+<li>When it works, version your change with git</li>
+<li>Repeat</li>
+</ul>
+<p>When you change too much, it will simply not work and you most likely will have no idea why it does not work. Go back to the last working version and do smaller changes at a time.</p>
+<h3>Tips and tricks</h3>
+<ul>
+<li>Familiarize with [[inspecting the initramfs]]</li>
+<li><code>pmbootstrap initfs</code> can do more than rebuilding the initramfs:</li>
+</ul>
+<pre class="codehilite"><code>% pmbootstrap initfs --help
+usage: pmbootstrap initfs [-h]
+                          {hook_ls,hook_add,hook_del,ls,build,extract} ...
+
+positional arguments:
+  {hook_ls,hook_add,hook_del,ls,build,extract}
+    hook_ls             list available and installed hook packages
+    hook_add            add a hook package
+    hook_del            uninstall a hook package
+    ls                  list initramfs contents
+    build               (re)build the initramfs
+    extract             extract the initramfs to a temporary folder
+
+optional arguments:
+  -h, --help            show this help message and exit</code></pre>
+
+
+<h3>Troubleshooting</h3>
+<h4>My device reboots with my customized init script</h4>
+<p>This is probably caused by a syntax error. Use <code>shellcheck</code> to check your scripts for syntax errors. You could also loop forever or spawn a shell (if you have a hardware keyboard or serial cable connected) at some point for debugging (<code>while true; do sleep 1; done</code>) and use the telnet shell to test the commands, that are failing, interactively.</p>
+<h4>No log output on serial!</h4>
+<p>By default, all output from the initramfs get redirected to <code>/pmOS_init.log</code>. If you want the output through the debug cable you need to add <code>PMOS_NO_OUTPUT_REDIRECT</code> to your <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Troubleshooting:kernel#how-can-i-boot-the-kernel-with-some-specific-arguments">kernel command line</a>.</p>
+
+      </div>
+    </main>
+  </body>
+</html>

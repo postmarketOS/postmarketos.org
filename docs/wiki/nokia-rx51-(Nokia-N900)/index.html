@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/nokia-rx51-(Nokia-N900)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>nokia rx51 (Nokia N900)</h1>
+<h3>Contributors</h3>
+<ul>
+<li>MartijnBraam</li>
+<li>craftyguy</li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Booting the system</li>
+<li>Kernel log to the display</li>
+<li>Framebuffer graphics</li>
+<li>Unlocking the root partition using the keyboard</li>
+<li>Display Backlight control</li>
+<li>Wayland on framebuffer</li>
+<li>Module loading</li>
+<li>Wifi (see Additional Info below)</li>
+<li>Notification led</li>
+<li>Audio playback</li>
+<li>Keyboard backlight (see Additional Info below)</li>
+<li>Battery capacity reporting (see Additional Info below)</li>
+</ul>
+<h3>What does not work</h3>
+<ul>
+<li>Virtual terminal keymap is incorrect, the shift key doesn't allow entering numbers</li>
+<li>Both cameras</li>
+</ul>
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/device-nokia-rx51">Device package</a></li>
+<li><a href="https://kernel.org">Kernel source</a></li>
+</ul>
+<h3>Additional info</h3>
+<ul>
+<li>Martijn's N900 has uboot installed a long time ago, I'm using sdcard boot from the bootmenu shell using <code>run sdboot</code></li>
+<li>The <a href="https://neo900.org/">Neo900</a> (still in development) will upgrade the hardware inside of the N900, and has some nice features such as hardware sandboxing the modem.</li>
+</ul>
+<h4>Wifi</h4>
+<p>The <code>linux-firmware</code> package is required to provide the wl1251 firmware necessary for initializing the wifi device. (<a href="https://github.com/postmarketOS/pmbootstrap/pull/158">#158</a>)</p>
+<p>Once the device has been successfully initialized, enable it:</p>
+<pre class="codehilite"><code>$ sudo ip link set wlan0 up
+$ sudo iw wlan0 set type managed</code></pre>
+
+
+<p>Configure wpa_supplicant (only necessary on encrypted networks):</p>
+<pre class="codehilite"><code>$ sudo su -
+# wpa_passphrase $YOUR_SSID &gt; /etc/wpa_supplicant/wlan0.conf
+&lt;enter passphrase here and press Enter&gt;
+# exit</code></pre>
+
+
+<p>Connect to network using wpa_supplicant:</p>
+<pre class="codehilite"><code>$ sudo wpa_supplicant -Dwext -i wlan0 -c /etc/wpa_supplicant/wlan0.conf</code></pre>
+
+
+<p>If your network uses DHCP, start the DHCP client:</p>
+<pre class="codehilite"><code>$ sudo udhcpc -i wlan0</code></pre>
+
+
+<h4>Keyboard Backlight</h4>
+<p>There are 6 keyboard backlight LEDs that can be adjusted, they are found under <code>/sys/class/leds/lp5523:kb{1-6}</code>. To adjust brightness, write a value, $VAL between 0 and 255, to the <code>brightness</code> parameter as the root user:</p>
+<pre class="codehilite"><code>for i in $(seq 1 6);
+    do echo $VAL &gt; /sys/class/leds/lp5523\:kb$i/brightness
+done</code></pre>
+
+
+<h4>Boot partition within postmarketos</h4>
+<p>The boot partition can be accessed within postmarketos by mounting <code>/dev/dm-0</code>. This allows performing kernel updates by installing the <code>linux-nokia-rx51</code> apk after mounting <code>/dev/dm-0</code> to <code>/boot</code>.</p>
+<h4>Display</h4>
+<p>With DRM enabled (<a href="https://github.com/postmarketOS/pmbootstrap/pull/197">#197</a>), the display can be managed at this location: <code>/sys/devices/platform/omapdrm.0/graphics/fb0/</code></p>
+<h4>Keyboard layout in console</h4>
+<p>In order to set the keyboard layout for the virtual console (e.g. to take advantage of number keys on the N900 keyboard), obtain your desired language keymap file for the RX-51, <a href="https://raw.githubusercontent.com/archlinuxarm-n900/n900-keymaps/master/rx51_us.map">such as this one.</a>. (TODO: Need to pull 'official' vconsole keymaps from Maemo5 if they exist..).</p>
+<p>On the N900, install <code>kbd-bkeymaps</code>, either by using <code>pmbootstrap install --add kbd-bkeysmaps</code> on the host system or by running <code>apk add kbd-bkeysmaps</code> on the device itself.</p>
+<p>The keymap must be in binary format, bmap. This can be accomplished using the <code>loadkeys</code> tool:</p>
+<pre class="codehilite"><code class="language-bash">$ apk add kbd kbd-bkeymaps
+$ loadkeys -b rx51_us.map &gt; rx51_us.bmap
+$ gzip rx51_us.bmap</code></pre>
+
+
+<p>Compress it and copy it to <code>/usr/share/bkeymaps/us/</code> on the N900.</p>
+<p>Log into the N900, and run <code>sudo setup-keymap</code>, then select <code>us</code> and finally <code>rx51_us</code>.</p>
+<h4>Battery Capacity Reporting</h4>
+<p>The current battery capacity can be found under <code>/sys/class/power_supply/bq27200-0/capacity</code>, and is represented as a percentage. For example, a value of <code>11</code> equates to <code>11%</code>. If <code>capacity</code> does not exist or contains erroneous information, then your battery needs to be calibrated first. To calibrate the battery:</p>
+<p>1) Charge it up fully, using a wall power adapter.</p>
+<p>2) Once it is charged up, power on the device</p>
+<p>3) Unplug the device and allow the battery to run all the way down until it powers off. This may take quite a while to happen (&gt;24hrs, but can be made shorter by running a CPU intensive workload)</p>
+<p>4) When device powers off, plug it back into wall adapter and allow to charge up fully again. The battery and charging chip should now be calibrated.</p>
+<h3>Helpful Links for Porting</h3>
+<ul>
+<li>
+<p><a href="https://neo900.org/stuff/block-diagrams/n900/n900.html">Device schematic</a></p>
+</li>
+<li>
+<p><a href="http://plan9.stanleylieber.com/hardware/n900/n900.schematics.pdf">Very detailed schematic</a></p>
+</li>
+<li>
+<p><a href="https://github.com/archlinuxarm-n900/alarm-n900/wiki/Hardware-support">Arch Linux ARM - N900 hardware components list</a></p>
+</li>
+<li>
+<p><a href="http://mlab.taik.fi/paja/?p=1263">N900 sensor access in Maemo</a></p>
+</li>
+<li>
+<p><a href="http://natisbad.org/N900/n900-commented-hardware-specs.html">Hardware component specs / list</a></p>
+</li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

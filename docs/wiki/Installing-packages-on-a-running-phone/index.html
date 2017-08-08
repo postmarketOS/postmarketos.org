@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all">
 
-    <link rel="canonical" href="https://postmarketos.org/blog/">
+    <link rel="canonical" href="https://postmarketos.org/wiki/Installing-packages-on-a-running-phone/">
 
     <link href="/static/css/tachyons.min.css" rel="stylesheet">
     <link href="/static/css/main.css" rel="stylesheet">
@@ -37,11 +37,26 @@
           </div>
         </header>
         
-<ul>
+<h1>Installing packages on a running phone</h1>
+<ol>
+<li>Go to the pmbootstrap packages dir (by default it's <code>~/.local/var/pmbootstrap/packages</code>)</li>
+<li>Start a webserver <code>python3 -m http.server</code></li>
+<li>Change repository on the phone to point to your dev machine in <code>/etc/apk/repositories</code>:</li>
+</ol>
+<pre class="codehilite"><code># You can remove this line
+/home/user/packages/user
 
-  <li><a href="/blog/2017/05/26/intro/">intro</a></li>
+# Add your dev machine, change the ip-address for your network
+http://192.168.2.42:8000
 
-</ul>
+https://nl.alpinelinux.org/alpine/edge/main
+https://nl.alpinelinux.org/alpine/edge/community
+https://nl.alpinelinux.org/alpine/edge/testing</code></pre>
+
+
+<ol>
+<li>Upgrade the package you built with <code>apk upgrade [package name]</code></li>
+</ol>
 
       </div>
     </main>

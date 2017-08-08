@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all">
 
-    <link rel="canonical" href="https://postmarketos.org/blog/">
+    <link rel="canonical" href="https://postmarketos.org/wiki/Package-naming-convention/">
 
     <link href="/static/css/tachyons.min.css" rel="stylesheet">
     <link href="/static/css/main.css" rel="stylesheet">
@@ -37,11 +37,18 @@
           </div>
         </header>
         
+<h1>Package naming convention</h1>
+<h3>General convention</h3>
 <ul>
-
-  <li><a href="/blog/2017/05/26/intro/">intro</a></li>
-
+<li>All package names should be lowercase.</li>
+<li>Wherever possible, device code name is preferred over the model number.</li>
+<li>Please use dashes (<code>-</code>) only, no underscores (<code>_</code>).</li>
+<li>If something is unclear or you would like to extend the naming convention, please open a ticket in the tracker.</li>
 </ul>
+<h3>device-* packages</h3>
+<p><code>device-{vendor}-{device code name/model number}</code></p>
+<h3>linux-* kernels</h3>
+<p><code>linux-{vendor}-{device code name/model number}</code></p>
 
       </div>
     </main>

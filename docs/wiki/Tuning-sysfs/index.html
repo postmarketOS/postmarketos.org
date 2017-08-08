@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Tuning-sysfs/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Tuning sysfs</h1>
+<p>After porting postmarketOS to your device, you might find that still some features don't work. You may need to adjust some values inside the /sys directory.</p>
+<p>sysfs is a pseudo file system provided by the Linux kernel that exports information about various kernel subsystems, hardware devices, and associated device drivers from the kernel's device model to user space through virtual files. In addition to providing information about various devices and kernel subsystems, exported virtual files are also used for their configuring.</p>
+<p>One approach is comparing the contents of these files when TWRP or LineageOS is running and the same for pmOS.</p>
+<p>The following script dumps the content of /sys/devices. Copy it as <code>dumpsys.sh</code></p>
+<pre class="codehilite"><code class="language-shell">#!/bin/sh
+# dumpsys.sh
+DIR=&quot;/sys/devices&quot;
+
+walk() {
+    for file in $(ls $1); do
+        path=&quot;$1/$file&quot;
+        if test -L &quot;$path&quot;; then
+            continue
+        fi
+        if test -f &quot;$path&quot;; then
+            echo &quot;$path&quot;
+            cat &quot;$path&quot;
+        fi
+        if test -d &quot;$path&quot;; then
+            walk &quot;$path&quot;
+        fi
+    done
+}
+
+others() {
+    cat /proc/cpuinfo
+    cat /proc/cmdline
+}
+
+walk &quot;$DIR&quot;
+others</code></pre>
+
+
+<p>Upload it to your device when running TWRP (use <code>adb push</code>) and when running postmarketOS (use <code>scp</code>). Run it and then compare the output.</p>
+<p>For TWRP/LineageOS:</p>
+<pre class="codehilite"><code class="language-shell">adb push dumpsys.sh /
+adb shell &quot;sh /dumpsys.sh &gt; /devices-twrp.dump&quot;
+adb pull /devices-twrp.dump .</code></pre>
+
+
+<p>For pmOS:</p>
+<pre class="codehilite"><code class="language-shell">scp dumpsys.sh user@172.16.42.1:~
+# sh dumpsys.sh &gt; devices-pmos.dump
+scp user@172.16.42.1:~/devices-pmos.dump .</code></pre>
+
+
+<p>Then get the differences:</p>
+<pre class="codehilite"><code class="language-shell">diff -u devices-pmos.dump devices-twrp.dump &gt; devices.diff</code></pre>
+
+
+<p>You could also run it in even in the stock ROM but it is important that you run the same kernel version in postmarketOS then.</p>
+<h2>Examples</h2>
+<h3>i9070 port</h3>
+<p>This way, user <code>drebrez</code> figured out two values needed for the framebuffer configuration for the i9070 port.</p>
+<pre class="codehilite"><code class="language-shell">echo 16 &gt; /sys/devices/platform/mcde_fb/graphics/fb0/bits_per_pixel
+echo 960,1600 &gt; /sys/devices/platform/mcde_fb/graphics/fb0/virtual_size</code></pre>
+
+      </div>
+    </main>
+  </body>
+</html>

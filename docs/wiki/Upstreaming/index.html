@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Upstreaming/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Upstreaming</h1>
+<p>It is important for us to contribute the patches and improvements we made to various software back to the original project. So everyone can benefit from the improvements and we don't need to maintain and carry around patches.</p>
+<h3>Successful</h3>
+<ul>
+<li><code>2017-08-03</code> Alpine Linux: <a href="https://github.com/alpinelinux/aports/pull/2057">add consolekit2</a></li>
+<li><code>2017-07-21</code> abuild: <a href="https://github.com/alpinelinux/abuild/pull/21"><code>-D</code> parameter for alternative description</a></li>
+<li><code>2017-07-07</code> Alpine Linux: <a href="https://github.com/alpinelinux/aports/pull/1092">busybox-extras with telnetd enabled</a></li>
+<li><code>2017-05-23</code> weston: <a href="https://patchwork.freedesktop.org/patch/150943/">instead of less than 1 Hz use default refresh rate</a></li>
+</ul>
+<h3>Work in progress</h3>
+<ul>
+<li>weston: <a href="https://bugs.freedesktop.org/show_bug.cgi?id=101472">add parameter --pixman-type</a>, see also: <a href="https://github.com/postmarketOS/pmbootstrap/issues/141">#141</a></li>
+</ul>
+<h3>Not started, but should be done in the future</h3>
+<ul>
+<li>abuild: Add a compression flag to override the default of highest compression (right now we install a <a href="https://github.com/postmarketOS/pmbootstrap/blob/34e2f8093c6cf6571815a82865309b02d31b5d0c/pmb/build/init.py#L61">wrapper</a> that converts <code>-9</code> to <code>-1</code> to improve performance)</li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

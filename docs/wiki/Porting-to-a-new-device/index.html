@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Porting-to-a-new-device/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Porting to a new device</h1>
+<p>If you have <em>any</em> questions, feel free to ask in the <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Matrix-and-IRC">matrix/irc channel</a> or <a href="https://github.com/postmarketOS/pmbootstrap/issues">bug tracker</a>! This is a wiki, so please adjust everything that isn't detailed enough or would have helped you with porting.</p>
+<p>Please write your porting progress to the <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Devices">devices</a> page, even if you didn't get very far. This helps to determine what can be improved to make porting easier.</p>
+<p><strong>Please use a spare device for experimenting with postmarketOS! You won't be able to use typical phone features right now, such as making calls, writing SMS, using Wi-Fi, using Bluetooth. Although everything has been tested, there is no guarantee that you won't break your device.</strong></p>
+<h3>Initialization</h3>
+<ul>
+<li>Clone the repository: <code>git clone https://github.com/postmarketOS/pmbootstrap</code></li>
+<li>Run <code>./pmbootstrap.py init</code> and configure for a new device</li>
+<li>Open a second terminal and run <code>./pmbootstrap.py log</code> to get detailed output from the following pmbootstrap commands</li>
+</ul>
+<h3>Device-specific package</h3>
+<p>Create an appropriate <code>device-$vendor-$name</code> package in the <code>aports/device</code> folder:</p>
+<pre class="codehilite"><code class="language-shell">cp -r aports/device/device-samsung-i9100 aports/device/device-vendor-name</code></pre>
+
+
+<p>The important files are <code>APKBUILD</code> (<em>build recipe, [[apk is an Alpine Linux term|Glossary#apk]]</em>) and [[deviceinfo|deviceinfo reference]]. Please adjust them as necessary. Note that if your device uses <strong>fastboot</strong>, you will need to add <code>mkbootimg</code> to the <code>depends=</code> list in the <code>APKBUILD</code>, and the following variables at the end of <code>deviceinfo</code> (<a href="https://github.com/postmarketOS/pmbootstrap/wiki/How-to-find-device-specific-information#fastboot-bootimg-flash-offsets">guide</a>, <a href="https://github.com/postmarketOS/pmbootstrap/blob/2670c3a031e7204cb638a6947ea4e867e66d033b/aports/device-lg-mako/deviceinfo#L18-L24">example</a>):</p>
+<pre class="codehilite"><code class="language-shell"># Fastboot related
+deviceinfo_generate_bootimg=&quot;true&quot;
+deviceinfo_flash_offset_kernel=&quot;&quot;
+deviceinfo_flash_offset_ramdisk=&quot;&quot;
+deviceinfo_flash_offset_second=&quot;&quot;
+deviceinfo_flash_offset_tags=&quot;&quot;
+deviceinfo_flash_pagesize=&quot;&quot;</code></pre>
+
+
+<p>A post-install script can be created to append device-specific partitions to <code>/etc/fstab</code>. See <a href="https://github.com/postmarketOS/pmbootstrap/blob/ed8fba54c31c3ccd1f1f59c7194fffecc63ca7c4/aports/device/device-nokia-rx51/device-nokia-rx51.post-install#L12">the post-install script</a> for <code>device-nokia-rx51</code> for an example.</p>
+<p>Once the device package is configured, you will need to update checksums in the APKBUILD to match the new configuration files. You can do that by running:</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py checksum device-$vendor-$name</code></pre>
+
+
+<p>Now, you can build your device package with:</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py build device-$vendor-$name</code></pre>
+
+
+<h3>Kernel package</h3>
+<p>While the goal is to use a mainline kernel for all devices in the long run, this certainly can not be done in one step when porting to a new device. Create a new package for the kernel by copying the kernel package of the most similar device with an existing port. For example:</p>
+<pre class="codehilite"><code class="language-shell">cp -r aports/device/linux-lg-mako aports/device/linux-vendor-name</code></pre>
+
+
+<p>Now edit the <code>APKBUILD</code>. Replace the kernel source with a kernel suitable for your device. For Android devices we usually use the <a href="https://github.com/postmarketOS/pmbootstrap/wiki/How-to-find-device-specific-information#lineageos-kernel-source-repository">kernels from LineageOS</a>. Copy the right <a href="https://github.com/postmarketOS/pmbootstrap/wiki/How-to-find-device-specific-information#kernel-defconfig-default-config">defconfig</a> from your kernel's source folder into your new <code>linux-...</code> folder and adjust its file name. Please adjust the comments in the <code>APKBUILD</code> file about which defconfig you have used, and which modifications you have made. Please also adjust the <code>pkgver</code>/<code>pkgrel</code> to match the <a href="https://stackoverflow.com/a/12151781">kernel version</a>.</p>
+<p>Next, generate the checksum for the kernel package files using:</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py checksum linux-$vendor-$name</code></pre>
+
+
+<p>Now, before building the kernel itself, it is required to run the kernel's <a href="https://en.wikipedia.org/wiki/Menuconfig">menuconfig</a> with:</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py menuconfig linux-$vendor-$name</code></pre>
+
+
+<p>The first time, you run the menuconfig command, you will get prompted about new config options, that the default config does not address (in Android's build process, these options get ignored, but in pmOS they must be specified). Please accept the defaults it presents. After that, you will be shown a menu, in which the <code>DEVTMPFS</code> kconfig flag should be enabled, to get udev working, which is needed for touchscreen support in Weston. It should be located under <code>Device Drivers ---&gt; Generic Driver Options</code>.</p>
+<p>Once you have configured the kernel, build it (the arch specification is necessary here, because we're really compiling code - the device package just contains text/scripts and no native code, therefore it is architecture independent):</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py build linux-$vendor-$name --arch=armhf</code></pre>
+
+
+<p><em>NOTE</em>: The <code>linux-lg-mako</code> package has a patch called <code>gpu-msm-fix-gcc5-compile.patch</code>, to fix compiler errors with GCC6. If your kernel doesn't need that specific patch (if it does not apply correctly, as in <a href="https://github.com/postmarketOS/pmbootstrap/issues/14#issuecomment-305083767">this</a> report), just remove the file, and remove it from the <code>source=</code> line in the <code>APKBUILD</code>.</p>
+<p>If your manufacturer has not released the source code of your kernel and you don't want to give up on porting your device, you can try the <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Using-prebuilt-kernels">prebuilt kernels</a> approach.</p>
+<h4>Appended device trees</h4>
+<p>Some devices need an appended device tree to boot. In LineageOS kernels this will mean that beside the generated <code>zImage</code> there is also a <code>zImage-dtb</code> file. To use this you have to enable in your kernel appending the <code>dtb</code> as in <a href="https://github.com/postmarketOS/pmbootstrap/blob/51af907534a1518c22f78c006ae880d495ec3985/aports/linux-lg-hammerhead/config-lg-hammerhead.armhf#L674">lg-hammerhead</a> and change the package step in the build script to use the <code>dtb</code> file:</p>
+<pre class="codehilite"><code class="language-shell"># Change zImage to zImage-dtb on this command:    
+install -Dm644 &quot;$srcdir/build/arch/arm/boot/zImage-dtb&quot; \
+               &quot;$pkgdir/boot/vmlinuz-$_flavor&quot;</code></pre>
+
+
+<p>In Android kernels, you usually enable <code>BUILD_ARM_APPENDED_DTB_IMAGE</code> and get an image with <code>dtb</code> appended and the filename will be <code>zImage-dtb</code>.</p>
+<p>In the mainline kernel instead, you enable <a href="https://github.com/postmarketOS/pmbootstrap/blob/51af907534a1518c22f78c006ae880d495ec3985/aports/linux-nokia-rx51/config-nokia-rx51.armhf#L555"><code>ARM_APPENDED_DTB</code></a> (without trialing <strong>_IMAGE</strong>) and will get a bunch of <code>.dtb</code> files for the boards that are selected in the kernel config. In this case you need to manually append the correct <code>.dtb</code> file to the compiled kernel image <code>zImage</code>. An example of this is in the kernel package for the <a href="https://github.com/postmarketOS/pmbootstrap/blob/51af907534a1518c22f78c006ae880d495ec3985/aports/linux-nokia-rx51/APKBUILD#L94-L96">nokia n900</a>:</p>
+<pre class="codehilite"><code class="language-shell">cd &quot;$srcdir/build/arch/arm/boot&quot;
+cat zImage dts/omap3-n900.dtb &gt; zImage-dtb</code></pre>
+
+
+<p><em>If you are unsure, whether your device has an appended dtb file, use <a href="https://github.com/PabloCastellano/extract-dtb">extract-dtb</a> on an existing kernel image (e.g. from LineageOS). <code>extract-dtb</code> is packaged for postmarketOS, you can build it with <code>pmbootstrap build extract-dtb</code>.</em></p>
+<h3>Installation</h3>
+<p>If you want to install to the system partition of an image file, run the following:</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py install</code></pre>
+
+
+<p>If you want to install to a SD card, insert it and run the following. Replace mmcblk0 with the actual device name (<code>lsblk</code> is handy to find out the correct device name).</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py install --sdcard=/dev/mmcblk0</code></pre>
+
+
+<h3>Flashing</h3>
+<p>Before you can run any flash command, you must put your device in the flashing mode. It is usually done holding Volume Down &amp; Power simultaneously when the device is switched off but it may vary depending on the device. For more information see the specific page for your device in the <a href="https://wiki.lineageos.org/devices">LineageOS Wiki</a>.</p>
+<p>If you want to install to the system partition, run the following (not for the SD card installation!):</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py flasher flash_system</code></pre>
+
+
+<p>If the system partition for your device is less than 850MB, you should find the size and change the value of <code>install_size_system</code> in the file <code>pmb/config/__init__.py</code></p>
+<p>If you have a device, that works with fastboot, you can boot the kernel now without flashing it:</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py flasher boot</code></pre>
+
+
+<p>Otherwise, you will need to flash the kernel to the device boot partition:</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py flasher flash_kernel</code></pre>
+
+
+<h3>Alternative to flashing: export</h3>
+<p>If the flashing method does not work, it is also possible to export all generated image files to a specific directory (with symlinks), so you can flash it manually with your host Linux system (or even on Windows with proprietary flashers such as Odin, if this is the only way it works for you):</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap flasher export</code></pre>
+
+
+<h3>After flashing</h3>
+<p>If you are lucky, your screen may give some clues that you are booted into pmOS. If not, do not get discouraged, the graphics on your device may not yet be setup correctly. The next steps are to see if you can connect to the device through telnet over USB. See the [[Inspecting the initramfs]] page for more details.</p>
+<p>Don't forget to create a specific wiki page for your device, and add it to the [[devices]] page. If you noticed anything that was unclear or discovered something useful, please help to improve the wiki!</p>
+<blockquote>
+<p>Feel free to ask / help on <a href="Matrix-and-IRC">IRC or Matrix group</a></p>
+</blockquote>
+
+      </div>
+    </main>
+  </body>
+</html>

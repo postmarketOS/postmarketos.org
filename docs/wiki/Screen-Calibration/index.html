@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Screen-Calibration/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Screen Calibration</h1>
+<h2>Framebuffer</h2>
+<p>On most Android devices, a somewhat working framebuffer is required to get Weston and other Wayland compositors running. The alternative to framebuffer would be [[DRI|Glossary#dri]].</p>
+<p>If your framebuffer does not work out of the box, try the following:
+<em> Run this to set the framebuffer resolution: <code>cat /sys/class/graphics/fb0/modes &gt; /sys/class/graphics/fb0/mode</code>
+</em> Boot TWRP/Android and read out the correct framebuffer configurations from the /sys... paths and try to set them in pmOS
+* If you made it work, create an initfs hook, that instantly sets the framebuffer right. <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/device-lg-mako/initfs-hook.sh">Example</a></p>
+<h2>Weston</h2>
+<ul>
+<li>Make sure, that Weston runs on the device</li>
+<li>Look in <code>/tmp/weston.log</code> (via SSH) for the touch device name. For <code>lg-mako</code>, the name is <code>touch_dev</code>, but it may be different for your device.</li>
+<li>Copy <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/device/device-lg-mako/90-android-touch-dev.rules">90-android-touch-dev.rules</a> from <code>device-lg-mako</code> to your device's aport. Replace <code>touch_dev</code> with your touch device name. Adjust the <code>APKBUILD</code>, so it gets installed properly (<a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/device-lg-mako/APKBUILD">Example</a>)</li>
+<li>This calibration may just work fine (it has been reported, that it works on <code>hammerhead</code>). If it does, you are done here. Otherwise continue for the calibration.</li>
+<li>Connect to your phone via SSH</li>
+<li>Get a root shell: <code>sudo su -</code> (Because right now, Weston runs as root)</li>
+<li>Run <code>weston-calibrator</code> as root</li>
+<li>Adjust your udev rules-file to the output from <code>weston-calibrator</code></li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

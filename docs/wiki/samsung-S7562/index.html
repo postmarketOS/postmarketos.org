@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/samsung-S7562/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>samsung S7562</h1>
+<p>This device is not supported by LineageOS but the kernel is apparently in GitHub.</p>
+<h3>Contributors</h3>
+<ul>
+<li>cmdr2 on IRC</li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Compilation of kernel, system and initramfs</li>
+<li>pmOS starts up if a pre-compiled kernel (from the original boot.img) is used, along with the newly built initramfs and system image. Telnet, decrypt filesystem, and ssh (partially) works</li>
+</ul>
+<h3>What does not work</h3>
+<ul>
+<li>pmOS does not boot with the newly built kernel. it only works if a pre-built factory kernel is used</li>
+<li>ssh fails with a 'cannot create channel 0' error, which can be bypassed with <code>ssh user@&lt;ip&gt; '/bin/sh'</code>. With this, no prompt is shown (i.e. no "$" or "%"), but commands can be typed and executed and the results are displayed</li>
+<li>No graphics are displayed on the screen, weston fails with <code>Failed to open frame buffer device ‘/dev/fb0’: No such file or directory</code></li>
+</ul>
+<h3>Links</h3>
+<ul>
+<li>https://github.com/KlinkOnE/android_kernel_ba2x_2.0-1</li>
+<li>https://forum.xda-developers.com/s7562/development/cm11-samsung-galaxy-s-duos-kitkat-4-4-4-t3024762</li>
+</ul>
+<h3>Photos</h3>
+
+      </div>
+    </main>
+  </body>
+</html>

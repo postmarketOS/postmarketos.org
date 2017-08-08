@@ -14,25 +14,25 @@
 
   <link rel="canonical" href="https://postmarketos.org/">
 
-  <link href="/pmosweb/static/css/tachyons.min.css" rel="stylesheet">
-  <link href="/pmosweb/static/css/main.css" rel="stylesheet">
+  <link href="/static/css/tachyons.min.css" rel="stylesheet">
+  <link href="/static/css/main.css" rel="stylesheet">
 </head>
 
 <body class="homepage">
 <main class="mw8 center">
   <div class="cf ph2-ns">
     <header>
-      <a class="title" href="/pmosweb/">
+      <a class="title" href="/">
         <h1 class="f2 lh-title branding">
-          <img src="/pmosweb/static/img/recycle.png">
+          <img src="/static/img/recycle.png">
           <span>postmarketOS</span>
         </h1>
       </a>
       <div class="menu">
         <ul>
-          <li><a href="/pmosweb/">Home</a></li>
-          <li><a href="/pmosweb/wiki/">Wiki</a></li>
-          <li><a href="/pmosweb/blog/">Blog</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="/wiki/">Wiki</a></li>
+          <li><a href="/blog/">Blog</a></li>
         </ul>
       </div>
     </header>
@@ -41,9 +41,11 @@
 
 <section class=" img-text">
   <div class="mw8 center">
-    <img src="/pmosweb/static/img/banner.jpg" class="fl w-third">
-    <div class="text fl w-two-thirds">
-      <h2>What is postmarketOS?</h2>
+    <div class="img-valign">
+      <img src="/static/img/banner.jpg">
+    </div>
+    <div class="text">
+      <h2>A real Linux distribution on the phone</h2>
       <p>postmarketOS (<i>pmOS</i>), is a touch-optimized, pre-configured <a
               href="https://alpinelinux.org">Alpine Linux</a> that can be installed on smartphones and other mobile
         devices. The project is at very early stages of development and is not yet usable for most users.</p>
@@ -54,8 +56,8 @@
 
 <section class="inverted img-text">
   <div class="mw8 center">
-    <div class="text fl w-two-thirds">
-      <h2>Why would you run this?</h2>
+    <div class="text">
+      <h2>We develop a <em>sustainable</em> mobile OS</h2>
       <p>It is 2017. Pick an average PC from 2007 and install a minimal Linux based operating system. You will be able
         to do basic computing tasks (eg. surfing the web, reading E-Mails, listening to music, chatting) just like on an
         expensive modern PC. You will even get security updates, so your old computer is protected, just like as a new
@@ -69,25 +71,50 @@
       </p>
 
     </div>
-    <img src="/pmosweb/static/img/phonepile.jpg" class="fl w-third">
+    <div class="img-valign">
+      <img src="/static/img/phonepile.jpg">
+    </div>
   </div>
 </section>
 
 <section class="img-text">
   <div class="mw8 center">
-    <img src="/pmosweb/static/img/cmus.jpg" class="fl w-third">
+    <div class="img-valign fl w-third">
+      <img src="/static/img/cmus.jpg">
+    </div>
     <div class="text fl w-two-thirds">
-      <h2>What's in the box?</h2>
+      <h2>Package and run anything you want</h2>
       <p>
         With postmarketOS you will have the freedom to customize your Linux experience. There are multiple open options
         available in the current Linux community like KDE Plasma Mobile, UBports, Enlightenment or you can just use a
         plain shell.
       </p>
       <p>
-        PostmarketOS will not impose arbitrary restrictions on you. Use the apps from any ecosystem you want! even run
+        postmarketOS will not impose arbitrary restrictions on you. Use the apps from any ecosystem you want! even run
         desktop software if you want. If your favorite option is not available then help us improving postmarketOS.
       </p>
+    </div>
+  </div>
+</section>
 
+<section class="inverted img-text">
+  <div class="mw8 center">
+    <div class="text">
+      <h2>Getting better security</h2>
+      <p>
+        Current Android devices run on old Linux kernels. This is mainly because SoC vendors modify the current kernel
+        on introduction of the chipset with their own code. This code doesn't get mainlined and thus doesn't benefit from
+        security updates that are made by Linus's kernel team. Only on select devices you will get some backported security
+        patches.
+      </p>
+      <p>
+        postmarketOS aims to get as much devices as possible running on a mainline linux kernel. Which is the most we
+        can currently do to get more security on the devices. For a better overview of the security in the mobile world
+        see the <a href="https://ollieparanoid.github.io/post/security-warning/">security warning blog post</a>.
+      </p>
+    </div>
+    <div class="img-valign">
+      <img src="/static/img/backlit.jpg">
     </div>
   </div>
 </section>

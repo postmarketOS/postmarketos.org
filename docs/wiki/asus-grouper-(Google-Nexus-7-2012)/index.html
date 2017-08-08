@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/asus-grouper-(Google-Nexus-7-2012)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>asus grouper (Google Nexus 7 2012)</h1>
+<h2>Contributors</h2>
+<ul>
+<li>antonok</li>
+</ul>
+<h2>What works</h2>
+<ul>
+<li>Boot process</li>
+<li>Telnet/SSH over USB</li>
+<li>Screen</li>
+<li>USB keyboard, mouse</li>
+<li>Touchscreen</li>
+</ul>
+<h2>What does not work</h2>
+<ul>
+<li>weston-keyboard</li>
+<li>Wifi + other untested parts</li>
+</ul>
+<h2>How to enter flash mode</h2>
+<ul>
+<li>Connect a USB cable</li>
+<li>Power the device off</li>
+<li>Hold power + volume down</li>
+<li><code>fastboot</code> should work when the green android appears on the screen</li>
+</ul>
+<h2>Notes</h2>
+<ul>
+<li>I am using the LineageOS kernel found <a href="https://github.com/LineageOS/android_kernel_asus_grouper">here</a></li>
+<li>The kernel cannot be compiled on versions of gcc newer than 4.9 without a patch, found <a href="https://lists.yoctoproject.org/pipermail/meta-xilinx/2015-September/001181.html">here</a></li>
+<li>I could not get UART debugging through the headphone jack to work - as far as I can tell, the 2012 version of the Nexus 7 does not have this feature.</li>
+<li>CONFIG_VT had to be enabled for graphics to work. In menuconfig this is located under Device Drivers -&gt; Character devices -&gt; Virtual terminal.</li>
+<li>/sys/class/graphics/fb0/mode is empty on boot, it must have U:800x1280p-0. This uses the same initfs hook as many other devices.</li>
+<li>xwayland does not work.</li>
+<li>weston with fbdev-backend.so uses pixman-type=3 (PIXMAN_TYPE_ABGR), which now does not require configuration.</li>
+<li>The touchscreen input device is named <code>elan-touchscreen</code>.</li>
+<li>The wifi chip is the Broadcom 4330.</li>
+<li>This device was once officially supported on Ubuntu, so it has a firmware package in the <a href="https://packages.ubuntu.com/trusty/linux-firmware-nexus7">Ubuntu repositories</a>.</li>
+</ul>
+<h2>Image</h2>
+<p><img alt="" src="http://i.imgur.com/P2QlXCR.jpg" /></p>
+<p><em>Fun fact: <code>grouper</code> is the first tablet to run pmOS!</em></p>
+
+      </div>
+    </main>
+  </body>
+</html>

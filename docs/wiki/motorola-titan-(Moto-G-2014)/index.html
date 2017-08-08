@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/motorola-titan-(Moto-G-2014)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>motorola titan (Moto G 2014)</h1>
+<p>Motorola Moto G 2014 (2nd generation), aka "titan".</p>
+<h3>Contributors</h3>
+<ul>
+<li><a href="https://github.com/PabloCastellano/">PabloCastellano</a></li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>[x] Kernel compiles (LineageOS)</li>
+<li>[x] Booting the system</li>
+<li>[ ] Splash screens</li>
+<li>[x] Unlock the root encrypted partition</li>
+<li>[x] Framebuffer graphics</li>
+<li>[x] Weston</li>
+<li>[x] Touchscreen</li>
+<li>[ ] XWayland</li>
+<li>[ ] Battery</li>
+<li>[ ] Flash light</li>
+<li>[ ] RGB front LED</li>
+<li>[ ] Backlight control</li>
+<li>[x] flash_system</li>
+<li>[x] boot</li>
+<li>[ ] flash_kernel</li>
+<li>[ ] wifi</li>
+</ul>
+<h3>What doesn't work well</h3>
+<ul>
+<li>I had to disable -Werror in order to compile the kernel</li>
+<li>Screen is laggy</li>
+<li>
+<p>initfs hook</p>
+</li>
+<li>
+<p>Splash screens don't work and I cannot get framebuffer working in initramfs</p>
+</li>
+<li>Screen is black after I've entered the password. Workaround:</li>
+</ul>
+<pre class="codehilite"><code class="language-bash">sh /etc/postmarketos-mkinitfs/hooks/00-device-motorola-titan.sh`</code></pre>
+
+
+<ul>
+<li>Cannot boot if kernel is XZ-compressed (it boots if you build it using <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Troubleshooting%3Akernel#building-the-kernel-with-androids-build-system">Android's build system</a>)</li>
+<li>flash_kernel: <a href="https://github.com/postmarketOS/pmbootstrap/issues/126">boot image is too big</a></li>
+<li>flash_system: <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Troubleshooting#invalid-sparse-file-format-at-header-magi">Invalid sparse file format at header magi</a></li>
+<li>
+<p>wifi: requires wcnss-service (some work already begun in <a href="https://github.com/PabloCastellano/pmbootstrap/commits/titan-wifi">titan-wifi</a> branch)</p>
+</li>
+<li>
+<p>show_splash</p>
+</li>
+</ul>
+<pre class="codehilite"><code># From initramfs
+/tmp # show_splash splash1.ppm.gz 
+fbsplash: short read</code></pre>
+
+
+<p>This is written to dmesg everytime you type the previous command:</p>
+<pre class="codehilite"><code>[   74.192213,0] mdss_fb_alloc_fb_ion_memory: alloc 0x398000B vaddr = e9b99000 (0x00200000 iova) for fb0
+[   74.192374,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.192685,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.192846,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.193004,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.193106,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.193263,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.193366,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.193522,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.193624,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.193780,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.193882,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.194037,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.194138,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.194292,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.194446,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.194547,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.194702,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.194804,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.194960,0] vm_start=b6ad2000 vm_end=b6e6a000 vm_page_prot=1799
+[   74.196516,0] lm3630a_bl 0-0038: wake up and re-init chip</code></pre>
+
+
+<h3>Useful stuff</h3>
+<p>White LED:</p>
+<pre class="codehilite"><code class="language-bash">echo 255 &gt; /sys/devices/leds-qpnp-rgb-e1d8be00/leds/white/brightness</code></pre>
+
+
+<p><a href="https://github.com/LineageOS/android_kernel_motorola_msm8226/blob/cm-14.1/drivers/leds/leds-qpnp.c#L187-L189">RGB LED documentation</a></p>
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/LineageOS/android_kernel_motorola_msm8226">android_kernel_motorola_msm8226</a></li>
+<li><a href="https://github.com/LineageOS/lineage_wiki/blob/master/_data/devices/titan.yml">titan.yml</a></li>
+<li><a href="https://github.com/LineageOS/android_kernel_motorola_msm8226/blob/cm-14.1/arch/arm/configs/titan_defconfig">defconfig</a></li>
+<li><a href="https://github.com/LineageOS/android_device_motorola_titan/blob/cm-14.1/proprietary-files.txt">proprietary-files.txt</a></li>
+<li>
+<p><a href="https://cve.lineageos.org/android_kernel_motorola_msm8226">CVE security status</a></p>
+</li>
+<li>
+<p><a href="http://termbin.com/84rz">dmesg.txt</a></p>
+</li>
+</ul>
+<h3>Photos</h3>
+<ul>
+<li><a href="https://imgur.com/y1NLmcF">PostmarketOS running on Motorola Moto G 2014 (titan)</a></li>
+</ul>
+<h3>Drivers table</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Brand</th>
+<th>Module</th>
+<th>Works?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accelerometer</td>
+<td>Bosch Sensortec MEMS accelerometer sensor driver</td>
+<td>bma2x2</td>
+<td></td>
+</tr>
+<tr>
+<td>Framebuffer</td>
+<td></td>
+<td>mdss</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>WiFi</td>
+<td></td>
+<td><a href="https://github.com/LineageOS/android_kernel_motorola_msm8226/blob/cm-14.1/Documentation/devicetree/bindings/wcnss/wcnss-wlan.txt">wcnss</a></td>
+<td></td>
+</tr>
+<tr>
+<td>Storage</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>USB networking</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+    </main>
+  </body>
+</html>

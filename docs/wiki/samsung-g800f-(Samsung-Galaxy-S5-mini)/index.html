@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/samsung-g800f-(Samsung-Galaxy-S5-mini)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>samsung g800f (Samsung Galaxy S5 mini)</h1>
+<h2>Basic info</h2>
+<p>Device: Samsung Galaxy S5 mini (SM-G800F; European version)</p>
+<p>Cortex A7 (32 bit ARM), quad core 1.4GHz; 1.5GB RAM, 16GB storage.</p>
+<ul>
+<li><a href="http://www.gsmarena.com/samsung_galaxy_s5_mini-6252.php">more specs</a></li>
+<li><a href="https://github.com/cm-3470/android_device_samsung_kminilte">Unofficial LineageOS repo</a></li>
+<li><a href="https://github.com/cm-3470/android_kernel_samsung_kminilte">Unofficial LineageOS kernel repo</a></li>
+</ul>
+<h3>How to enter flash mode</h3>
+<p>Press and hold "volume down + home + power" simultaneously. Then click volume up to confirm.</p>
+<h3>Problems</h3>
+<ul>
+<li>Currently, Heimdall seems to be unable to flash the device's <code>SYSTEM</code> partition, so we can't do the entire install using just <code>pmbootstrap flasher</code>.</li>
+<li><code>udevadm trigger</code> causes a complete system freeze and eventual reboot. If you comment out that line in <code>start_weston.sh</code> and replace it by <code>udevadm trigger --attr-match=name=sec_touchscreen</code>, the touch screen should work.</li>
+</ul>
+<h3>Preparing for install</h3>
+<p>First, <a href="https://eu.dl.twrp.me/kminilte/">download the TWRP recovery ROM</a>. You'll need both the <code>.img.tar</code> and the <code>.img</code> file. First, extract the tar file to obtain <code>recovery.img</code>. Then, put your phone in flash mode and flash using Heimdall:</p>
+<pre class="codehilite"><code>$ heimdall flash --RECOVERY recovery.img --BOOT twrp-3.1.1-1-kminilte.img</code></pre>
+
+
+<p>Now you should be able to connect to the device using <code>adb</code>.</p>
+<h3>Installing system</h3>
+<p>Follow <a href="https://github.com/ata2001/android-recovery-zip">the android-recovery-zip steps</a>, substituting <code>samsung-g800f</code> for <code>your-device</code> in all the commands. If you get an error <code>lddtree not found</code>, simply run <code>apk add lddtree</code> in the chroot environment and try again.</p>
+<p>If you get the following errors:</p>
+<pre class="codehilite"><code>device-mapper: reload ioctl on   failed: No such file or directory
+Failed to setup dm-crypt key mapping for device /dev/block/mmcblk0p18.
+Check that kernel supports aes-xts-plain64 cipher (check syslog for more info).</code></pre>
+
+
+<p>You can try to reinstall with a different cipher, by editing <code>install_options</code> and changing the <code>CIPHER</code> line to <code>CIPHER="aes-cbc-plain64"</code>, re-zipping and using <code>adb sideload</code> again.</p>
+<h3>Installing kernel</h3>
+<p>This can be done via <code>./pmbootstrap.py flasher flash_kernel</code></p>
+<p>It should boot, and show the Samsung splash screen. After that you should be able to <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Boot-process">connect via telnet</a></p>
+
+      </div>
+    </main>
+  </body>
+</html>

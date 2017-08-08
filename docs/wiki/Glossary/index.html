@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Glossary/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Glossary</h1>
+<p>If you found a technical term related to this project, that you had to research to understand, please add it here (alphabetically sorted).</p>
+<p>See also:
+* <a href="https://wiki.alpinelinux.org/wiki/Alpine_Linux:Glossary">Alpine Linux:Glossary</a></p>
+<hr />
+<h3><a href="https://alpinelinux.org/">Alpine Linux</a></h3>
+<p>The minimal Linux distribution, that postmarketOS is based on. Actually, pmOS only adds a few packages on top of it, and provides the installer and development environment - that is the plan, to keep following upstream as close as possible. Alpine developers do not see their distribution as "GNU/Linux". That being said, it works a lot like a typical Desktop Linux distribution. You have your package manager, the typical shell commands, you can install typical Linux software, and so on.</p>
+<h3>android-msm</h3>
+<p>The Google provided 3.4 kernel as base for all Qualcomm devices.</p>
+<h3>apk</h3>
+<p>One of the following:
+<em> Android app format
+</em> Alpine Linux package (also ends in <code>.apk</code>, but totally incompatible!), which are actually gzipped tar files
+* Alpine Linux package manager (apk)</p>
+<h3>dtb</h3>
+<p>The binary device tree, this is a file containing a description of the hardware in the device since phones don't have discoverable busses like x86 platforms. These are created from dts files in the kernel repository and produce a file called <code>zImage-dtb</code> for some Android kernels (older Android kernels do not generate a <code>dtb</code> file at all and have hardcoded the information directly in the kernel source). In mainline kernels, <code>dtb</code> files for all supported boards are created at once.</p>
+<h3>dri</h3>
+<p><a href="https://en.wikipedia.org/wiki/Direct_Rendering_Infrastructure">Direct Rendering Infrastructure</a>, the modern Linux kernel API for drawing to the screen.</p>
+<h3>fbdev / framebuffer</h3>
+<p><a href="https://en.wikipedia.org/wiki/Linux_framebuffer">Linux framebuffer</a> a (more or less?) deprecated API from the Linux kernel, that allows drawing to the screen. Newer drivers use the DRI API instead (see above). Android devices usually have drivers for framebuffer, instead of DRI.</p>
+<h3>lk (little kernel)</h3>
+<p><em><a href="https://github.com/littlekernel/lk"><code>lk</code></a> is the kernel where fastboot runs on  - at least all new-ish qualcomm devices is using <code>lk</code> and new-ish mediatek devices too</em></p>
+<h3>OpenRC</h3>
+<p><a href="https://en.wikipedia.org/wiki/OpenRC">OpenRC</a> is a dependency-based init for Unix-like systems. It is the default init system of Alpine Linux.</p>
+<h3>Weston</h3>
+<p><a href="https://github.com/wayland-project/weston">Weston</a> is the reference implementation of a Wayland compositor. It has various backends that lets it run on Linux kernel modesetting and evdev input as well as under X11.</p>
+<p>We have chosen Weston as demo because we didn't want to use X11, as this is slowly dying. Also there's libweston, which might come in handy later (you can write your own desktop environment and inherit the hardware compatibility from weston). Weston is nice as demo useful at this moment of the development, but not usable as phone interface, so we'll need different desktop environments packaged sooner or later. See <a href="https://github.com/postmarketOS/pmbootstrap/issues/62">issue #62</a></p>
+<h3>FDE</h3>
+<p>Full Disk Encryption, by default the rootfs created by pmbootstrap is fully encrypted with luks, preventing the phone data to be retrieved without password if the device is turned off. This can optionally be disabled with <code>--no-fde</code> for debugging purposes.</p>
+
+      </div>
+    </main>
+  </body>
+</html>

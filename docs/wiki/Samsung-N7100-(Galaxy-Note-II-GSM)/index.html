@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Samsung-N7100-(Galaxy-Note-II-GSM)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Samsung N7100 (Galaxy Note II GSM)</h1>
+<h2>Basic info</h2>
+<p>Device: Samsung Galaxy Note II (N7100 GSM)</p>
+<p>ARM Cortex A9 Samsung Exynos 4 Quad 4412 (32bit), quad core 1.6GHz; 2GB RAM, 16GB storage.</p>
+<ul>
+<li><a href="http://www.gsmarena.com/samsung_galaxy_note_ii_n7100-4854.php">more specs</a></li>
+<li><a href="https://github.com/bigbiff/android_kernel_samsung_smdk4412">Unofficial TWRP kernel repo</a></li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Compiling the kernel</li>
+<li>Flashing with Heimdall</li>
+<li>Booting initramfs</li>
+<li>SSH</li>
+<li>Weston</li>
+<li>Touch screen fully calibrated</li>
+</ul>
+<h3>What does not work</h3>
+<ul>
+<li>N/A</li>
+</ul>
+<h3>Not tested</h3>
+<ul>
+<li>Sound</li>
+<li>WiFi (needs kernel modules compiling first)</li>
+</ul>
+<h3>How to enter flash mode</h3>
+<p>Press and hold "volume down + home + power" simultaneously. Then click volume up to confirm.</p>
+<h3>Installing system</h3>
+<p>First build the device package:</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py build device-samsung-n7100</code></pre>
+
+
+<p>Then you need to configure the kernel before building with <code>menuconfig</code> like so:</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py menuconfig linux-samsung-n7100</code></pre>
+
+
+<p>You can hold down the enter key while it asks you the y/n questions until you get to the menu, then you want to enable the <code>DEVTMPFS</code> kconfig flag located in <code>Device Drivers ---&gt; Generic Driver Options</code>.</p>
+<p>Now you want to compile the kernel itself:</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py build linux-samsung-n7100 --arch=armhf</code></pre>
+
+
+<p>Once you've successfully compiled the kernel you can install the OS to an SD card or your system partition. I've only tried an SD card:</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py install --sdcard=/dev/sdb</code></pre>
+
+
+<p>You will need a 1GB SD card in order for this to work, also keep in mind that this will format the sd card.</p>
+<p>Next you want to put your phone in download mode by holding <code>power + vol down + home</code> all together until you enter download mode, press volume up again to continue past the warning.</p>
+<p>Now you can flash the boot image:</p>
+<pre class="codehilite"><code class="language-shell">./pmbootstrap.py flasher flash_kernel</code></pre>
+
+
+<p>We're using <code>flash_kernel</code> because the N7100 packages its kernel and initfs file into one boot image, where as some other phones have separate partitions for each <strong>unlike</strong> the N7100.</p>
+<p>If everything checks out OK, your N7100 should reboot and you should see the Samsung logo. Dont worry if the screen is flashing on and off and its taking a while, after a minute or 2 it should show up the pmOS splash!</p>
+
+      </div>
+    </main>
+  </body>
+</html>

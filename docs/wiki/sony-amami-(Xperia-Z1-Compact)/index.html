@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/sony-amami-(Xperia-Z1-Compact)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>sony amami (Xperia Z1 Compact)</h1>
+<h1>Contributors</h1>
+<ul>
+<li>ata2001 (porting and testing)</li>
+<li>ollieparanoid (help on IRC)</li>
+<li>MartijnBraam (help on IRC)</li>
+<li>robb4 (help on IRC)</li>
+<li>lawl (help on IRC)</li>
+<li>bshah (help on IRC)</li>
+<li>mmaret (help on IRC)</li>
+</ul>
+<h1>What works</h1>
+<ul>
+<li>charging</li>
+<li>network through USB</li>
+<li>telnet in initramfs</li>
+<li>ssh</li>
+<li>adjusting the led, torch and the lcd backlight</li>
+</ul>
+<h1>What does not work</h1>
+<ul>
+<li>framebuffer</li>
+<li>Wifi</li>
+</ul>
+<h1>What have not been tested</h1>
+<ul>
+<li>Bluetooth</li>
+<li>3G</li>
+<li>Sound</li>
+<li>Phone calls</li>
+<li>SD card</li>
+<li>Hardware buttons</li>
+</ul>
+<h1>Kernels</h1>
+<h2><a href="https://github.com/sonyxperiadev/kernel">sonyxperiadev kernel</a></h2>
+<p>It's the most stable one, works everything listed above.</p>
+<h2><a href="https://github.com/LineageOS/android_kernel_sony_msm">LineageOS kernel</a></h2>
+<p>Works everything listed above, has heating issues.</p>
+<h2><a href="https://kernel.org/">Mainline</a></h2>
+<p>Compilation and flashing is successfull, haven't tried UART.</p>
+<h1>Issues</h1>
+<h2>framebuffer</h2>
+<p>Weston does not show up by default.</p>
+<p>Workaround:</p>
+<pre class="codehilite"><code>for i in 1 2; do echo &quot;0,0&quot; &gt; /sys/class/graphics/fb0/pan; done</code></pre>
+
+
+<p>Run it when weston is already started.</p>
+<h1>Links</h1>
+<ul>
+<li><a href="https://github.com/ata2001/pmbootstrap/tree/device-sony-amami">Source</a></li>
+<li><a href="https://web.archive.org/web/20161225005457/https://wiki.cyanogenmod.org/w/Amami_Info">CM wiki archive</a></li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

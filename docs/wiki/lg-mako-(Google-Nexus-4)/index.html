@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/lg-mako-(Google-Nexus-4)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>lg mako (Google Nexus 4)</h1>
+<h3>Contributors</h3>
+<ul>
+<li>ollieparanoid</li>
+<li>PabloCastellano and robb4 on IRC: Workaround for red screen bug <a href="https://github.com/postmarketOS/pmbootstrap/issues/54">#54</a></li>
+</ul>
+<h3>Entering "Fastboot mode"</h3>
+<p>Hold <code>Volume Down</code> + <code>Power</code>, let go of <code>Power</code> once the device display does something (e.g. turns from battery icon to black screen).</p>
+<h3>What works</h3>
+<ul>
+<li>Touchscreen</li>
+<li>Weston (has the red screen bug, but we have a workaround for that now 👍 )</li>
+</ul>
+<h3>What does not work</h3>
+<ul>
+<li>XWayland</li>
+<li>The rest (Wifi, bluetooth, making calls, ...)</li>
+<li>fbsplash only displays splash images very shortly, then goes to black screen</li>
+</ul>
+<h3>Wifi</h3>
+<p>Looks like, we need to package the <a href="https://github.com/LineageOS/android_device_lge_mako/blob/12ac6e9aeb32d5ac9fc832f2214ede2c7690d0a6/proprietary-blobs.txt#L152-L157">wcnss.* files</a> for wifi. A version from 2015 can be found <a href="https://github.com/TheMuppets/proprietary_vendor_lge/tree/cm-14.1/mako/proprietary/vendor/firmware">here</a>. It's a Qualcomm chip.</p>
+<h3>Alternative kernels</h3>
+<p>These are not packaged yet in postmarketOS, feel free to package them.
+<em> <a href="https://github.com/postmarketOS/pmbootstrap/issues/12">"Almost mainline" from John Stultz</a> &lt;- maybe this also resolves the wrong-color-bug
+</em> <a href="https://github.com/postmarketOS/pmbootstrap/pull/38">Freedreno</a></p>
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/device-lg-mako">Device package</a></li>
+<li><a href="https://www.optiv.com/blog/building-a-nexus-4-uart-debug-cable">Tutorial: UART debug cable</a></li>
+<li><a href="https://developers.google.com/android/drivers#mako">Official proprietary drivers</a></li>
+</ul>
+<h3>Photos</h3>
+<ul>
+<li><a href="https://ollieparanoid.github.io/img/2017-05-26/mako/editor.jpg">Weston running with framebuffer issues</a></li>
+<li><a href="https://cloud.githubusercontent.com/assets/6033024/26761940/2e3273e0-4928-11e7-8800-0b4ddb14e239.jpg">robb4 patched Weston to display the right colors</a></li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

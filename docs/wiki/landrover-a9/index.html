@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/landrover-a9/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>landrover a9</h1>
+<h3>Contributors</h3>
+<ul>
+<li>alexlep</li>
+</ul>
+<h3>Random information</h3>
+<ul>
+<li>Obscure phone:<blockquote>
+<p>This is just another clone from millions of devices from Chinese manufacturers.</p>
+</blockquote>
+</li>
+<li>MT6582 CPU</li>
+<li>Product code F090_GPS_KK</li>
+</ul>
+<h3>Status</h3>
+<ul>
+<li>a boot.img file with kernel, initramfs and dtb file from pmOS does <em>not</em> work.</li>
+<li>alexlep has a boot.img file from the vendor somewhere (extracted from the device?), that works when flashed via <code>fastboot boot</code>. It can not be extracted like a normal boot.img file, as reported on IRC. Probably the extraction tool can't handle the files.</li>
+<li>according to alexlep, there is a 512b header in front of the kernel and initramfs:<blockquote>
+<p>ramdisk and kernel has 512 bytes added in the beginning of the files</p>
+<p>custom header with file description</p>
+</blockquote>
+</li>
+<li>...and simply prepending that header in front of a custom initramfs/kernel does not work, as he reports.</li>
+</ul>
+<p>extracted boot.img, first bytes of pmOS initramfs (not working):</p>
+<pre class="codehilite"><code>sp@sppc:~/else/pmbs_work/chroot_native/pmos/extracted$ xxd -l 50 ramdisk
+00000000: 1f8b 0800 0000 0000 0203 949a 0d70 1ce5  .............p..
+00000010: 79c7 5fb0 09b2 621b 411d ac16 0317 c7a1  y._...b.A.......
+00000020: 0ed8 d6d9 96b1 2026 11b5 70d4 5814 4344 ...... &amp;..p.X.CD
+00000030: ea49                                     .I</code></pre>
+
+
+<p>extracted boot.img, first bytes of the vendor's initramfs (working):</p>
+<pre class="codehilite"><code>sp@sppc:~/else/pmbs_work/chroot_native/olololo/extracted$ xxd -l 50 ramdisk
+00000000: 8816 8858 f5a7 0c00 524f 4f54 4653 0000  ...X....ROOTFS..
+00000010: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000020: 0000 0000 0000 0000 ffff ffff ffff ffff  ................
+00000030: ffff</code></pre>
+
+
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/postmarketOS/pmbootstrap/issues/73">#73</a> lists lots of issues with the device, and additional information, such as fastboot's partitions output</li>
+<li><a href="http://ruggedphoneco.com/smartphones/8-alps-a9-smartphone.html">This might be the same phone?</a></li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

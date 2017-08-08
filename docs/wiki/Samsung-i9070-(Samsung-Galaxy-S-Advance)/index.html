@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Samsung-i9070-(Samsung-Galaxy-S-Advance)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Samsung i9070 (Samsung Galaxy S Advance)</h1>
+<h3>Contributors</h3>
+<ul>
+<li>drebrez</li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Compiling the kernel</li>
+<li>Flashing with heimdall (see below)</li>
+<li>Booting initramfs</li>
+<li>Network through USB</li>
+<li>SSH</li>
+<li>Weston with touchscreen</li>
+<li>Wifi (Details below and in <a href="https://github.com/postmarketOS/pmbootstrap/pull/138">#138</a>)</li>
+</ul>
+<h3>What does not work</h3>
+<ul>
+<li>Unknown, but probably everything else</li>
+</ul>
+<h3>Boot process</h3>
+<p>Unlike most other Android devices, the i9070 can not boot a <code>boot.img</code> (which consists of <code>kernel</code> + <code>initramfs</code>). Instead, the <code>boot.img</code> file is just a regular kernel.</p>
+<p>However, it is possible to directly integrate a <code>initramfs</code> into the kernel at kernel compile time (this is totally different from the boot.img approach, if this is unclear to you, please ask in the channel), and this is what the Android ROMs do on the i9070. While it is not a big deal in the Android compilation process, it is a problem for postmarketOS, because we want to be able to build the <code>initramfs</code> independently from the kernel.</p>
+<p>The following workaround is currently implemented:
+<em> We flash the </em>real<em> initramfs to the kernel2 partition (this partition usually contains a backup of the stock kernel)
+</em> The initramfs <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/linux-samsung-i9070/init">init script built into the kernel</a> checks if the kernel2 partition contains a compressed initramfs, and if it does, it extracts it and passes execution to the real initramfs init script.
+* This idea is based on something called <a href="https://forum.xda-developers.com/galaxy-s2/orig-development/isorec-isolated-recovery-galaxy-s2-t3291176">"isorec"</a>.</p>
+<h3>Device partitions</h3>
+<p>The following partitions are used for the postmarketOS:</p>
+<ul>
+<li>Kernel  =&gt; /dev/mmcblk0p15  (16MB)</li>
+<li>Kernel2 =&gt; /dev/mmcblk0p17  (16MB)</li>
+</ul>
+<p>Possible partitions for the postmarketOS system image:
+<em> SYSTEM  =&gt; /dev/mmcblk0p3   (600MB)
+</em> DATAFS  =&gt; /dev/mmcblk0p5   (2GB)</p>
+<h3>Flashing with heimdall</h3>
+<p>In order to flash the kernel and the initramfs using <code>heimdall</code> you simply have to call <code>pmbootstrap flasher flash_kernel</code></p>
+<p>This will write in the partitions specified in the <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/device-samsung-i9070/deviceinfo#L18-L19">deviceinfo</a> file.</p>
+<p>At the moment is not possible to write the system image file (samsung-i9070.img) using heimdall. A temporary solution is to use the TWRP shell to perform a command like this:
+<code>dd if=samsung-i9070.img of=/dev/mmcblk0p5</code></p>
+<h3>How drebrez made wifi work</h3>
+<ul>
+<li>build the kernel module (dhd.ko for the i9070)</li>
+<li>get the vendor files for the <a href="https://github.com/Epirex/android_vendor_samsung_u8500">Samsung U8500 devices</a></li>
+<li>load the module using insmod with the firmware_path and nvram_path parameters</li>
+</ul>
+<p><code>insmod dhd.ko firmware_path=/etc/wifi/bcmdhd_sta.bin nvram_path=/etc/wifi/nvram_net.txt</code>
+* set a mac address </p>
+<p><code>ifconfig wlan0 hw ether 01:02:03:04:05:06</code>
+* bring the interface up </p>
+<p><code>ifconfig wlan0 up</code>
+* scan to find out what WiFi networks are detected </p>
+<p><code>iw dev wlan0 scan</code>
+* connect to WPA/WPA2 WiFi network </p>
+<p><code>wpa_passphrase wifi_ssid wifi_key &gt;&gt; /etc/wpa_supplicant.conf</code>
+* start wpa_supplicant to connect to the network </p>
+<p><code>wpa_supplicant -B -D wext -i wlan0 -c /etc/wpa_supplicant.conf</code>
+* verify that you are indeed connected to the SSID </p>
+<p><code>iw wlan0 link</code>
+* start udhcpc to get an ip address </p>
+<p><code>udhcpc -b -i wlan0</code></p>
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/device-samsung-i9070">Device package</a></li>
+<li><a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/linux-samsung-i9070">Kernel package</a></li>
+<li><a href="https://github.com/Epirex/Samsung_STE_Kernel/tree/marshmallow">Epirex's Kernel</a></li>
+</ul>
+<h3>Photos</h3>
+<ul>
+<li><a href="https://www.reddit.com/r/postmarketOS/comments/6j269y/postmarketos_on_the_samsung_galaxy_s_advance_i9070/">Initramfs asking for the password via telnet</a></li>
+<li><a href="http://imgur.com/a/tJUAq">postmarketOS demo menu (XWayland)</a></li>
+<li><a href="http://imgur.com/9c66GAs">Weston with various programs running</a></li>
+<li><a href="http://imgur.com/a/x17Br">Weston-terminal running in fullscreen mode</a></li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

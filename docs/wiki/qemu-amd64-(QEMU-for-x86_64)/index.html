@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all">
 
-    <link rel="canonical" href="https://postmarketos.org/blog/">
+    <link rel="canonical" href="https://postmarketos.org/wiki/qemu-amd64-(QEMU-for-x86_64)/">
 
     <link href="/static/css/tachyons.min.css" rel="stylesheet">
     <link href="/static/css/main.css" rel="stylesheet">
@@ -37,11 +37,30 @@
           </div>
         </header>
         
+<h1>qemu amd64 (QEMU for x86_64)</h1>
+<p>This device is used for testing purposes. It is possible to run postmarketOS in a x86_64 Virtual Machine. Note that only 64bits CPUs work.</p>
+<p>QEMU will emulate the default x86_64 architecture (see <code>qemu-system-x86_64 -machine help</code> for more choices).</p>
+<h3>Contributors</h3>
 <ul>
-
-  <li><a href="/blog/2017/05/26/intro/">intro</a></li>
-
+<li>ollieparanoid</li>
+<li>MartijnBraam</li>
 </ul>
+<h3>What works</h3>
+<ul>
+<li>Compilation of kernel, system and initramfs</li>
+<li>Storage</li>
+<li>Network</li>
+<li>Keyboard and mouse</li>
+</ul>
+<h3>Starting qemu</h3>
+<pre class="codehilite"><code class="language-bash">$ ./pmbootstrap.py init  # Choose qemu-amd64 as device
+$ ./pmbootstrap.py install
+$ ./pmbootstrap.py qemu</code></pre>
+
+
+<h3>Links</h3>
+<h3>Screenshot</h3>
+<p><img alt="screenshot_2017-08-03_16-43-26" src="https://user-images.githubusercontent.com/1565836/28927507-087fb78a-786b-11e7-8dea-96e8afe2acd9.png" /></p>
 
       </div>
     </main>

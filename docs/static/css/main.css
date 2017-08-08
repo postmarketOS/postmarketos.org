@@ -39,11 +39,32 @@ body.homepage main {
 body.homepage section {
   margin-bottom: 32px;
 }
+body.homepage section .img-valign {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+body.homepage section .img-valign img {
+  vertical-align: middle;
+}
 body.homepage section.inverted {
   color: white;
   background: #333;
   border-top: 4px solid #0d8000;
   border-bottom: 4px solid #0d8000;
+}
+body.homepage section.img-text > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body.homepage section.img-text .img-valign {
+  flex: 1;
+  width: 33.3%;
+}
+body.homepage section.img-text .text {
+  flex: 2;
+  width: 66%;
 }
 body.homepage section.img-text img {
   box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);

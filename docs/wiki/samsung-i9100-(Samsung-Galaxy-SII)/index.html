@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/samsung-i9100-(Samsung-Galaxy-SII)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>samsung i9100 (Samsung Galaxy SII)</h1>
+<h3>Contributors</h3>
+<ul>
+<li>ollieparanoid</li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Touchscreen, Weston, XWayland</li>
+</ul>
+<h3>What does not work</h3>
+<ul>
+<li>The rest (Wifi, bluetooth, making calls, ...)</li>
+</ul>
+<h3>How to enter flash mode</h3>
+<ul>
+<li>Connect an USB cable</li>
+<li>Make sure, the device is powered off</li>
+<li>Hold power + volume down</li>
+<li>As soon, as the samsung logo appears on the screen, only press volume down</li>
+</ul>
+<h3>Boot process</h3>
+<p>Unlike most other Android devices, the i9100 can not boot a <code>boot.img</code> (which consists of <code>kernel</code> + <code>initramfs</code>). Instead, the <code>boot.img</code> file is just a regular kernel. Here's an example from a LineageOS <code>boot.img</code> for the i9100 (for "real" boot.img files, <code>file</code> says something like <code>boot.img: Android bootimg, kernel, ramdisk, page size: 2048</code> ):</p>
+<pre class="codehilite"><code>/tmp/test # file boot.img
+boot.img: Linux kernel ARM boot executable zImage (little-endian)</code></pre>
+
+
+<p>However, it is possible to directly integrate a <code>initramfs</code> into the kernel at kernel compile time (this is totally different from the boot.img approach, if this is unclear to you, please ask in the channel), and this is what the Android ROMs do on the i9100. While it is not a big deal in the Android compilation process, it is a problem for postmarketOS, because we want to be able to build the <code>initramfs</code> independently from the kernel.</p>
+<p>The following workaround is currently implemented:
+<em> We flash the </em>real<em> initramfs to the recovery partition (<a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/heimdall/heimdall_flash_kernel.sh">source</a>)
+</em> The initramfs <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/linux-samsung-i9100/init">init script built into the kernel</a> checks if the recovery partition contains a compressed initramfs, and if it does, it extracts it and passes execution to the real initramfs' init script.
+* This idea is based on something called <a href="https://forum.xda-developers.com/galaxy-s2/orig-development/isorec-isolated-recovery-galaxy-s2-t3291176">"isorec"</a>.</p>
+<p>While this works for the i9100, this approach needs to be improved to also work on other Samsung devices, that need to be flashed with heimdall, like the i9070 (see <a href="https://github.com/postmarketOS/pmbootstrap/issues/22">#22</a>).</p>
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/device-samsung-i9100">Device package</a></li>
+</ul>
+<h3>Photos</h3>
+<ul>
+<li><a href="https://ollieparanoid.github.io/img/2017-05-26/i9100/telnet.jpg">Initramfs asking for the password via telnet</a></li>
+<li><a href="https://ollieparanoid.github.io/img/2017-05-26/i9100/filled.jpg">Weston with various programs opened</a></li>
+<li><a href="https://ollieparanoid.github.io/img/2017-05-26/i9100/demos.jpg">postmarketOS demo menu (XWayland)</a></li>
+<li><a href="https://ollieparanoid.github.io/img/2017-05-26/i9100/firefox.jpg">Firefox (XWayland)</a></li>
+<li><a href="https://ollieparanoid.github.io/img/2017-05-26/i9100/smoke.jpg">Weston-smoke demo</a></li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

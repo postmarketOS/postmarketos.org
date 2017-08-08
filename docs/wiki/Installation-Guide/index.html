@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Installation-Guide/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Installation Guide</h1>
+<h2>Important Note</h2>
+<p>This page is a work in progress, and is not complete enough at this point to be useful.</p>
+<h3>Introduction</h3>
+<p>If you own a device which has been ported to postmarketOS, then this page will help you to obtain, build, and install postmarketOS to this device.</p>
+<p>Any commands that are expected to be entered into a terminal are prefixed with <code>$</code>. You should not enter the <code>$</code> character, it is merely to designate that the following commands are intented to be input/executed within a termina. For example, the following command to list contents of the current working directory, <code>ls</code>, will be mentioned on this page as:</p>
+<p><code>$ ls</code></p>
+<h3>Requirements</h3>
+<p>The following applications should be installed:</p>
+<ul>
+<li>
+<p>python 3</p>
+</li>
+<li>
+<p>git</p>
+</li>
+</ul>
+<h3>Obtaining postmarketOS</h3>
+<p>At this point in the project, it is recommended to build postmarketOS from the latest available source code. It can be obtained by running the following:</p>
+<p><code>$ git pull https://github.com/postmarketOS/pmbootstrap.git</code></p>
+<h3>Building postmarketOS</h3>
+<p>First, initialize the work directory. Replace <code>$WORKDIR</code> with the desired location for placing the output from the build process. It is recommended to have at least 10GB of available space in this location. </p>
+<p>When initializing pmbootstrap, you'll need to select the device you are building for, the location for the work directory, the number of parallel jobs to run when compiling, and whether or not file timestamps should be accounted for when determining if a rebuild is necessary. User input is <strong>bolded</strong> below, replace with your desired options.</p>
+<pre>
+$ cd pmbootstrap
+$ ./pmbootstrap.py init
+[20:20:33] Target device (either an existing one, or a new one for porting).
+[20:20:33] Available (9): lg-d855, lg-hammerhead, lg-mako, motorola-titan, nokia-rx51, samsung-i9070, samsung-i9100, samsung-maguro, sony-amami
+[20:20:33] Device []: <b>nokia-rx51</b>
+[20:20:45] Location of the 'work' path. Multiple chroots (native, device arch, device rootfs) will be created in there.
+[20:20:45] Work path []: <b>~/work</b>
+[20:20:47] How many jobs should run parallel on this machine, when compiling?
+[20:20:47] Jobs []: <b>4</b>
+[20:20:48] Rebuild packages, when the last modified timestamp changed, even if the version did not change? This makes pmbootstrap behave more like 'make'.
+[20:20:48] Timestamp based rebuilds (y/n) [y]: <b>y</b>
+[20:20:49] WARNING: The applications in the chroots do not get updated automatically.
+[20:20:49] Run 'pmbootstrap zap' to delete all chroots once a day before working with pmbootstrap!
+[20:20:49] It only takes a few seconds, and all packages are cached.
+[20:20:49] Done!
+</pre>
+
+      </div>
+    </main>
+  </body>
+</html>

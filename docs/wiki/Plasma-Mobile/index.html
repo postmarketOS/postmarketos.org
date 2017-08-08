@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Plasma-Mobile/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Plasma Mobile</h1>
+<h2>Overview</h2>
+<p>The basic minimum shell has been ported to postmarketOS, and can now be tested. So far no one has gotten it working yet, so don't expect anything but errors.</p>
+<p>To install it on your device run <code>./pmbootstrap.py install --add plasma-mobile,plasma-phone-components,dbus-x11</code>. You can also tell pmbootstrap to <em>always</em> add Plasma Mobile by adding <code>plasma-mobile</code>, <code>plasma-phone-components</code> and <code>dbus-x11</code> to the list of "Extra packages" when running <code>./pmbootstrap.py init</code>.</p>
+<p>For instructions on running Plasma Mobile you can use the KDE website: https://community.kde.org/Plasma/Mobile/RunningApps</p>
+<p><em>Packaging efforts have been documented [[here|Packaging Plasma Mobile]].</em></p>
+<h2>Debugging</h2>
+<p>Create <code>~/.config/QtProject/qtlogging.ini</code> with the following content:</p>
+<pre class="codehilite"><code>[Rules]
+org.kde.kwindowsystem.info=true
+org.kde.kwindowsystem.warning=true
+org.kde.kwindowsystem.critical=true
+org.kde.kwindowsystem.debug=true
+kwin_core.info=true
+kwin_core.warning=true
+kwin_core.critical=true
+kwin_core.debug=true
+kwineffects.info=true
+kwineffects.warning=true
+kwineffects.critical=true
+kwineffects.debug=true
+libkwineffects.info=true
+libkwineffects.warning=true
+libkwineffects.critical=true
+libkwineffects.debug=true
+libkwinglutils.info=true
+libkwinglutils.warning=true
+libkwinglutils.critical=true
+libkwinglutils.debug=true
+libkwinxrenderutils.info=true
+libkwinxrenderutils.warning=true
+libkwinxrenderutils.critical=true
+libkwinxrenderutils.debug=true
+kwin_wayland_drm.info=true
+kwin_wayland_drm.warning=true
+kwin_wayland_drm.critical=true
+kwin_wayland_drm.debug=true
+kwin_wayland_framebuffer.info=true
+kwin_wayland_framebuffer.warning=true
+kwin_wayland_framebuffer.critical=true
+kwin_wayland_framebuffer.debug=true
+kwin_wayland_hwcomposer.debug=true
+kwin_wayland_backend.info=true
+kwin_wayland_backend.warning=true
+kwin_wayland_backend.critical=true
+kwin_wayland_backend.debug=true
+kwin_wayland_x11windowed.info=true
+kwin_wayland_x11windowed.warning=true
+kwin_wayland_x11windowed.critical=true
+kwin_wayland_x11windowed.debug=true
+kwin_platform_x11_standalone.info=true
+kwin_platform_x11_standalone.warning=true
+kwin_platform_x11_standalone.critical=true
+kwin_platform_x11_standalone.debug=true
+kwin_libinput.info=true
+kwin_libinput.warning=true
+kwin_libinput.critical=true
+kwin_libinput.debug=true
+kwin_tabbox.info=true
+kwin_tabbox.warning=true
+kwin_tabbox.critical=true
+kwin_tabbox.debug=true
+kwin_decorations.info=true
+kwin_decorations.warning=true
+kwin_decorations.critical=true
+kwin_decorations.debug=true
+kwin_scripting.info=true
+kwin_scripting.warning=true
+kwin_scripting.critical=true
+kwin_scripting.debug=true
+kwin_xkbcommon.info=true
+kwin_xkbcommon.warning=true
+kwin_xkbcommon.critical=true
+kwin_xkbcommon.debug=true
+kwin_qpa_plugin.info=true
+kwin_qpa_plugin.warning=true
+kwin_qpa_plugin.critical=true
+kwin_qpa_plugin.debug=true</code></pre>
+
+      </div>
+    </main>
+  </body>
+</html>

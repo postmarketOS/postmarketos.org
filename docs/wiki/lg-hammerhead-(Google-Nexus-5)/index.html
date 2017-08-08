@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/lg-hammerhead-(Google-Nexus-5)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>lg hammerhead (Google Nexus 5)</h1>
+<h3>Contributors</h3>
+<ul>
+<li>MartijnBraam</li>
+<li>dzervas</li>
+<li>lawl</li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Compiling the LineageOS kernel</li>
+<li>SSH</li>
+<li>Booting</li>
+<li>Flash light</li>
+<li>Battery</li>
+<li>Weston + Touchscreen (with <a href="https://github.com/postmarketOS/pmbootstrap/pull/66">ugly hacks</a> and the <a href="https://github.com/postmarketOS/pmbootstrap/issues/54">red screen bug</a>)</li>
+</ul>
+<pre class="codehilite"><code class="language-bash">fastboot boot /mnt/rootfs_lg-hammerhead/boot/vmlinuz-lg-hammerhead /mnt/rootfs_lg-hammerhead/boot/initramfs-lg-hammerhead</code></pre>
+
+
+<h3>What does not work</h3>
+<ul>
+<li>Proprietary video driver (<a href="https://github.com/postmarketOS/pmbootstrap/issues/29">#29</a>)</li>
+<li>Flashing the compiled LineageOS kernel via pmbootstrap (<a href="https://github.com/postmarketOS/pmbootstrap/issues/35">#35</a>)</li>
+<li>WiFi (firmware needed)</li>
+<li>Front led</li>
+</ul>
+<pre class="codehilite"><code>[00:33:38] (native) flash kernel 'lg-hammerhead'
+creating boot image...
+creating boot image - 3600384 bytes
+sending 'SHLVL=1' (3516 KB)...
+OKAY [  0.331s]
+writing 'SHLVL=1'...
+FAILED (remote: partition table doesn't exist)
+finished. total time: 0.511s
+[00:33:38] ERROR: Command failed: (native) % fastboot --base 0 --kernel-offset 0x00008000 --ramdisk-offset 0x02900000 --tags-offset 0x02700000 --page-size 2048 flash:raw /mnt/rootfs_lg-hammerhead/boot/vmlinuz-lg-hammerhead /mnt/rootfs_lg-hammerhead/boot/initramfs-lg-hammerhead</code></pre>
+
+
+<p>Workaround (on host, not inside chroot):</p>
+<pre class="codehilite"><code>mkbootimg --base 0 --pagesize 2048 --kernel_offset 0x00008000 --ramdisk_offset 0x2900000 --second_offset 0x00f00000 --tags_offset 0x02700000 --cmdline 'console=ttyHSL0,115200,n8 androidboot.hardware=hammerhead user_debug=31 maxcpus=2 msm_watchdog_v2.enable=1' --kernel ~/.local/var/pmbootstrap/chroot_native/mnt/rootfs_lg-hammerhead/boot/vmlinuz-lg-hammerhead --ramdisk ~/.local/var/pmbootstrap/chroot_native/mnt/rootfs_lg-hammerhead/boot/initramfs-lg-hammerhead -o pmos.img
+fastboot boot pmos.img</code></pre>
+
+
+<p>There is also a bug and the screen is not updated. Workaround: login using ssh and run the following command:</p>
+<pre class="codehilite"><code>ssh user@172.16.42.1
+sudo su
+while [ ! ]; do cat /sys/class/graphics/fb0/modes &gt; /sys/class/graphics/fb0/mode; done</code></pre>
+
+
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/linux-lg-hammerhead">Kernel package</a></li>
+<li>
+<p><a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/device-lg-hammerhead">Device package</a></p>
+</li>
+<li>
+<p><a href="https://gist.github.com/MartijnBraam/57ec370985af341ceb17521183695a3d">dmesg from mainline linux with the missing block devices</a></p>
+</li>
+</ul>
+<h2>Photos</h2>
+<ul>
+<li><a href="https://user-images.githubusercontent.com/6033024/26851053-3f5512fe-4af9-11e7-93da-cf9dd94b6b75.jpg">Weston running (with the red screen bug)</a></li>
+<li><a href="https://www.reddit.com/r/postmarketOS/comments/6fovjp/postmarketos_running_on_the_the_nexus_5/">/r/postmarketOS post</a></li>
+</ul>
+<h2>Component support table</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Module</th>
+<th>LineageOS Kernel</th>
+<th>Mainline kernel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Storage</td>
+<td>sdhci</td>
+<td>Working</td>
+<td>Working</td>
+</tr>
+<tr>
+<td>WiFi</td>
+<td>bcmdhd</td>
+<td>Missing firmware</td>
+<td>No</td>
+</tr>
+<tr>
+<td>USB Networking</td>
+<td></td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>2D Video</td>
+<td>mdss_fb</td>
+<td>Screen not refreshing automatically</td>
+<td>No</td>
+</tr>
+<tr>
+<td>3D Video</td>
+<td></td>
+<td>Not in kernel</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Debug serial</td>
+<td></td>
+<td>Yes, /dev/ttyHSL0</td>
+<td>Yes, /dev/ttyMSM0</td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Using-prebuilt-kernels/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Using prebuilt kernels</h1>
+<p>Some vendors do not release the kernel source code, which is very bad for freedom and goes against the Linux kernel license (see <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Troubleshooting#my-device-runs-the-linux-kernel-eg-android-but-the-vendor-does-not-provide-the-source">My device runs the Linux kernel (e.g. Android), but the vendor does not provide the source</a> in the Troubleshooting page.</p>
+<p>But you can still extract the kernel image from a device that is running Android and use it to run postmarketOS. Of course this is <em>totally discouraged</em> because we want to make sure that we know the code our devices are running but you might find it useful in order to start hacking on postmarketOS without having the kernel source code.</p>
+<h2>Extracting boot.img from an Android device</h2>
+<p>You can extract the kernel that is running your Android device, it doesn't matter if it's the stock ROM, LineageOS or any custom ROM. For this approach you need the <code>adb</code> tool and root permissions.</p>
+<p>NOTE: in this example the boot partition is named msm_sdcc.1 but it might have a different name in your device</p>
+<pre class="codehilite"><code class="language-bash"># Connect to your Android device
+adb shell
+
+# Find the partition name
+ls -l /dev/block/platform/
+ls -l /dev/block/platform/msm_sdcc.1/by-name
+
+# From there we know that the boot partition is /dev/block/mmcblk0p14
+# Now we just dump the partition to a file (we need to root permissions)
+su
+cat /dev/block/mmcblk0p14 &gt; /sdcard/boot.img
+chmod 0666 /sdcard/boot.img
+
+# Exit from adb and copy boot.img to your computer
+adb pull /sdcard/boot.img .</code></pre>
+
+
+<h2>Running postmarketOS with a pre-built kernel</h2>
+<p>You can use <code>unpackbootimg</code> (usage is described in [[here|How to find device specific information]]) to extract the kernel from your recently extracted boot.img or from a LineageOS release and run it together with postmarketOS initramfs.</p>
+<p>If you extracted the kernel from you Stock ROM, it might not have encryption support enabled and in this case you would not be able to boot from an encrypted partition which is how postmarketOS works by default. To disable encryption in postmarketOS use <code>pmbootstrap install --no-fde</code>. You might need other modules as well for pmOS to work properly.</p>
+<pre class="codehilite"><code class="language-bash"># fastboot boot &lt;kernel&gt; [ &lt;ramdisk&gt; ]
+fastboot boot \
+uncompressed_boot/boot.img-zImage \
+~/.local/var/pmboostrap/chroot_rootfs-XXX-XXXX/boot/initramfs-lg-hammerhead</code></pre>
+
+
+<h3>Useful links</h3>
+<ul>
+<li>https://github.com/lygstate/lygstate.github.com/blob/master/_posts/2014-03-10-Extract-boot.img-from-an-android-device.md</li>
+<li>http://android-dls.com/wiki/index.php?title=HOWTO:_Unpack%2C_Edit%2C_and_Re-Pack_Boot_Images</li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

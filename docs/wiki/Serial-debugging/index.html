@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Serial-debugging/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Serial debugging</h1>
+<p>Some phones have a serial port accessible from the outside, this makes debugging boot problems way easier since you can see the boot messages from the bootloader and the early kernel stuff. For example the whole nexus range has serial debugging through the headphone jack.</p>
+<h2>Nexus debug cable</h2>
+<p>The nexus phones multiplexed the serial debug lines with the headphone audio lines. To switch it into serial mode you have to supply -3V to the mic port. The uart lines themselves are 1.8V. If you use a 3.3V usb-to-uart adapter the signal from the phone will probably work, for the TX side you have to add a resistor divider to lover the voltage for the phone. Here's the schematic for a nexus debug cable:</p>
+<p><img alt="" src="http://i.imgur.com/cAjWu2a.png" /></p>
+<p>This cable has been tested with:</p>
+<ul>
+<li>Nexus 5 hammerhead</li>
+</ul>
+<p>It should work fine with:</p>
+<ul>
+<li>Nexus 7 flo</li>
+</ul>
+<p>The Nexus 7 grouper might also work but that one has another pinout for the headset connection, it has the sleeve as mic and ring 2 as ground (This is the difference between the OMTP and the CTIA pinout). It might work with the sleeve and ring 2 reversed but <strong>this has not been tested by us, so do it under your own responsibility</strong>.</p>
+<h2>Nexus USB debug cable</h2>
+<p>The nexus S and galaxy nexus have the serial port multiplexed with the USB connector instead of the headphone connector. This is the schematic for those devices, For this cable too it's important to have a 3.3V usb-to-uart adapter.</p>
+<p><img alt="" src="http://i.imgur.com/jE3iFeO.png" /></p>
+<p>It should work with:</p>
+<ul>
+<li>Nexus S</li>
+<li>Galaxy Nexus</li>
+</ul>
+<h2>Mozilla Flame</h2>
+<p>The Flame has open UART pads that are accessible underneath the outer and inner covers.</p>
+<ul>
+<li><strong>TX</strong> - red</li>
+<li><strong>GND</strong> - green</li>
+</ul>
+<p>Pull-ups/downs are unneccesary, hook straight up to any FTDI/USB-to-serial.</p>
+<p><img alt="" src="https://gist.githubusercontent.com/yuvadm/238db856f1a81a572b0cd2a02a51ae8a/raw/69b1a7f6d7217ef618cf43c728fe10920f496cdf/01-pcb.jpg" /></p>
+
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Boot-process/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Boot process</h1>
+<p>Have you already flashed your device with pmOS? Now it's time to run it.</p>
+<p>Power on your device and connect it to your USB port. pmOS uses the USB interface as a network interface and runs a DHCP server on it and <code>dmesg</code> will show something like</p>
+<pre class="codehilite"><code>[ 6284.442088] usb 1-1: new high-speed USB device number 36 using xhci_hcd
+[ 6284.627106] usb 1-1: New USB device found, idVendor=18d1, idProduct=d001
+[ 6284.627123] usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[ 6284.627134] usb 1-1: Product: Android
+[ 6284.627143] usb 1-1: Manufacturer: Android
+[ 6284.627151] usb 1-1: SerialNumber: 0123456789ABCDEF
+[ 6284.632322] rndis_host 1-1:1.0 usb0: register 'rndis_host' at usb-0000:00:14.0-1, RNDIS device, b2:c4:1e:03:64:b9
+[ 6285.239048] rndis_host 1-1:1.0 enp0s20f0u1: renamed from usb0
+[ 6285.287058] IPv6: ADDRCONF(NETDEV_UP): enp0s20f0u1: link is not ready</code></pre>
+
+
+<p>And you'll have a new interface with IP in the range 172.16.42.0/24</p>
+<pre class="codehilite"><code>$ ifconfig enp0s20f0u1
+enp0s20f0u1 Link encap:Ethernet  HWaddr b2:c4:1e:03:64:b9  
+          inet addr:172.16.42.107  Bcast:172.16.42.255  Mask:255.255.255.0
+          inet6 addr: fe80::dbd2:4531:89f2:d2/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:12 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:47 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:1226 (1.2 KB)  TX bytes:8375 (8.3 KB)</code></pre>
+
+
+<p>It the interface doesn't automatically get an IP address on your system (for example on systems without NetworkManager) you need to start a dhcp client to get one.</p>
+<pre class="codehilite"><code class="language-bash"># Replace the interface name with the one on your machine
+$ dhclient -v enp0s20f0u1</code></pre>
+
+
+<p>If this fails, you may need to first assign an ethernet address to it:</p>
+<pre class="codehilite"><code># ip l set enp0s20f0u1 address 12:12:12:12:12:12</code></pre>
+
+
+<p>Then you can try the above dhclient command.</p>
+<p>At this point, your device will show a logo and will be waiting for you to connect using telnet and enter the password to decrypt the filesystem (Make sure the last segment of the IP address is a "1" and not what is shown in the output of <code>ifconfig</code>!).</p>
+<pre class="codehilite"><code>telnet 172.16.42.1
+Trying 172.16.42.1...
+Connected to 172.16.42.1.
+Escape character is '^]'.
+
+Enter passphrase for /dev/mapper/mmcblk0p25p2: 
+Connection closed by foreign host.</code></pre>
+
+
+<p>After entering the password, you'll get disconnected and the graphic interface will show up in your device.</p>
+<p>Congratulations, you are now running postmarketOS!</p>
+<p>From now on you can also login to your device using <code>ssh</code> and the password you set during the install phase</p>
+<pre class="codehilite"><code>$ ssh user@172.16.42.1
+user@172.16.42.1's password: 
+Welcome to postmarketOS!
+
+This distribution is based on Alpine Linux.
+Read both our wikis to find a large amount of how-to guides and
+general information about administrating and development.
+See &lt;https://postmarketos.org/wiki&gt; and &lt;https://wiki.alpinelinux.org&gt;.
+
+You may change this message by editing /etc/motd.
+
+localhost:~$</code></pre>
+
+
+<p>Use <code>sudo</code> to run commands as <code>root</code>, it is configured.</p>
+
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Creating-a-package/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Creating a package</h1>
+<p>Here is a practical approach on how to port packages from other Linux distributions to pmOS (because that is usually the fastest way). Feel free to extend this information, and to add other distributions.</p>
+<h3>General information</h3>
+<ul>
+<li>Please read <a href="https://wiki.alpinelinux.org/wiki/Creating_an_Alpine_package#APKBUILD_variables.2Ffunctions">this section</a> from our upstream friends wiki (<em>which we should also extend and improve</em>)</li>
+<li>Please always package the latest version of a software (unless it is impossible because of software that depends on it, but try to avoid that!)</li>
+<li>Please do not copy maintainers/contributors from the other packages to your new ports (so they won't get annoyed by questions for pmOS/Alpine packages!). Instead please credit them in the commit messages (maybe with a link to the original build recipe)</li>
+<li>Alpine Linux uses <code>musl</code> as libc, not <code>glibc</code>. Never add <code>glibc</code> as dependency.</li>
+<li>Alpine uses busybox' <code>sh</code> for building packages. Do not use bash specific features.</li>
+<li>Manpages and other documentation goes into an extra -doc package in Alpine, and abuild will complain if the main package contains them. The solution is to add this: <code>subpackages="$pkgname-doc"</code> (<a href="https://wiki.alpinelinux.org/wiki/APKBUILD_Reference#doc.28.29">more info</a>)</li>
+<li>You can look up the exact meaning of every variable and function in the <a href="https://wiki.alpinelinux.org/wiki/APKBUILD_Reference">APKBUILD Reference</a></li>
+<li>Set up the git hook from the [[development guide]] article to automatically verify checksums in your APKBUILDs and therefore making your life easier</li>
+</ul>
+<h3>Porting packages from Arch Linux</h3>
+<h4>Find the package</h4>
+<p><a href="https://www.archlinux.org/packages/">Search here</a>, click the package name, click on "Source Files" on the top right. A git repo with the <code>PKGBUILD</code> and all other files (such as patches appears).</p>
+<h4>Differences between APKBUILDs and PKGBUILDs</h4>
+<ul>
+<li><code>APKBUILD</code>s do not have the arrays from bash, use flat strings instead</li>
+<li>There's no <code>optdepends</code></li>
+<li><code>-doc</code> subpackages (see above)</li>
+<li><code>APKBUILD</code> has different options (!makeflags won't work, but it has !strip and !check)</li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

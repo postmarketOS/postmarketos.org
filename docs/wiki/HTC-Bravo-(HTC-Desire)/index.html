@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/HTC-Bravo-(HTC-Desire)/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>HTC Bravo (HTC Desire)</h1>
+<h3>Contributors</h3>
+<ul>
+<li>drebrez</li>
+</ul>
+<h3>What works</h3>
+<ul>
+<li>Compiling the kernel</li>
+<li>Booting (see below)</li>
+<li>Framebuffer works (see photos below)</li>
+<li>Network through USB</li>
+<li>SSH</li>
+<li>Touchscreen</li>
+<li>Weston with demo menu</li>
+</ul>
+<h3>What does not work</h3>
+<ul>
+<li>Flashing (requires smaller boot.img <a href="https://github.com/postmarketOS/pmbootstrap/issues/126">#126</a>)</li>
+<li>Wifi (requires firmware)</li>
+<li>Unknown, but probably everything else</li>
+</ul>
+<h3>Device partitions</h3>
+<pre class="codehilite"><code>dev:  size      erasesize  name
+mtd0: 000a0000  00020000   &quot;misc&quot;
+mtd1: 00480000  00020000   &quot;recovery&quot;
+mtd2: 00300000  00020000   &quot;boot&quot;
+mtd3: 0fa00000  00020000   &quot;system&quot;
+mtd4: 02800000  00020000   &quot;cache&quot;
+mtd5: 093a0000  00020000   &quot;userdata&quot;</code></pre>
+
+
+<h3>Booting</h3>
+<ul>
+<li>Build everything <code>pmbootstrap install</code></li>
+<li>Boot using <code>pmbootstrap flasher boot</code></li>
+</ul>
+<h3>Links</h3>
+<ul>
+<li><a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/device-htc-bravo">Device package</a></li>
+<li><a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/linux-htc-bravo">Kernel package</a></li>
+<li><a href="https://github.com/spezi77/android_kernel_htc_qsd8k_3.0/tree/n-7.1">spezi77's Kernel</a></li>
+</ul>
+<h3>Photos</h3>
+<ul>
+<li><a href="http://imgur.com/a/8ODj5">Initramfs asking for the password via telnet</a></li>
+<li><a href="http://imgur.com/a/1OgGZ">PostmarketOS demo menu (XWayland)</a></li>
+</ul>
+
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Partition-layout/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Partition layout</h1>
+<h3>General partition layout (installation image)</h3>
+<pre class="codehilite"><code class="language-shell">/dev/installp1 # pmOS boot (contains kernel, initramfs, initramfs-extra)
+/dev/installp2 # pmOS root (encrypted, unless --no-fde is specified)</code></pre>
+
+
+<h3>SD card</h3>
+<p>This is the least awkward layout - both partitions from above get directly created on the SD card. If your device has a sdcard slot, it is recommended to use it. Because then you don't wear down the internal flash storage of the device and don't need to worry about the phone's internal storage partition layout.</p>
+<p>Usage:</p>
+<pre class="codehilite"><code class="language-shell">$ ./pmbootstrap.py install --sdcard /dev/mmcblkX</code></pre>
+
+
+<h3>Android internal storage</h3>
+<p>We don't want to modify the partition layout on the internal storage of Android systems. Because this seems somewhat risky, and then users couldn't simply install another ROM such as LineageOS anymore. So we came up with the following:</p>
+<p>The Android internal storage is already partitioned - the layout seems to be different for every device, as well as the numbers they have assigned. But most notably the devices have the following partitions:</p>
+<pre class="codehilite"><code>boot
+system
+userdata</code></pre>
+
+
+<p>We usually flash a <code>boot.img</code> file (which is the kernel + initramfs) to Android's <code>boot</code> partition (see also: [[deviceinfo_flash_methods]]) - because that is what works and what all other ROMs do.</p>
+<p>Now the interesting part is the system partition, where we flash our installation image. But the installation image already has a partition layout and own partitions! So you will have <em>subpartitions</em>. In the end, it will look like this:</p>
+<pre class="codehilite"><code class="language-shell">systemp1 # pmOS boot partition, only initramfs-extra gets used from there
+systemp2 # pmOS (un)encrypted root filesystem</code></pre>
+
+
+<p>The initramfs (in the <code>boot.img</code> file!) will automatically find and mound the pmOS boot and root partition, load the <code>initramfs-extra</code> (which contains additional files, it was split to save space) and take care of booting through until OpenRC takes over.</p>
+<p>The <code>userdata</code> partition is not used yet (proposal to do that is in <a href="https://github.com/postmarketOS/pmbootstrap/issues/60">#60</a>). But as we are pretty flexible, you can also flash pmOS to the <code>userdata</code> partition, if it has more space and you can't fit it on the <code>system</code> partition. The initramfs will detect it anyway. Just make sure, that you don't have it flashed to <em>both</em> partitions!
+To flash to the <code>userdata</code> partition instead of the <code>system</code> partition, you currently need to change the config <a href="https://github.com/postmarketOS/pmbootstrap/blob/6a129669a389446bdbbb2bf6e8576043bc80bf29/pmb/config/__init__.py#L250">here</a>.</p>
+<h3>Future ideas</h3>
+<p>There might be scenarios, in which the partition type of the <code>system</code> partition can not be changed through the flasher, because it only allows <a href="https://en.wikipedia.org/wiki/YAFFS2">yaffs2</a> or simg with ext4 support (during research for the mozilla flame, we found that to be the case - however, it also has an SD slot, so we did not continue this way).</p>
+<p>A proposal we have for that case, is to have one big ext4/yaffs partition, and include the whole system image file inside that. Then we would adjust the initramfs code to find the boot and root partitions inside that, and teach it how to resize the whole thing to the maximum partition size. We already did some experiments, and so far everything worked (talk to drebrez or ollieparanoid).</p>
+
+      </div>
+    </main>
+  </body>
+</html>

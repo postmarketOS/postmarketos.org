@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Troubleshooting:kernel/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Troubleshooting:kernel</h1>
+<p>While <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Porting-to-a-new-device">porting pmOS to a new device</a> you probably will find common pitfalls that others have already solved. Here is a set of them:</p>
+<p>Patching a kernel is as simple as putting a <code>.patch</code> file in your <code>aports/device/linux-vendor-flavor</code> folder and adding the patch name to the <code>source</code> variable in your <code>APKBUILD</code> file.</p>
+<h4>Common configurations</h4>
+<p>First of all, make sure the following options are configured as you'll probably need them</p>
+<pre class="codehilite"><code>CONFIG_DEVTMPFS=y
+CONFIG_VT=y
+CONFIG_DM_CRYPT=y</code></pre>
+
+
+<p>Note: <code>CONFIG_DEVTMPFS_MOUNT</code> is <strong>not</strong> needed but it doesn't hurt.</p>
+<p>Also, we are compiling kernels using gcc6, which probably didn't exist when your manufacturers released the kernel sources for your device. You need the file <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/linux-lg-hammerhead/compiler-gcc6.h">compiler-gcc6.h</a>. In your APKBUILD <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/linux-motorola-titan/APKBUILD#L37">add it to source</a> and <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/linux-motorola-titan/APKBUILD#L75-L76">copy it to the right location</a>.</p>
+<h4>undefined reference to kgsl_iommu_sync_lock</h4>
+<pre class="codehilite"><code>drivers/built-in.o:(.data.rel+0x68c): undefined reference to kgsl_iommu_sync_lock'
+drivers/built-in.o:(.data.rel+0x690): undefined reference to kgsl_iommu_sync_unlock'</code></pre>
+
+
+<p>You need to apply the <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/aports/linux-lg-mako/gpu-msm-fix-gcc5-compile.patch">gpu-msm-fix-gcc5-compile.patch</a> patch.</p>
+<h4>How can I boot the kernel with some specific arguments?</h4>
+<p>You can configure <code>CONFIG_CMDLINE</code> so that the arguments are permanent or change it in boot time using fastboot or pmbootstrap, for example:</p>
+<pre class="codehilite"><code>fastboot boot -c &quot;console=ttyHSL0,115200,n8&quot; ...
+
+pmbootstrap flasher boot --cmdline &quot;PMOS_NO_OUTPUT_REDIRECT&quot;</code></pre>
+
+
+<h4>MSM framebuffer doesn't work</h4>
+<p>We found out that removing the 3D driver support makes the MSM framebuffer. See <a href="https://github.com/postmarketOS/pmbootstrap/pull/66">#66</a>.</p>
+<pre class="codehilite"><code>CONFIG_MSM_KGSL=n</code></pre>
+
+
+<h4>PTY allocation request failed</h4>
+<pre class="codehilite"><code>PTY allocation request failed on channel 0
+-ash: a: unknown operand</code></pre>
+
+
+<p>Go to <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Troubleshooting%3Akernel#common-configurations">Common configurations</a>, you have probably missed <code>CONFIG_DEVTMPFS</code>!</p>
+<h4>Kernel compilation: (some header file): No such file or directory</h4>
+<p>Busybox' <code>zip</code> implementation does not extract symlinks. There are two workarounds. One is to use another archive type (typically kernel sources are downloaded from GitHub, where you can also get the source as <code>.tar.gz</code> - simply by changing the extension in the URL).</p>
+<p>The other workaround is to add <code>unzip</code> to the makedepends, so it uses the original unzip instead of the busybox version.</p>
+<h4>Kernel compilation: BusyBox lzma compression fails</h4>
+<p>In case you get the following output:</p>
+<pre class="codehilite"><code>LZMA    arch/arm/boot/compressed/piggy.lzma
+lzma: unrecognized option: 9
+BusyBox v1.26.2 (2017-06-11 06:37:13 GMT) multi-call binary.
+
+Usage: lzma -d [-cf] [FILE]...
+
+Decompress FILE (or stdin)
+
+        -d      Decompress
+        -c      Write to stdout
+        -f      Force</code></pre>
+
+
+<p>In the BusyBox version shipped with Alpine Linux, only lower compression levels are enabled (to reduce the binary size). The kernel you're building is configured to compress with LZMA at the highest compression level. Pick one 
+of the following solutions:
+<em> Add <code>xz</code> to the <code>makedepends=</code> line. Then the "real" lzma binary will be used instead of the Busybox version. This is <strong>recommended</strong>, because then your kernel will get built most similar to how it is built elsewhere, so you have the 
+lowest risk of introducing a reason for the kernel not to boot (because the kernel is too big in size or something like that)
+</em> Reduce the compression ratio by adding <a href="https://github.com/postmarketOS/pmbootstrap/blob/b4c9f93f0d7be1272f6a67de2128558ce58e1077/aports/linux-samsung-i9070/02_reduce_lzo_compression.patch">this patch</a>. This will not introduce any dependency, but increase the kernel size.
+* Use another compression algorithm (run <code>pmbootstrap menuconfig linux-...</code> and change it there). Gzip should work, but will produce a big kernel, because pmbootstrap currently installs a workaround to always use the fastest compression method (<code>-1</code>), when the most compressing one (<code>-9</code>) is chosen. This will increase the kernel size the most.</p>
+<h4>Android Kernel compilation fails on warnings (not on errors) (-Werror)</h4>
+<p>Don't even bother fixing all those warnings, there are too many of them and we don't want the outdated Android kernels in the long run anyway! Write a patch, that removes <code>-Werror</code> from all <code>Makefiles</code> recursively instead <em>(please expand on how to do that step by step, ask in the channel if you need help)</em>.</p>
+<p>See <a href="https://github.com/postmarketOS/pmbootstrap/blob/0ae6a150e8ea2de77ebc7fc423f1159bdad5f7dc/aports/linux-motorola-titan/Wno-error.patch">this patch</a> as example.</p>
+<h4>Building the kernel with Android's build system</h4>
+<p>It might be useful for debugging to build Android's kernel with Android's build system.</p>
+<p>You can follow the LineageOS building guide for your device (see <a href="https://wiki.lineageos.org/devices/titan/build">this</a> for titan device as example).</p>
+<p>The process should be similar for other devices:</p>
+<pre class="codehilite"><code class="language-bash"># make some directories
+mkdir -p ~/bin
+mkdir -p ~/android/lineage
+
+# download the 'repo' tool
+curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo
+chmod a+x ~/bin/repo
+
+# clone LineageOS
+cd ~/android/lineage
+~/bin/repo init -u https://github.com/LineageOS/android.git -b cm-14.1
+
+# Download the rest of dependencies (this will take a while and about *TODO* GB of disk space)
+~/bin/repo sync
+
+# now prepare the build for your device (replace 'titan' with the device you want to for the kernel for)
+source build/envsetup.sh
+breakfast titan
+
+# Now instead of following the rest of the guide (which will compile both Android and the kernel
+#  for your device), simply compile the kernel:
+mka kernel
+
+# This command will also generate the device tree, initramfs and boot.img images
+mka bootimage</code></pre>
+
+
+<p>You can check the <code>$OUT</code> environment variable and cd into it. In the case of titan the interesting generated files are:</p>
+<ul>
+<li><code>~/android/lineage/out/target/product/titan/boot.img</code> (boot image ready to be flashed: kernel + initramfs)</li>
+<li><code>~/android/lineage/out/target/product/titan/dt.img</code> (device trees)</li>
+<li><code>~/android/lineage/out/target/product/titan/kernel</code> (linux image)</li>
+<li><code>~/android/lineage/out/target/product/titan/ramdisk.img</code> (compressed initramfs)</li>
+</ul>
+<p>The defconfig used is available at <code>~/android/lineage/kernel/motorola/msm8226/arch/arm/configs/titan_defconfig</code></p>
+
+      </div>
+    </main>
+  </body>
+</html>

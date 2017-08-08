@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Migration-to-aports-subfolders/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Migration to aports subfolders</h1>
+<p>In <a href="https://github.com/postmarketOS/pmbootstrap/issues/194">#194</a> we decided to split up the <code>aports</code> folder (the one that holds all package build recipes) into subfolders. Here are the instructions to migrate your locally checked out code, on which you possibly have worked on already. As always, you can ask in <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Matrix-and-IRC">the channel</a> or create an issue in the tracker, if you need any help.</p>
+<p>Please extend these instructions, if you need additinal steps to migrate your <code>aports</code> folder or something is unclear!</p>
+<p>Instructions:
+<em> Make a backup of your pmbootstrap folder, just to be sure
+</em> Run <code>git pull</code> to get the latest source
+* move the aports, that you have created in the appropriate folders
+  * <code>cross</code>: everything cross-compiler related
+  * <code>device</code>: device specific packages and kernels
+  * <code>kde</code>: everything plasma-mobile related
+  * <code>main</code>: the rest
+  * <code>unmaintained</code>: packages, that we don't really need anymore, but we don't want to remove them yet</p>
+<p>In case you need it, here is a migration script. It will convert the old folder structure to the new one.</p>
+<pre class="codehilite"><code class="language-shell">#!/bin/sh -e
+if [ ! -d &quot;aports&quot; ]; then
+    echo &quot;Please execute this script in your pmbootstrap folder.&quot;
+    exit 1
+fi
+
+for i in cross device kde main unmaintained; do
+    mkdir -p aports_new/&quot;$i&quot;
+done
+
+cd aports
+mv *-armhf *-aarch64 qemu-user-static-repack ../aports_new/cross
+mv device-* linux-* ../aports_new/device
+mv acpid ../aports_new/unmaintained
+mv * ../aports_new/main
+
+cd ..
+rm -d aports
+mv aports_new aports</code></pre>
+
+
+<p>And here is a revert script, that converts the new folder structure into the old one (usually you should <em>not</em> need this!):</p>
+<pre class="codehilite"><code class="language-shell">#!/bin/sh -e
+if [ ! -d &quot;aports&quot; ]; then
+    echo &quot;Please execute this script in your pmbootstrap folder.&quot;
+    exit 1
+fi
+
+mkdir aports_new
+mv aports/*/* aports_new/
+rm -r aports
+mv aports_new aports</code></pre>
+
+      </div>
+    </main>
+  </body>
+</html>

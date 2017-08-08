@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>postmarketOS</title>
+
+    <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
+    <meta name="keywords" content="postmarketOS">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all">
+
+    <link rel="canonical" href="https://postmarketos.org/wiki/Build-internals/">
+
+    <link href="/static/css/tachyons.min.css" rel="stylesheet">
+    <link href="/static/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <main class="mw8 center">
+      <div class="cf ph2-ns">
+        <header>
+          <a class="title" href="/">
+            <h1 class="f2 lh-title branding">
+              <img src="/static/img/recycle.png">
+              <span>postmarketOS</span>
+            </h1>
+          </a>
+          <div class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/wiki/">Wiki</a></li>
+            <li><a href="/blog/">Blog</a></li>
+          </ul>
+          </div>
+        </header>
+        
+<h1>Build internals</h1>
+<p>To build a package with <code>pmbootstrap</code>, you will only need the command <code>pmbootstrap build hello-world</code>. Optionally with <code>--force</code> to build even if the package was already built, and with <code>--arch=armhf</code> to build for another architecture, replace <code>armhf</code> accordingly. This wiki page lists some more information about what is going on in the background.</p>
+<h3>initramfs</h3>
+<p>The <a href="https://en.wikipedia.org/wiki/Initramfs">initramfs</a> shows the boot splash images, and allows the root partition to be unlocked (currently via telnet). You can add a hook to inspect the initramfs running on the device, as described in [[Inspecting the initramfs]].</p>
+<p>To rebuild the initramfs, run <code>mkinitfs</code> inside the chroot with the right parameters (or - much easier - <code>pmbootstrap initfs build</code>). This gets done automatically, whenever a new kernel gets installed, or when the <code>postmarketos-mkinitfs</code> package gets installed the first time.</p>
+<h3>pmbootstrap vs. abuild</h3>
+<p><code>pmbootstrap</code> wraps around <code>abuild</code> (Alpine's official program to build [[apks|Glossary#apk]]), but it does a few things different than <code>abuild</code> (which internally often calls <code>apk</code>):
+<em> <code>pmbootstrap</code> can cross-compile out of the box, utilizing different chroots as needed (see below for details)
+</em> <code>pmbootstrap</code> does dependency parsing on its own (so it works across the <code>aports</code> folder <em>and</em> the binary repository, also with <a href="https://ollieparanoid.github.io/post/50-days-of-postmarketOS/#timestamp-based-rebuilds">timestamp based rebuilds</a> and can detect across chroots when a package is outdated and explicitly install them).
+<em> <code>pmbootstrap</code> does </em>not<em> honor operators in dependencies, such as: <code>&lt;</code>, <code>&gt;</code>, <code>=</code>, <code>!</code>. These simply get ignored (<code>!</code> packages don't count as dependencies). This may lead to errors, if it does please report them. However, since we're calling <code>apk</code> to install the packages, it does the real dependency checking and so far it's working well enough.
+</em> <code>pmbootstrap</code> parses <code>APKINDEX</code> and <code>APKBUILD</code> files on its own.
+<em> <code>APKINDEX</code> parsing is considered to be pretty good (because the format is dead simple!)
+</em> <code>APKBUILD</code> parsing would require a shell to be done perfectly (which would in turn kill performance). The way it is implemented right now, is that the variables we care about are hardcoded inside the <code>pbm/config/__config.py</code> or if not possible otherwise directly in <code>pmb/parse/apkbuild.py</code>. That is really fast and works for all packages we care about. If it breaks somewhere, it should be easy to patch.
+<em> <code>pmbootstrap</code> does not remove build dependencies after a build is done. This is for performance reasons - if you want a clean stat, run <code>pmbootstrap zap</code>.
+</em> <code>pmbootstrap</code> has a hack right now, that <code>gzip</code> always uses weak compression (also for speed)</p>
+<h3>Cross-compile types</h3>
+<p>There are two cross-compile types supported. <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/pmb/build/autodetect.py"><code>pmb.build.autodetect.crosscompile()</code></a> figures out, which one is the right one for each build.
+<em> <code>None</code>: The package does not have any binaries (<a href="https://wiki.alpinelinux.org/wiki/APKBUILD#arch"><code>noarch</code></a>), it ends in <code>-repack</code> (such as <a href="https://github.com/postmarketOS/pmbootstrap/tree/master/aports/qemu-user-static-repack">qemu-user-static-repack</a>) or the target architecture is the same as the "native" architecture (e.g. compiling <code>heimdall</code> for <code>x86_64</code> on an <code>x86_64</code> system).
+</em> <code>"native"</code>: the build system of the package understands cross-compiling, like all kernel packages. We can use the native chroot with the cross-compiler inside that chroot for maximum speed. 
+<em> <code>"distcc"</code>: the build system of the package does </em>not* understand cross-compiling, so we run the whole compiling process inside a chroot with the target architecture (with qemu user mode emulation, this is slow). We avoid using qemu emulation for the compiler though, because we use the cross-compiler inside the native chroot through distcc (which was originally meant to share compiling efforts across the network, but it works for this case. <a href="https://archlinuxarm.org/wiki/Distcc_Cross-Compiling">Arch Linux ARM also does this</a> and has a detailed description of how to set this up manually.)</p>
+<h3>Caches</h3>
+<p><code>pmbootstrap</code> uses various caches. They can all be found inside the <code>work</code> folder, and start with <code>cache_</code>. All cache folders get mounted to the appropriate chroots, depending on $ARCH. They are shared among the chroots, when it makes sense (e.g. <code>cache_distfiles</code>).
+<em> <code>cache_apk_$ARCH</code>: APK files from binary repositories (see also: <a href="https://wiki.alpinelinux.org/wiki/Local_APK_cache#To_manually_enable_Local_Cache_on_HDD_install">Local APK cache</a>)
+</em> <code>cache_ccache_$ARCH</code>: ccache: Whenever you compile something with <code>pmbootstrap</code>, the output gets cached in this folder (depending on the architecture). When you compile the same code for the second time, the cached output gets used, thus saving you a lot of time (think of re-compiling kernels, because you want to test another kernel config option etc.)
+<em> <code>cache_distfiles</code>: Whenever you build a package, <code>abuild</code> (which pmbootstrap wraps) will download the source files to the <code>distfiles</code> cache (and skip these downloads, when they already exist). The exact file name can be controlled inside the APKBUILD (<a href="https://wiki.alpinelinux.org/wiki/APKBUILD_Reference#source">more info</a>).
+</em> <code>cache_git</code>: <code>pmbootstrap</code> can download git repositories. This gets used in <code>pmbootstrap aportgen</code>, which copies a package (aka. aport) from Alpine Linux and customizes it (for example: <code>gcc-armhf</code>), so we inherit all patches and changes automatically, without much maintenance work. The git repos get stored inside this folder.
+* <code>cache_http</code>: This stores files, that get downloaded with <a href="https://github.com/postmarketOS/pmbootstrap/blob/master/pmb/helpers/http.py"><code>pmb.helpers.http.download()</code></a>, so they don't need to be downloaded again every time. Currently, this gets used for the initial download of Alpine Linux' main repositories <code>APKINDEX.tar.gz</code> and <a href="https://pkgs.alpinelinux.org/package/edge/main/armhf/apk-tools-static">apk-tools-static</a> (which is a static build of the <code>apk</code> package manager, used to set up the chroot).</p>
+
+      </div>
+    </main>
+  </body>
+</html>
