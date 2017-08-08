@@ -61,3 +61,7 @@ def troubleshooting():
 @app.route('/deviceinfo/')
 def deviceinfo():
     return render_template('redirect.html', url='https://github.com/postmarketOS/pmbootstrap/wiki/deviceinfo-reference')
+
+@app.route('/usbhook/')
+def usbhook():
+    return render_template('redirect.html', url='https://github.com/postmarketOS/pmbootstrap/wiki/Inspecting-the-initramfs/')
