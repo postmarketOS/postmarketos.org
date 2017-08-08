@@ -53,3 +53,11 @@ def wiki_page(slug):
         title = slug.replace('-', ' ')
         html = markdown.markdown(text, extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
         return render_template('wiki-page.html', title=title, html=html)
+
+@app.route('/troubleshooting/')
+def troubleshooting():
+    return render_template('redirect.html', url='https://github.com/postmarketOS/pmbootstrap/wiki/Troubleshooting')
+
+@app.route('/deviceinfo/')
+def deviceinfo():
+    return render_template('redirect.html', url='https://github.com/postmarketOS/pmbootstrap/wiki/deviceinfo-reference')
