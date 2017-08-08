@@ -43,6 +43,15 @@ Run the dev server during local development, changes are auto reloaded:
 (venv)$ FLASK_DEBUG=1 FLASK_APP=app.py flask run
 ```
 
+### CSS
+
+CSS is compiled via `lessc`:
+
+```bash
+$ npm install -g less
+$ lessc static/css/main.less static/css/main.css
+```
+
 ### Build
 
 To run a static site build, run:
