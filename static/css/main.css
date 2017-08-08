@@ -1,38 +1,112 @@
+body {
+  background: #eee;
+}
+a {
+  color: #0d8000;
+}
+a:hover {
+  color: #084d00;
+}
 a.title {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
-
 a.title h1 img {
-    height: 1.4em;
+  height: 1.4em;
 }
-
 a.title h1 span {
-    vertical-align: top;
+  vertical-align: top;
 }
-
+body,
+html {
+  height: 100%;
+}
+header::after {
+  display: block;
+  content: " ";
+  clear: both;
+}
+main {
+  background: white;
+  min-height: 100%;
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+}
+body.homepage main {
+  min-height: initial;
+  border-radius: 0 0 8px 8px;
+  margin-bottom: 32px;
+}
+body.homepage section {
+  margin-bottom: 32px;
+}
+body.homepage section .img-valign {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+body.homepage section .img-valign img {
+  vertical-align: middle;
+}
+body.homepage section.inverted {
+  color: white;
+  background: #333;
+  border-top: 4px solid #0d8000;
+  border-bottom: 4px solid #0d8000;
+}
+body.homepage section.img-text > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body.homepage section.img-text .img-valign {
+  flex: 1;
+  width: 33.3%;
+}
+body.homepage section.img-text .text {
+  flex: 2;
+  width: 66%;
+}
+body.homepage section.img-text img {
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+}
+body.homepage section.call-to-action {
+  text-align: center;
+}
+body.homepage section.call-to-action ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+body.homepage section.call-to-action ul li {
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+}
+body.homepage section::after {
+  display: block;
+  content: " ";
+  clear: both;
+}
+body.homepage section .text {
+  padding: 32px;
+}
 div.menu ul {
-    list-style: none;
-    padding-left: 7px;
+  float: right;
+  list-style: none;
+  padding-left: 7px;
 }
-
 div.menu ul li {
-    display: inline-block;
-    padding-right: 1.3em;
+  display: inline-block;
+  padding-right: 1.3em;
 }
-
 div.menu ul li a {
-    font-size: 1.2em;
-    color: #444;
-    text-decoration: none;
+  font-size: 1.2em;
+  color: #0d8000;
+  text-decoration: none;
 }
-
-img.banner {
-    margin-top: 8px;
+div.menu ul li a:hover {
+  color: #0a6700;
 }
-
-p.intro {
-    font-size: 1.3em;
-    line-height: 1.3em;
-    margin-top: 0px;
+h1.branding {
+  float: left;
 }
