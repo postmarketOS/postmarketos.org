@@ -1,45 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+{% extends 'base.html' %}
 
-  <title>{% block title %}postmarketOS{% endblock %}</title>
-
-  <meta name="description" content="Aiming for a 10 year life-cycle for smartphones">
-  <meta name="keywords" content="postmarketOS">
-
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="all">
-
-  <link rel="canonical" href="https://postmarketos.org{{ request.path }}">
-
-  <link href="{{ url_for('static', filename='css/tachyons.min.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
-</head>
-
-<body class="homepage">
-<main class="mw8 center">
-  <div class="cf ph2-ns">
-    <header>
-      <a class="title" href="{{ url_for('home') }}">
-        <h1 class="f2 lh-title branding">
-          <img src="{{ url_for('static', filename='img/recycle.png') }}">
-          <span>postmarketOS</span>
-        </h1>
-      </a>
-      <div class="menu">
-        <ul>
-          <li><a href="{{ url_for('home') }}">Home</a></li>
-          <li><a href="{{ url_for('wiki') }}">Wiki</a></li>
-          <li><a href="{{ url_for('blog') }}">Blog</a></li>
-        </ul>
-      </div>
-    </header>
-  </div>
-</main>
-
-<section class=" img-text">
+{% block body %}
+<section class="img-text">
   <div class="mw8 center">
     <div class="img-valign">
       <img src="{{ url_for('static', filename='img/banner.jpg') }}">
@@ -49,7 +11,6 @@
       <p>postmarketOS (<i>pmOS</i>), is a touch-optimized, pre-configured <a
               href="https://alpinelinux.org">Alpine Linux</a> that can be installed on smartphones and other mobile
         devices. The project is at very early stages of development and is not yet usable for most users.</p>
-
     </div>
   </div>
 </section>
@@ -69,7 +30,6 @@
         distribution instead of a "ROM" and use a package manager instead of a "store" you can just keep using your
         devices until they break.
       </p>
-
     </div>
     <div class="img-valign">
       <img src="{{ url_for('static', filename='img/phonepile.jpg') }}">
@@ -131,5 +91,4 @@
   </div>
 </section>
 
-</body>
-</html>
+{% endblock %}

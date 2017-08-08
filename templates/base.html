@@ -18,27 +18,13 @@
     <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
   </head>
 
-  <body>
+  <body class="homepage">
     <main class="mw8 center">
       <div class="cf ph2-ns">
-        <header>
-          <a class="title" href="{{ url_for('home') }}">
-            <h1 class="f2 lh-title branding">
-              <img src="{{ url_for('static', filename='img/recycle.png') }}">
-              <span>postmarketOS</span>
-            </h1>
-          </a>
-          <div class="menu">
-          <ul>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('wiki') }}">Wiki</a></li>
-            <li><a href="{{ url_for('blog') }}">Blog</a></li>
-          </ul>
-          </div>
-        </header>
-        {% block body %}
-        {% endblock %}
+        {% include 'header.html' %}
       </div>
     </main>
+    {% block body %}
+    {% endblock %}
   </body>
 </html>
