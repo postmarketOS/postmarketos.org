@@ -39,8 +39,16 @@ header {
 
 main {
   background: white;
-  min-height: 100%;
   box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+body:not(.homepage) {
+  section {
+    margin-top: 32px;
+    background: white;
+    padding: 15px;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
+  }
 }
 
 body.homepage {

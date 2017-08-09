@@ -17,8 +17,7 @@
     <link href="{{ url_for('static', filename='css/tachyons.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
   </head>
-
-  <body class="homepage">
+  <body{%- if request.path == "/" %} class="homepage"{% endif %}>
     <main class="mw8 center">
       <div class="cf ph2-ns">
         {% include 'header.html' %}
