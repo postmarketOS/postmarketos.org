@@ -4,7 +4,7 @@
 
 ### Python Requirements Setup
 
-Install all requirements, preferably within a virtualenv:
+Python 3.4+ is supported. Install all requirements, preferably within a virtualenv:
 
 ```bash
 $ python -m venv venv

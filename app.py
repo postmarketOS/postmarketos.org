@@ -25,8 +25,8 @@ def blog():
 
 @app.route('/blog/<y>/<m>/<d>/<slug>/')
 def blog_post(y, m, d, slug):
-    post_path = f'{y}-{m}-{d}-{slug}'
-    with open(f'{BLOG_CONTENT_DIR}/{post_path}.md', 'r') as f:
+    post_path = '-'.join([y, m, d, slug])
+    with open('{}/{}.md'.format(BLOG_CONTENT_DIR, post_path), 'r') as f:
         text = f.read()
         _, header, body = text.split('---')
         for h in header.split('\n'):
@@ -48,7 +48,7 @@ def wiki():
 
 @app.route('/wiki/<slug>/')
 def wiki_page(slug):
-    with open(f'{WIKI_CONTENT_DIR}/{slug}.md') as f:
+    with open('{}/{}.md'.format(WIKI_CONTENT_DIR, slug)) as f:
         text = f.read()
         title = slug.replace('-', ' ')
         html = markdown.markdown(text, extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
