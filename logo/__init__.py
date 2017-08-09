@@ -142,7 +142,7 @@ def create_rectangular(thickness=17, width=50, offset=17, space=5, pointedness=7
     result += '</g>'
 
     # Create rotated second side
-    result += '<g transform="translate({},{}) rotate(180) ">'.format(2 * thickness, 100)
+    result += '<g transform="translate({},{}) rotate(180) ">'.format(2 * thickness - 1, 100)
     result += _create_square_side(thickness, offset, space, pointedness, width, 0)
     result += '</g>'
 
