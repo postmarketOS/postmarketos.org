@@ -7,8 +7,8 @@
 Python 3.4+ is supported. Install all requirements, preferably within a virtualenv:
 
 ```bash
-$ python -m venv venv
-$ source venv/bin/activate
+$ python -m venv .venv
+$ source .venv/bin/activate
 (venv)$ pip install -r requirements.txt
 ```
 
