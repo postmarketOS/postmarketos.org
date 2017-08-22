@@ -7,7 +7,7 @@
         {% for post in posts %}
         <li>
             <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-            <div class="meta">written on {{ post.date }} by {{ post.author }} /{{ post.reading_time }} min</div>
+            <div class="meta">{{ post.date }} ({{ post.reading_time }} min)</div>
         </li>
         {% endfor %}
     </ul>
