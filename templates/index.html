@@ -20,15 +20,15 @@
     <div class="text">
       <h2>We develop a <em>sustainable</em> mobile OS</h2>
       <p>It is 2017. Pick an average PC from 2007 and install a minimal Linux based operating system. You will be able
-        to do basic computing tasks (eg. surfing the web, reading E-Mails, listening to music, chatting) just like on an
-        expensive modern PC. You will even get security updates, so your old computer is protected, just like as a new
-        one.
+        to do basic computing tasks (eg. surfing the web, reading e-mails, listening to music, chatting) just like on an
+        expensive modern PC. You will even get security updates, so your old computer is protected, just like a new one.
       </p>
       <p>
-        On the current mobile landscape you get none of this. Even if you buy a very expensive phone you will only get
-        two years of support if you're lucky. But if you treat your smartphone as a real Linux system and use a
-        distribution instead of a "ROM" and use a package manager instead of a "store" you can just keep using your
-        devices until they break.
+        On the current mobile landscape you get none of that. Even expensive phones only have few years of support. As time progresses,
+        your phone becomes slower and slower, and the newest features will not work on it anymore. But postmarketOS builds upon a real
+        Linux distribution, which has no reason to drop support for old devices at all and (assuming that you choose the right software)
+        keeps the resource usage at a constant minimum instead of increasing it with every release. There's no reason to restrict
+        features (such as full disk encryption) to newer devices either. We want to be able to use our devices until they break!
       </p>
     </div>
     <div class="img-valign">
@@ -45,13 +45,18 @@
     <div class="text fl w-two-thirds">
       <h2>Package and run anything you want</h2>
       <p>
-        With postmarketOS you will have the freedom to customize your Linux experience. There are multiple open options
-        available in the current Linux community like KDE Plasma Mobile, UBports, Enlightenment or you can just use a
-        plain shell.
+        postmarketOS is developed in the spirit of regular Linux distributions,
+        so there's no problem in having <a href="https://github.com/postmarketOS/pmbootstrap/issues/62">multiple phone interfaces</a>
+        (<a href="https://ubports.com">UBports</a>/featurephone with big numbers/plain shell...) and let the
+        user choose. A lot of work already went into getting <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Plasma-Mobile">
+		KDE plasma mobile</a> running,
+        it is getting closer every day!
       </p>
       <p>
-        postmarketOS will not impose arbitrary restrictions on you. Use the apps from any ecosystem you want! even run
-        desktop software if you want. If your favorite option is not available then help us improving postmarketOS.
+        Furthermore postmarketOS we will not impose arbitrary restrictions on you. Use the apps from any ecosystem you want (even desktop software).
+        With Alpine's simple package format, you do not need more than a bit of
+        Linux knowledge to <a href="https://github.com/postmarketOS/pmbootstrap/wiki/Creating-a-package">package your favorite programs</a>
+		(assuming that they run on Linux already).
       </p>
     </div>
   </div>
@@ -60,18 +65,36 @@
 <section class="inverted img-text">
   <div class="mw8 center">
     <div class="text">
-      <h2>Getting better security</h2>
+      <h2>We evaluate our options for security holes in firmware</h2>
       <p>
-        Current Android devices run on old Linux kernels. This is mainly because SoC vendors modify the current kernel
-        on introduction of the chipset with their own code. This code doesn't get mainlined and thus doesn't benefit from
-        security updates that are made by Linus's kernel team. Only on select devices you will get some backported security
-        patches.
+        Mobile phones have dedicated chips for the cellular modem and wifi
+        functionality. These only run with firmware files, which are little
+        proprietary operating systems, that run alongside of
+        your regular OS (such as Android or postmarketOS) and have
+        full access to the device's RAM, GPS and/or microphone in most cases.
       </p>
       <p>
-        postmarketOS aims to get as much devices as possible running on a mainline linux kernel. Which is the most we
-        can currently do to get more security on the devices. For a better overview of the security in the mobile world
-        see the <a href="https://ollieparanoid.github.io/post/security-warning/">security warning blog post</a>.
+        As with all proprietary software, we can not look at the source code to
+        look for (security) bugs and backdoors, and we can not update it when
+        such security bugs become public. We are at the mercy of the device
+        manufacturers to get updates, and they refuse to do so after the support
+        of the device runs out.
       </p>
+      <p>
+        Nowadays, practically every phone that is a few years old has such an
+        issue, and it could be used to turn it into a surveillance device - no
+        matter which OS or ROM you install. Exploits are available publicly, so
+        everyone with enough IT knowledge (or money to get IT experts) can turn
+        these older phones into surveillance devices.
+      </p>
+      <p>
+        We are well aware of the situation and
+		<a href="https://github.com/postmarketOS/pmbootstrap/wiki/Firmware">exploring our
+        options</a>. One a side note, we are also interested in using the
+        <a href="https://github.com/postmarketOS/pmbootstrap/wiki/The-mainline-kernel">mainline kernel</a>
+        (instead of some outdated Android fork), so we can at least have a safer userspace.
+      </p>
+
     </div>
     <div class="img-valign">
       <img src="{{ url_for('static', filename='img/backlit.jpg') }}">
