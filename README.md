@@ -12,15 +12,6 @@ $ source .venv/bin/activate
 (venv)$ pip install -r requirements.txt
 ```
 
-### Update Wiki Content
-
-Wiki content is pulled and updated automagically as a git submodule from the [pmbootstrap wiki](https://github.com/postmarketOS/pmbootstrap/wiki).
-
-```bash
-$ git submodule update --init --recursive
-$ git pull --recurse-submodules
-```
-
 ### New Blog Content
 
 Blog content is written in markdown format with metadata in the file header. Filename syntax is `yyyy-mm-dd-slug.md`.
