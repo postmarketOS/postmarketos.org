@@ -1,3 +1,0 @@
-[submodule "content/wiki"]
-	path = content/wiki
-	url = https://github.com/postmarketOS/pmbootstrap.wiki.git
