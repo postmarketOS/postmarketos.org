@@ -9,8 +9,9 @@
     <div class="text">
       <h2>A real Linux distribution on the phone</h2>
       <p>postmarketOS (<i>pmOS</i>), is a touch-optimized, pre-configured <a
-              href="https://alpinelinux.org">Alpine Linux</a> that can be installed on smartphones and other mobile
-        devices. The project is at very early stages of development and is not yet usable for most users.</p>
+              href="https://alpinelinux.org">Alpine Linux</a> that can be installed on
+        <a href="https://wiki.postmarketos.org/wiki/Supported_devices">smartphones and other mobile devics</a>.
+        The project is at very early stages of development and is <b>not usable for most users yet.</b></p>
     </div>
   </div>
 </section>
@@ -20,15 +21,15 @@
     <div class="text">
       <h2>We develop a <em>sustainable</em> mobile OS</h2>
       <p>It is 2017. Pick an average PC from 2007 and install a minimal Linux based operating system. You will be able
-        to do basic computing tasks (eg. surfing the web, reading E-Mails, listening to music, chatting) just like on an
-        expensive modern PC. You will even get security updates, so your old computer is protected, just like as a new
-        one.
+        to do basic computing tasks (eg. surfing the web, reading e-mails, listening to music, chatting) just like on an
+        expensive modern PC. You will even get security updates, so your old computer is protected, just like a new one.
       </p>
       <p>
-        On the current mobile landscape you get none of this. Even if you buy a very expensive phone you will only get
-        two years of support if you're lucky. But if you treat your smartphone as a real Linux system and use a
-        distribution instead of a "ROM" and use a package manager instead of a "store" you can just keep using your
-        devices until they break.
+        On the current mobile landscape you get none of that. Even expensive phones only have few years of support. As time progresses,
+        your phone becomes slower and slower, and the newest features will not work on it anymore. But postmarketOS builds upon a real
+        Linux distribution, which has <b>no reason to drop support</b> for old devices at all and (assuming that you choose the right software)
+        keeps the <b>resource usage at a constant minimum</b> instead of increasing it with every release. There's <b>no reason</b> to <b>restrict
+        features</b> (such as full disk encryption) to newer devices either. We want to be able to use our devices <b>until they break!</b>
       </p>
     </div>
     <div class="img-valign">
@@ -45,13 +46,19 @@
     <div class="text fl w-two-thirds">
       <h2>Package and run anything you want</h2>
       <p>
-        With postmarketOS you will have the freedom to customize your Linux experience. There are multiple open options
-        available in the current Linux community like KDE Plasma Mobile, UBports, Enlightenment or you can just use a
-        plain shell.
+        postmarketOS is developed in the spirit of regular Linux distributions,
+        so there's no problem in having
+        <b><a href="https://github.com/postmarketOS/pmbootstrap/issues/62">multiple phone interfaces</a></b>
+        <i>(e.g. <a href="https://ubports.com">UBports</a>, featurephone with big numbers, plain shell)</i> and let the
+        user choose. A lot of work already went into getting
+        <a href="https://wiki.postmarketos.org/wiki/Plasma_Mobile">KDE plasma mobile</a> running,
+        it is getting closer every day!
       </p>
       <p>
-        postmarketOS will not impose arbitrary restrictions on you. Use the apps from any ecosystem you want! even run
-        desktop software if you want. If your favorite option is not available then help us improving postmarketOS.
+        Furthermore postmarketOS will <b>not impose arbitrary restrictions</b> on you. Use the apps from any ecosystem you want (even desktop software).
+        With Alpine's simple package format, you do not need more than a bit of
+        Linux knowledge to <b><a href="https://wiki.postmarketos.org/wiki/Creating_a_package">package your favorite programs</a></b>
+        (assuming that they run on Linux already).
       </p>
     </div>
   </div>
@@ -60,18 +67,37 @@
 <section class="inverted img-text">
   <div class="mw8 center">
     <div class="text">
-      <h2>Getting better security</h2>
+      <h2>We're evaluating our options for security holes in firmware</h2>
       <p>
-        Current Android devices run on old Linux kernels. This is mainly because SoC vendors modify the current kernel
-        on introduction of the chipset with their own code. This code doesn't get mainlined and thus doesn't benefit from
-        security updates that are made by Linus's kernel team. Only on select devices you will get some backported security
-        patches.
+        Mobile phones have dedicated chips for the cellular modem and wifi
+        functionality. These chips only run with firmware files, which are <b>little
+        proprietary operating systems</b>, that run alongside of
+        your regular OS (such as Android or postmarketOS). In most cases they even have
+        <b>full access to the device's RAM, GPS and/or microphone</b>.
       </p>
       <p>
-        postmarketOS aims to get as much devices as possible running on a mainline linux kernel. Which is the most we
-        can currently do to get more security on the devices. For a better overview of the security in the mobile world
-        see the <a href="https://ollieparanoid.github.io/post/security-warning/">security warning blog post</a>.
+        As with all proprietary software, we can not look at the source code to
+        look for <b>security bugs</b> and
+        <b><a href="https://researchcenter.paloaltonetworks.com/2014/12/coolreaper-revealed-backdoor-coolpad-android-devices/">backdoors</a></b>,
+        and we can not update it when such security bugs become public. We are
+        <b>at the mercy of the device manufacturers</b> to get updates, and they refuse to do so
+        after the support of the device runs out.
       </p>
+      <p>
+        Nowadays, <b>practically every phone</b> that is a <b>few years old</b> has such an
+        issue - no matter which OS or ROM you install. Exploits are available
+        <b><a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=1046#c2">in public</a></b>,
+        so everyone with enough IT knowledge (or money to get IT experts)
+        can turn these older phones into <b>surveillance devices</b>.
+      </p>
+      <p>
+        We are <b>well aware</b> of the situation and
+        <b><a href="https://wiki.postmarketos.org/wiki/Firmware">exploring our options</a></b>. One a side note,
+        we are also interested in using the
+        <b><a href="https://wiki.postmarketos.org/wiki/The_Mainline_Kernel">mainline kernel</a></b>
+        (instead of some outdated Android fork), so we can at least have a safer userspace.
+      </p>
+
     </div>
     <div class="img-valign">
       <img src="{{ url_for('static', filename='img/backlit.jpg') }}">
@@ -83,6 +109,7 @@
   <div class="mw8 center">
     <h2>Come help us</h2>
     <ul>
+      <li><a href="https://wiki.postmarketos.org">Wiki</a></li>
       <li><a href="https://github.com/postmarketOS">GitHub</a></li>
       <li><a href="https://reddit.com/r/postmarketOS">/r/postmarketOS</a></li>
       <li><a href="https://chat.disroot.org/#/room/#postmarketos:disroot.org">#postmarketos:disroot.org</a></li>
