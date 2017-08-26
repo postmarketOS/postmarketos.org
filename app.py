@@ -12,6 +12,19 @@ BLOG_CONTENT_DIR = 'content/blog'
 
 REGEX_SPLIT_FRONTMATTER = re.compile(r'^---$', re.MULTILINE)
 
+WIKI_REDIRECTS = {
+    "chat": "Matrix_and_IRC",
+    "deviceinfo": "Deviceinfo_reference",
+    "devices": "Supported_devices",
+    "irc": "Matrix_and_IRC",
+    "matrix": "Matrix_and_IRC",
+    "troubleshooting": "Troubleshooting",
+    "usbhook": "Inspecting_the_initramfs",
+    "warning-repo": "Troubleshooting#Installed_version_newer_than_the_version_in_the_repositories",
+    "warning-repo2": "Troubleshooting#Newer_version_in_binary_package_repositories_than_in_aports_folder",
+    "wiki": "Main_page",
+}
+
 
 @app.route('/')
 def home():
@@ -61,17 +74,7 @@ def blog_post(y, m, d, slug):
                            date=data["date"])
 
 
-@app.route('/troubleshooting/')
-def troubleshooting():
-    return render_template('redirect.html', url='https://github.com/postmarketOS/pmbootstrap/wiki/Troubleshooting')
-
-
-@app.route('/deviceinfo/')
-def deviceinfo():
-    return render_template('redirect.html', url='https://github.com/postmarketOS/pmbootstrap/wiki/deviceinfo-reference')
-
-
-@app.route('/usbhook/')
-def usbhook():
-    return render_template('redirect.html',
-                           url='https://github.com/postmarketOS/pmbootstrap/wiki/Inspecting-the-initramfs/')
+@app.route('/<slug>/')
+def wiki_redirect(slug):
+    """ WARNING: This must be the last route! """
+    return render_template('redirect.html', url='https://wiki.postmarketos.org/wiki/' + WIKI_REDIRECTS[slug])
