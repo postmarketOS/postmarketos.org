@@ -1,5 +1,5 @@
 from flask_frozen import Freezer
-from app import app, BLOG_CONTENT_DIR
+from app import app, BLOG_CONTENT_DIR, WIKI_REDIRECTS
 from os import listdir
 
 
