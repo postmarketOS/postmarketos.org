@@ -56,8 +56,10 @@ def blog_post(y, m, d, slug):
         text = f.read()
     frontmatter, body = REGEX_SPLIT_FRONTMATTER.split(text, 2)
     data = yaml.load(frontmatter)
+    readingtime = reading_time(body)
     html = markdown.markdown(body, extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
-    return render_template('blog-post.html', title=data["title"], html=html)
+    return render_template('blog-post.html', title=data["title"], html=html, reading_time=readingtime,
+                           date=data["date"])
 
 
 def parse_page(page):
