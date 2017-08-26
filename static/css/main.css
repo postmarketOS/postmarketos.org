@@ -4,37 +4,8 @@ body {
 a {
   color: #0d8000;
 }
-a:hover {
-  color: #084d00;
-}
-a.title {
-  text-decoration: none;
+a h1 {
   color: black;
-}
-a.title h1 img {
-  height: 1.4em;
-}
-a.title h1 span {
-  vertical-align: top;
-}
-body,
-html {
-  height: 100%;
-}
-header::after {
-  display: block;
-  content: " ";
-  clear: both;
-}
-main {
-  background: white;
-  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
-}
-body:not(.homepage) section {
-  margin-top: 32px;
-  background: white;
-  padding: 15px;
-  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
 }
 body.homepage main {
   min-height: initial;
@@ -95,23 +66,9 @@ body.homepage section::after {
 body.homepage section .text {
   padding: 32px;
 }
-div.menu ul {
-  float: right;
-  list-style: none;
-  padding-left: 7px;
-}
-div.menu ul li {
-  display: inline-block;
-  padding-right: 1.3em;
-}
-div.menu ul li a {
-  font-size: 1.2em;
-  color: #0d8000;
-  text-decoration: none;
-}
-div.menu ul li a:hover {
-  color: #0a6700;
-}
-h1.branding {
-  float: left;
+body:not(.homepage) section {
+  margin-top: 32px;
+  background: white;
+  padding: 15px;
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.2);
 }
