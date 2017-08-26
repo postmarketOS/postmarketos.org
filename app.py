@@ -76,4 +76,5 @@ def blog_post(y, m, d, slug):
 
 @app.route('/<slug>/')
 def wiki_redirect(slug):
+    """ WARNING: This must be the last route! """
     return render_template('redirect.html', url='https://wiki.postmarketos.org/wiki/' + WIKI_REDIRECTS[slug])
