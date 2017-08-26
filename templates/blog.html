@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<section class="mw8 center">
-    <h1>Blog posts</h1>
-    <ul>
-        {% for post in posts %}
-        <li>
-            <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-            <div class="meta">{{ post.date }} ({{ post.reading_time }} min)</div>
-        </li>
-        {% endfor %}
-    </ul>
+<section class="blog">
+    <h2 class="f3">Blog Posts</h2>
+    {% for post in posts %}
+    <div class="fl mw9 center">
+        <div class="fl w-30 f3 gray tr pr4">
+            <div class="">{{ post.date }}</div>
+            <div class="f4">({{ post.reading_time }} min)</div>
+        </div>
+        <div class="fl w-70">
+            <a class="f3 black link dim" href="{{ post.url }}">{{ post.title }}</a>
+        </div>
+    </div>
+    {% endfor %}
 </section>
 {% endblock %}
