@@ -9,7 +9,6 @@ import yaml
 app = Flask(__name__)
 
 BLOG_CONTENT_DIR = 'content/blog'
-WIKI_CONTENT_DIR = 'content/wiki'
 
 REGEX_SPLIT_FRONTMATTER = re.compile(r'^---$', re.MULTILINE)
 
@@ -58,28 +57,6 @@ def blog_post(y, m, d, slug):
     data = yaml.load(frontmatter)
     html = markdown.markdown(body, extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
     return render_template('blog-post.html', title=data["title"], html=html)
-
-
-def parse_page(page):
-    slug = page[:-3]
-    title = slug.replace('-', ' ')
-    return {'url': url_for('wiki_page', slug=slug), 'title': title}
-
-
-@app.route('/wiki/')
-def wiki():
-    pages = sorted(listdir(WIKI_CONTENT_DIR), reverse=True)
-    pages = map(parse_page, pages)
-    return render_template('wiki.html', pages=pages)
-
-
-@app.route('/wiki/<slug>/')
-def wiki_page(slug):
-    with open('{}/{}.md'.format(WIKI_CONTENT_DIR, slug)) as f:
-        text = f.read()
-        title = slug.replace('-', ' ')
-        html = markdown.markdown(text, extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
-        return render_template('wiki-page.html', title=title, html=html)
 
 
 @app.route('/troubleshooting/')
