@@ -6,7 +6,7 @@
     {% for post in posts %}
     <div class="fl mw9 center">
         <div class="fl w-30 f3 gray tr pr4">
-            <div class="">{{ post.date }}</div>
+            <div class="">{{ post.date.strftime('%B %d, %Y') }}</div>
             <div class="f4">({{ post.reading_time }} min)</div>
         </div>
         <div class="fl w-70">

@@ -3,7 +3,7 @@
 {% block body %}
 <article class="">
     <div class="meta gray">
-        <span class="f4">{{ date }}</span>
+        <span class="f4">{{ date.strftime('%B %d, %Y') }}</span>
         <span class="f5 ph3">{{ reading_time }} min. read</span>
     </div>
     <h2 class="f3">{{ title }}</h2>
