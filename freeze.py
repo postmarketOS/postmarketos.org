@@ -17,7 +17,7 @@ def blog_post():
 
 
 @freezer.register_generator
-def wiki_redirects():
+def wiki_redirect():
     for slug, redirect in WIKI_REDIRECTS.items():
         yield {'slug': slug }
 
