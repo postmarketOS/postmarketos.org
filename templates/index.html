@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<section class="fl w-100">
-    <img class="fl w-30" src="{{ url_for('static', filename='img/banner.jpg') }}">
-    <div class="fl w-70 pa2">
+<section class="fl w-100 pv4 flex items-center justify-center">
+    <img class="ph4" src="{{ url_for('static', filename='img/banner.jpg') }}">
+    <div class="ph4 nt3">
         <h2>A real Linux distribution on the phone</h2>
         <p>postmarketOS (<i>pmOS</i>), is a touch-optimized, pre-configured <a
                 href="https://alpinelinux.org">Alpine Linux</a> that can be installed on
@@ -12,8 +12,8 @@
     </div>
 </section>
 
-<section class="fl w-100">
-    <div class="fl w-70 pa2">
+<section class="fl w-100 pv4 flex items-center justify-center inverted">
+    <div class="ph4 nt3">
       <h2>We develop a <em>sustainable</em> mobile OS</h2>
       <p>It is 2017. Pick an average PC from 2007 and install a minimal Linux based operating system. You will be able
         to do basic computing tasks (eg. surfing the web, reading e-mails, listening to music, chatting) just like on an
@@ -27,12 +27,12 @@
         features</b> (such as full disk encryption) to newer devices either. We want to be able to use our devices <b>until they break!</b>
       </p>
     </div>
-    <img class="fl w-30" src="{{ url_for('static', filename='img/phonepile.jpg') }}">
+    <img class="ph4" src="{{ url_for('static', filename='img/phonepile.jpg') }}">
 </section>
 
-<section class="fl w-100">
-    <img class="fl w-30" src="{{ url_for('static', filename='img/cmus.jpg') }}">
-    <div class="fl w-70 pa2">
+<section class="fl w-100 pv4 flex items-center justify-center">
+    <img class="ph4" src="{{ url_for('static', filename='img/cmus.jpg') }}">
+    <div class="ph4 nt3">
       <h2>Package and run anything you want</h2>
       <p>
         postmarketOS is developed in the spirit of regular Linux distributions,
@@ -52,8 +52,8 @@
     </div>
 </section>
 
-<section class="fl w-100">
-    <div class="fl w-70 pa2">
+<section class="fl w-100 pv4 flex items-center justify-center inverted">
+    <div class="ph4 nt3">
       <h2>We're evaluating our options for security holes in firmware</h2>
       <p>
         Mobile phones have dedicated chips for the cellular modem and wifi
@@ -86,18 +86,18 @@
       </p>
 
     </div>
-    <img class="fl w-30" src="{{ url_for('static', filename='img/backlit.jpg') }}">
+    <img class="ph4" src="{{ url_for('static', filename='img/backlit.jpg') }}">
   </div>
 </section>
 
-<section class="fl w-100 tc">
-    <h2>Come help us</h2>
-    <ul>
-      <li><a href="https://wiki.postmarketos.org">Wiki</a></li>
-      <li><a href="https://github.com/postmarketOS">GitHub</a></li>
-      <li><a href="https://reddit.com/r/postmarketOS">/r/postmarketOS</a></li>
-      <li><a href="https://chat.disroot.org/#/room/#postmarketos:disroot.org">#postmarketos:disroot.org</a></li>
-      <li>#postmarketos on Freenode IRC</li>
+<section class="fl w-100 pv4 tc">
+    <h2>Come help us!</h2>
+    <ul class="list">
+      <li class="fl pa3"><a href="https://wiki.postmarketos.org">Wiki</a></li>
+      <li class="fl pa3"><a href="https://github.com/postmarketOS">GitHub</a></li>
+      <li class="fl pa3"><a href="https://reddit.com/r/postmarketOS">/r/postmarketOS</a></li>
+      <li class="fl pa3"><a href="https://chat.disroot.org/#/room/#postmarketos:disroot.org">#postmarketos:disroot.org</a></li>
+      <li class="fl pa3">#postmarketos on Freenode IRC</li>
     </ul>
 </section>
 
