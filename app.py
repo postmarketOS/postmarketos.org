@@ -1,10 +1,12 @@
 import markdown
 
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, Response
 from os import listdir
 import os
 import re
 import yaml
+
+import logo
 
 app = Flask(__name__)
 
@@ -17,13 +19,15 @@ REGEX_SPLIT_FRONTMATTER = re.compile(r'^---$', re.MULTILINE)
 def home():
     return render_template('index.html')
 
-
 def reading_time(content):
     content = re.sub('<[^<]+?>', '', content)
     words_per_minute = 200
     words = content.split(" ")
     return int(len(words) / words_per_minute)
 
+@app.route('/logo.svg')
+def logo_svg():
+    return Response(response=logo.create(), mimetype="image/svg+xml")
 
 def parse_post(post):
     with open(os.path.join(BLOG_CONTENT_DIR, post)) as handle:
