@@ -27,7 +27,7 @@ def reading_time(content):
 
 @app.route('/logo.svg')
 def logo_svg():
-    return Response(response=logo.create(), mimetype="image/svg+xml")
+    return Response(response=logo.create(phone=False), mimetype="image/svg+xml")
 
 def parse_post(post):
     with open(os.path.join(BLOG_CONTENT_DIR, post)) as handle:

@@ -14,18 +14,18 @@
 
 <section class="fl w-100 pv4 flex items-center justify-center inverted">
     <div class="ph4 nt3">
-      <h2>We develop a <em>sustainable</em> mobile OS</h2>
-      <p>It is 2017. Pick an average PC from 2007 and install a minimal Linux based operating system. You will be able
+    <h2>We develop a <em>sustainable</em> mobile OS</h2>
+    <p>It is 2017. Pick an average PC from 2007 and install a minimal Linux based operating system. You will be able
         to do basic computing tasks (eg. surfing the web, reading e-mails, listening to music, chatting) just like on an
         expensive modern PC. You will even get security updates, so your old computer is protected, just like a new one.
-      </p>
-      <p>
+    </p>
+    <p>
         On the current mobile landscape you get none of that. Even expensive phones only have few years of support. As time progresses,
         your phone becomes slower and slower, and the newest features will not work on it anymore. But postmarketOS builds upon a real
         Linux distribution, which has <b>no reason to drop support</b> for old devices at all and (assuming that you choose the right software)
         keeps the <b>resource usage at a constant minimum</b> instead of increasing it with every release. There's <b>no reason</b> to <b>restrict
         features</b> (such as full disk encryption) to newer devices either. We want to be able to use our devices <b>until they break!</b>
-      </p>
+    </p>
     </div>
     <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/phonepile.jpg') }}">
 </section>
@@ -33,8 +33,8 @@
 <section class="fl w-100 pv4 flex items-center justify-center">
     <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/cmus.jpg') }}">
     <div class="ph4 nt3">
-      <h2>Package and run anything you want</h2>
-      <p>
+    <h2>Package and run anything you want</h2>
+    <p>
         postmarketOS is developed in the spirit of regular Linux distributions,
         so there's no problem in having
         <b><a href="https://github.com/postmarketOS/pmbootstrap/issues/62">multiple phone interfaces</a></b>
@@ -42,63 +42,64 @@
         user choose. A lot of work already went into getting
         <a href="https://wiki.postmarketos.org/wiki/Plasma_Mobile">KDE plasma mobile</a> running,
         it is getting closer every day!
-      </p>
-      <p>
+    </p>
+    <p>
         Furthermore postmarketOS will <b>not impose arbitrary restrictions</b> on you. Use the apps from any ecosystem you want (even desktop software).
         With Alpine's simple package format, you do not need more than a bit of
         Linux knowledge to <b><a href="https://wiki.postmarketos.org/wiki/Creating_a_package">package your favorite programs</a></b>
         (assuming that they run on Linux already).
-      </p>
+    </p>
     </div>
 </section>
 
 <section class="fl w-100 pv4 flex items-center justify-center inverted">
     <div class="ph4 nt3">
-      <h2>We're evaluating our options for security holes in firmware</h2>
-      <p>
+    <h2>We're evaluating our options for security holes in firmware</h2>
+    <p>
         Mobile phones have dedicated chips for the cellular modem and wifi
         functionality. These chips only run with firmware files, which are <b>little
         proprietary operating systems</b>, that run alongside of
         your regular OS (such as Android or postmarketOS). In most cases they even have
         <b>full access to the device's RAM, GPS and/or microphone</b>.
-      </p>
-      <p>
+    </p>
+    <p>
         As with all proprietary software, we can not look at the source code to
         look for <b>security bugs</b> and
         <b><a href="https://researchcenter.paloaltonetworks.com/2014/12/coolreaper-revealed-backdoor-coolpad-android-devices/">backdoors</a></b>,
         and we can not update it when such security bugs become public. We are
         <b>at the mercy of the device manufacturers</b> to get updates, and they refuse to do so
         after the support of the device runs out.
-      </p>
-      <p>
+    </p>
+    <p>
         Nowadays, <b>practically every phone</b> that is a <b>few years old</b> has such an
         issue - no matter which OS or ROM you install. Exploits are available
         <b><a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=1046#c2">in public</a></b>,
         so everyone with enough IT knowledge (or money to get IT experts)
         can turn these older phones into <b>surveillance devices</b>.
-      </p>
-      <p>
+    </p>
+    <p>
         We are <b>well aware</b> of the situation and
         <b><a href="https://wiki.postmarketos.org/wiki/Firmware">exploring our options</a></b>. One a side note,
         we are also interested in using the
         <b><a href="https://wiki.postmarketos.org/wiki/The_Mainline_Kernel">mainline kernel</a></b>
         (instead of some outdated Android fork), so we can at least have a safer userspace.
-      </p>
-
+    </p>
     </div>
     <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/backlit.jpg') }}">
-  </div>
 </section>
+{% endblock %}
 
-<section class="fl w-100 pv4 tc">
-    <h2>Come help us!</h2>
-    <ul class="list">
-      <li class="fl pa3"><a href="https://wiki.postmarketos.org">Wiki</a></li>
-      <li class="fl pa3"><a href="https://github.com/postmarketOS">GitHub</a></li>
-      <li class="fl pa3"><a href="https://reddit.com/r/postmarketOS">/r/postmarketOS</a></li>
-      <li class="fl pa3"><a href="https://chat.disroot.org/#/room/#postmarketos:disroot.org">#postmarketos:disroot.org</a></li>
-      <li class="fl pa3">#postmarketos on Freenode IRC</li>
-    </ul>
-</section>
-
+{% block footer %}
+<footer class="bg-white">
+    <div class="mw8 center w-100 pv4 tc">
+        <h2>Come help us!</h2>
+        <ul class="list center tc">
+        <li class="dib pa3"><a href="https://wiki.postmarketos.org">Wiki</a></li>
+        <li class="dib pa3"><a href="https://github.com/postmarketOS">GitHub</a></li>
+        <li class="dib pa3"><a href="https://reddit.com/r/postmarketOS">/r/postmarketOS</a></li>
+        <li class="dib pa3"><a href="https://chat.disroot.org/#/room/#postmarketos:disroot.org">#postmarketos:disroot.org</a></li>
+        <li class="dib pa3">#postmarketos on Freenode IRC</li>
+        </ul>
+    </div>
+</footer>
 {% endblock %}
