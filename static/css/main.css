@@ -4,10 +4,7 @@ body {
 a {
   color: #0d8000;
 }
-a h1 {
-  color: black;
-}
-body.homepage .inverted {
+.inverted {
   color: white;
   background: #333;
   border-top: 4px solid #0d8000;
