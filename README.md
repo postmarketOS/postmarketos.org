@@ -36,7 +36,9 @@ Run the dev server during local development, changes are auto reloaded:
 
 ### CSS
 
-CSS is compiled via `lessc`:
+Not much CSS is used due to heavy usage of [Tachyons](http://tachyons.io/) toolkit classes. Please use CSS judiciously only when needed.
+
+Any CSS used should be compiled via `lessc`:
 
 ```bash
 $ npm install -g less

@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<section class="mw8 center">
-
-    <h2>{{ title }}</h2>
-    <div class="meta">{{ date }} ({{ reading_time }} min)</div>
+<article class="pa3">
+    <div class="meta gray">
+        <span class="f4">{{ date.strftime('%B %d, %Y') }}</span>
+        <span class="f5 ph3">{{ reading_time }} min. read</span>
+    </div>
+    <h2 class="f3">{{ title }}</h2>
     {{ html|safe }}
-</section>
+</article>
 {% endblock %}

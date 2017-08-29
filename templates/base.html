@@ -18,12 +18,14 @@
     <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
   </head>
   <body{%- if request.path == "/" %} class="homepage"{% endif %}>
-    <main class="mw8 center">
-      <div class="cf ph2-ns">
-        {% include 'header.html' %}
-      </div>
+    {% include 'header.html' %}
+    <main class="cf pv4">
+        <div class="mw8 center">
+            {% block body %}
+            {% endblock %}
+        </div>
     </main>
-    {% block body %}
+    {% block footer %}
     {% endblock %}
   </body>
 </html>

@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<section class="mw8 center">
-    <h1>Blog posts</h1>
-    <ul>
+<section class="blog">
+    <h2 class="f3 tc tl-ns">Blog Posts</h2>
+    <div class="fl mw9 center">
         {% for post in posts %}
-        <li>
-            <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-            <div class="meta">{{ post.date }} ({{ post.reading_time }} min)</div>
-        </li>
+        <div class="fl w-100">
+            <div class="fl w-30 gray tr pr2 pr4-ns pa2">
+                <div class="f4 f3-ns">{{ post.date.strftime('%B %d, %Y') }}</div>
+                <div class="f5 f4-ns">({{ post.reading_time }} min)</div>
+            </div>
+            <div class="fl w-70 pa2">
+                <a class="f4 f3-ns black link dim" href="{{ post.url }}">{{ post.title }}</a>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
 </section>
 {% endblock %}
