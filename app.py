@@ -1,12 +1,13 @@
+import logo
 import markdown
-
-from flask import Flask, render_template, url_for, Response
-from os import listdir
 import os
 import re
 import yaml
 
-import logo
+from datetime import datetime
+from flask import Flask, render_template, url_for, Response
+from os import listdir
+
 
 app = Flask(__name__)
 
@@ -67,19 +68,20 @@ def blog():
 
 @app.route('/blog/<y>/<m>/<d>/<slug>/')
 def blog_post(y, m, d, slug):
-    post_path = '-'.join([y, m, d, slug])
+    date_str = '-'.join([y, m, d])
+    post_path = '-'.join([date_str, slug])
     with open('{}/{}.md'.format(BLOG_CONTENT_DIR, post_path), 'r') as f:
         text = f.read()
     frontmatter, body = REGEX_SPLIT_FRONTMATTER.split(text, 2)
     data = yaml.load(frontmatter)
-    readingtime = reading_time(body)
+    rt = reading_time(body)
+    date = datetime.strptime(date_str, '%Y-%m-%d')
     html = markdown.markdown(body, extensions=[
         'markdown.extensions.extra',
         'markdown.extensions.codehilite',
         'markdown.extensions.toc'
     ])
-    return render_template('blog-post.html', title=data["title"], html=html, reading_time=readingtime,
-                           date=data["date"])
+    return render_template('blog-post.html', title=data['title'], html=html, reading_time=rt, date=date)
 
 
 @app.route('/<slug>/')
