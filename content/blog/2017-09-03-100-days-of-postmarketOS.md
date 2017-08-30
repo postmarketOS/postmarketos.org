@@ -5,16 +5,18 @@ date: 2017-09-03
 <!--
 
 TODO:
-- increase line-space to make it easier to read
-- table of contents (automatically generated)?
+- table of contents
 - insert images
 - more links
-- change the formatting of the syntax highlighted code?
 - link github issues
 - link usernames
+- QEMU screenshot filled with weston stuff and postmarketos-demos, similar to:
+    https://ollieparanoid.github.io/img/2017-05-26/i9100/filled.jpg
 -->
 
-### Sustainable approach for Linux on the phone
+[TOC]
+
+## Sustainable approach for Linux on the phone
 
 We are building an alternative to Android and other mobile operating systems by 
 *(not forking but)* **bending the [time-proven](http://git.net/ml/linux.leaf.devel/2005-08/msg00039.html) [Alpine Linux](https://alpinelinux.org) distribution** 
@@ -30,7 +32,8 @@ yet.** But enough of the introduction, let's take a look at our new features!
 
 [image: weston in qemu]
 
-### Integrated QEMU support
+
+## Integrated QEMU support
 
 The idea of providing a device specific package for QEMU was introduced in July 
 already with the words *"so it will be easier to try the project and/or develop 
@@ -49,43 +52,138 @@ cd pmbootstrap
 ```
 *Thanks to: @mmaret, @MartijnBraam, @PabloCastellano (#56, ??)*
 
-### Early work on new user interfaces
+
+## Early work on new user interfaces
 
 Since postmarketOS was released, we have been using Wayland's reference 
 compositor Weston as UI. But as stated in #62, it *"is a cool demo, but far 
 from a usable day-to-day shell people can work with. **We need to provide a sane 
 UI.**"*
 
-[image: PureTryOut's cool gif booting up in Qemu to plasma mobile]
 
-#### Plasma mobile (KDE's plasma desktop for phones)
+[![QEMU booting up to plasma-mobile](/static/img/2017-09-03/plasma-mobile-qemu-thumb.gif)](/static/video/2017-09-03/plasma-mobile-qemu.webm)
+
+### plasma-mobile (KDE's plasma desktop for phones)
 
 Alpine Linux did not have any KDE programs or libraries packaged yet, so 
 @PureTryOut went through the colossal task of packaging, looking for patches, 
 compiling and debugging **more than 80 pieces of 
-plasma mobile related software**. They are the very minimum to get the mobile 
+plasma-mobile related software**. They are the very minimum to get the mobile 
 version of KDE's Plasma desktop running. Alpine provided quite a few challenges 
 along the way, such as the usage of the more standards compliant musl libc 
-instead of the commonly used glic, but luckily @mpyne [already provided patches](https://phabricator.kde.org/D6596) in KDE's bugtracker which we were able to use.
+instead of the commonly used glibc, but luckily @mpyne [already provided patches](https://phabricator.kde.org/D6596) in KDE's bugtracker which we were able to use.
 
 Althought non-developers may not see it this way, this surely is a huge step 
-in the direction of making plasma mobile work on postmarketOS! We're excited to 
+in the direction of making plasma-mobile work on postmarketOS! We're excited to 
 see where this is heading, and **appreciate any help from interested developers**.
 Jump right in with QEMU and the [inofficial binary packages](https://github.com/PureTryOut/pmos-plasma-mobile)!
 
 *Thanks to: @PureTryOut, @bshah, @mpyne*
 
-[image: Hildon in QEMU]
 
-#### Hildon
+[![Hildon in postmarketOS](/static/img/2017-09-03/hildon-thumb.png)](/static/img/2017-09-03/hildon.png)
+
+### Hildon
+
+The popular N900 had a desktop called *Hildon* running on it's Debian based 
+[Maemo](https://maemo.org) operating system. @NotKit started a port, which also 
+contains only the minimal packages to get it working at all. It only consists of
+a modified GTK+2 (to make GTK+2 windows mobile friendly) and 12 other packages.
+A modernized GTK+3 version of Hildon is being worked on at 
+[talk.maemo.org](https://talk.maemo.org/showthread.php?t=96800), which we could 
+package in the future. While Hildon is based on X11 instead of Wayland, it is still
+a lightweight phone interface suitable for older devices.
+
+*Thanks to: @NotKit*
+
+
+[![Doom on pmOS with freedreno](/static/img/2017-09-03/doom-thumb.jpg)](/static/img/2017-09-03/doom.jpg)
+
+### "Of course it runs Doom"
+
+Speaking of classic interfaces, @Opendata26 made the obligatory Doom port. On 
+the photo is his **Xperia Z2 tablet** with a 4.3 kernel and the open source 
+userspace driver **[freedreno](https://github.com/freedreno/freedreno/wiki)**. 
+Furthermore he enabled that driver upstream in Alpine's `mesa` package, so 
+everyone can use it. Check out his [/r/postmarketOS 
+post](https://www.reddit.com/6temny/) for more photos of other games running. 
+Please note, that freedreno still requires a proprietary firmware file for the 
+3D acceleration (but it makes the userspace code of the driver open source, in 
+contrary to Android). Also the testing was made with X11, as it currently did 
+not work with a Wayland compositor (which should be possible after some debugging 
+though).
+
+*Thanks to: @Opendata26*
+
+## First smartwatch and other new devices
 
 ...
 
 
+[photo: initramfs on screen keyboard on various devices]
+
+## Initramfs is full of new features
+
+The `initramfs` is a small filesystem with an init script, that prepares the 
+environment before it passes control to the init system running in the real 
+root partition. In case of postmarketOS, we use it to **find and optionally unlock 
+the root** partition. When the "usb-shell" hook is installed, we also provide a 
+**telnet shell**, which can be used to debug the initramfs (e.g. during new device
+ports).
+
+@craftyguy and @MartijnBraam have started to write a new **on-screen-keyboard**
+named [`osk-sdl`](https://github.com/postmarketOS/osk-sdl)
+from scratch (because we couldn't find an existing one that did not 
+depend on heavy GUI libraries), which will allow us to do the unlocking directly 
+with the device's touch screen (of course keyboards are also supported). It is 
+currently in the process of being integrated, so it will fully replace the 
+unlocking via telnet (in case somebody still wants that, reach out and we'll 
+work out together how we implement it as an optional hook).
+
+To work around tight size limitations on some devices (regarding the `boot.img` 
+file, of which the `intiramfs` is a big part), @drebrez implemented the 
+**`initramfs-extras`** trick: A second initramfs file will store **all the big
+files** and gets placed in the unencrypted `boot` partition. The real initramfs
+will detect that by its label and extract everything from `initramfs-extras`.  At 
+this point, the `init` script works like before and has all files it needs!
+
+Speaking of small size: The system image generated in the installation 
+step doesn't have a fixed size anymore, but adjusts dynamically! After flashing 
+and booting, the initramfs will check if the flashed image takes up all 
+available space of the system partition, and if it does not, **automatically 
+resize the partition to use all available space**.
+
+[photo: devices with pmOS splash screen]
+
+Check out that cool new splash screen! It gets built dynamically for the 
+device's screen size whenever we build the initramfs. So it always fits 
+perfectly! And in case you don't like it, it comes with a customizable 
+[config](https://github.com/postmarketOS/pmbootstrap/blob/314c17e03cf8cddfd0f385d9db2f23f76f9a0418/aports/main/postmarketos-splash/config.ini)!
+
+Last but not least we did a lot of refactoring (such as placing the `deviceinfo` 
+file inside the initramfs instead of variables that duplicated everything), and 
+added support for a configfs based USB network setup (as some devices need 
+that).
+
+*Thanks to: @craftyguy, @Defcat, @drebrez, @ollieparanoid, @pablog, 
+@MartijnBraam* (TODO: PR IDs)
+
+
+[photo: pmOS installation in TWRP]
+
+## New flash methods
+
+heimdall-isorec, android recovery zip
+
+
+## New export methods
+
+odin, android recovery zip
+
 
 [image: N900 running mainline, terminal with `uname -a` open to show the kernel version]
 
-### Mainline kernel
+## Mainline kernel
 
 One of our goals is using the mainline Linux kernel on **as many mobile devices as 
 possible** (usually on Linux based smartphones, each device runs its own outdated
@@ -94,7 +192,7 @@ involves the huge task of rewriting the drivers to work with the current kernel
 APIs. Nevertheless, some people have been doing that since long before 
 postmarketOS existed. In the case of the **Nokia N900**, their mainlining efforts 
 are so advanced, that we are able to **use the mainline kernel as default** 
-kernel already!
+kernel already, therefore jumping from `2.6.x` to `4.12`!
 
 Moreover desktop Linux distributions do not only provide the kernel from the same
 source code, but also use **one binary kernel package for multiple devices** (of 
@@ -109,4 +207,14 @@ as we are now (temporarily applying patches etc).
 *Thanks to: @craftyguy, @MartijnBraam (#228, #159)*
 
 
-### Closing words
+## New infrastructure
+
+logo, homepage, wiki, travis testing, offtopic channel
+
+
+## Future
+
+milestones
+
+
+## Closing words
