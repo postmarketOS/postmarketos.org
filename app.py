@@ -70,7 +70,7 @@ def blog():
 def blog_post(y, m, d, slug):
     date_str = '-'.join([y, m, d])
     post_path = '-'.join([date_str, slug])
-    with open('{}/{}.md'.format(BLOG_CONTENT_DIR, post_path), 'r') as f:
+    with open('{}/{}.md'.format(BLOG_CONTENT_DIR, post_path.lower()), 'r') as f:
         text = f.read()
     frontmatter, body = REGEX_SPLIT_FRONTMATTER.split(text, 2)
     data = yaml.load(frontmatter)
