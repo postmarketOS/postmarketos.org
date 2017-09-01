@@ -5,7 +5,6 @@ date: 2017-09-03
 <!--
 
 TODO:
-- table of contents
 - insert images
 - more links
 - link github issues
@@ -25,10 +24,18 @@ software packages which can be installed with Alpine's package manager.
 To achieve minimal maintenance effort, we want every device to have **only one 
 unique package and share everything else**.
 
-Although we develop at fantastic speed, at this point our OS is only 
-suitable for fellow hackers who enjoy using the command-line and want to improve 
-postmarketOS. **Telephony or other typical smartphone tasks are not working 
-yet.** But enough of the introduction, let's take a look at our new features!
+At this point our OS is only suitable for fellow hackers who enjoy using the command-line and want to improve postmarketOS. **Telephony or other typical smartphone tasks are not working yet.**
+
+
+## Why we evolve in many directions
+
+So why don't we focus on one "flagship" device and stop making blog posts until it can be used as daily driver?
+
+Community based FLOSS projects need to **become known in the development phase to fellow developers.** Our way to do that is through posting reports summarizing our *real progress* every now and then.
+
+Furthermore, the postmarketOS community is not a company where everybody gets paid to work in the same direction. We are a collective of hackers who make this project in their free time. We won't tell someone who wants to extend postmarketOS to run Doom on his smartwatch that his idea has no benefit the projects vision. Because even though it may not be part of most peoples vision, it shows what can be done with our project, and all contributions will improve the codebase, as it gets improved to work with many different use-cases we have not thought about before. Doing such *fun* stuff also increases knowledge about the software and hardware we work with. But most importantly we don't take the fun away. **Because without fun, a free time project becomes a dead project.**
+
+With that being said, there are also individuals in the project, to whom the most fun is to [actually bring the project towards the daily-driver vision](https://wiki.postmarketos.org/wiki/Milestones). So read on to learn about both **incredibly beneficial efforts**, as well as **fun exercises** we have done since [the last post](https://ollieparanoid.github.io/post/50-days-of-postmarketOS/).
 
 [image: weston in qemu]
 
@@ -222,10 +229,5 @@ finished most of the content migration.
 Travis CI has been integrated into the `pmbootstrap` repository, so we get some basic static analysis coverage on new code.
 
 Finally, we've split off the off-topic conversations on IRC/Matrix into a new channel: `#postmarketos-offtopic` (use `##` on Freenode IRC).
-
-## Future
-
-milestones
-
 
 ## Closing words
