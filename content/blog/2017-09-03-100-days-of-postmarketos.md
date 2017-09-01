@@ -209,8 +209,19 @@ as we are now (temporarily applying patches etc).
 
 ## New infrastructure
 
-logo, homepage, wiki, travis testing, offtopic channel
+We now have several different key pieces of infrastructure in place to support the ongoing project
+development. First of all, as you might have noticed, we have a brand new homepage that hosts
+both our main landing page as well as this blog, and has links to all of our online resources.
 
+You might have also seen our new logo which - besides looking great - is [rendered programatically](https://github.com/postmarketOS/postmarketos.org/blob/2e4be89ee8ec656620203fa825e088421afcf092/logo/__init__.py)!
+
+Our Github-based wiki has served us well up until now, but we have larger plans for it. To that end,
+we've migrated [the wiki](https://wiki.postmarketos.org) over to a proper mediawiki server and have already
+finished most of the content migration.
+
+Travis CI has been integrated into the `pmbootstrap` repository, so we get some basic static analysis coverage on new code.
+
+Finally, we've split off the off-topic conversations on IRC/Matrix into a new channel: `#postmarketos-offtopic` (use `##` on Freenode IRC).
 
 ## Future
 
