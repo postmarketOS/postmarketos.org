@@ -76,7 +76,7 @@ Shortly after that, @Bloo decided to port postmarketOS to his **[LG G Watch R](h
 
 ## Other new devices
 
-We have **eight** new devices. The two from above plus the following:
+We have **nine** new devices. The two from above plus the following:
 
 [![Nexus 7 running Weston](/static/img/2017-09-03/nexus7-thumb.png){: class="fr ml3 mb3" }](/static/img/2017-09-03/nexus7.png)
 
@@ -86,9 +86,10 @@ We have **eight** new devices. The two from above plus the following:
 * [Mozilla Flame `t2m-flame`](https://wiki.postmarketos.org/wiki/Mozilla_Flame_(t2m-flame))
 * [Galaxy Note II `samsung-n7100`](https://wiki.postmarketos.org/wiki/Galaxy_Note_II_(samsung-n7100))
 * [Sony Xperia Z1 Compact `sony-amami`](https://wiki.postmarketos.org/wiki/Sony_Xperia_Z1_Compact_(sony-amami))
+* [Sony Xperia Z `sony-yuga`](https://wiki.postmarketos.org/wiki/Sony_Xperia_Z_(sony-yuga))
 
 
-*Thanks to: @antonok, @ata2001, @Bloo, @drebrez, @kskarthik, @Victor9, @yuvadm and everyone who helped the porters in the chat*
+*Thanks to: @antonok, @ata2001, @Bloo, @drebrez, @kskarthik, @Victor9, @wfranken, @yuvadm and everyone who helped the porters in the chat*
 
 ## Initramfs is full of new features
 
