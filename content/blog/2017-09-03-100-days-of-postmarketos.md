@@ -104,7 +104,7 @@ We have **eight** new devices. The two from above plus the following:
 * [Sony Xperia Z1 Compact `sony-amami`](https://wiki.postmarketos.org/wiki/Sony_Xperia_Z1_Compact_(sony-amami))
 
 
-*Thanks to: @antonok, @ata2001, @Bloo, drebrez, @kskarthik, @Victor9, @yuvadm and everyone who helped the porters in the chat*
+*Thanks to: @antonok, @ata2001, @Bloo, @drebrez, @kskarthik, @Victor9, @yuvadm and everyone who helped the porters in the chat*
 
 [photo: initramfs on screen keyboard on various devices]
 
@@ -138,10 +138,9 @@ heimdall-isorec, android recovery zip
 
 odin, android recovery zip
 
-
-[image: N900 running mainline, terminal with `uname -a` open to show the kernel version]
-
 ## Mainline kernel
+
+[![N900 running mainline kernel](/static/img/2017-09-03/n900-mainline-thumb.png){: class="fr ml3 mb3" }](/static/img/2017-09-03/n900-mainline.png)
 
 One of our goals is using the mainline Linux kernel on **as many mobile devices as possible** (usually on Linux based smartphones, each device runs its own outdated fork of the kernel, that can not be updated sanely to the latest version). This involves the huge task of rewriting the drivers to work with the current kernel APIs. Nevertheless, some people have been doing that since long before postmarketOS existed. In the case of the **Nokia N900**, their mainlining efforts are so advanced, that we are able to **use the mainline kernel as default**  kernel already, therefore jumping from `2.6.x` to `4.12`!
 
