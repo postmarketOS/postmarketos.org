@@ -152,12 +152,12 @@ With over 100 people in the [Matrix/IRC](https://wiki.postmarketos.org/wiki/Matr
 - `>`100 people in the [channel](https://wiki.postmarketos.org/wiki/Matrix_and_IRC)
 - 605 [/r/postmarketOS](https://www.reddit.com/r/postmarketOS/) readers
 - [pmbootstrap](https://github.com/postmarketOS/pmbootstrap)
-    - 554 stargazers
+    - 555 stargazers
     - 223 closed PRs
     - 185 closed issues
     - 75 open issues
-    - 54 watchers
-    - 47 forks
+    - 55 watchers
+    - 48 forks
     - 27 contributors (`git shortlog --summary --numbered | wc -l`)
 
 ## Closing words
