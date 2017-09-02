@@ -44,11 +44,11 @@ Since postmarketOS was released, we have been using Wayland's reference composit
 
 ### plasma-mobile (KDE's plasma desktop for phones)
 
-Alpine Linux did not have any KDE programs or libraries packaged yet, so [@PureTryOut](https://github.com/PureTryOut) went through the colossal task of packaging, looking for patches, compiling and debugging **more than 80 pieces of plasma-mobile related software**. They are the very minimum to get the mobile version of KDE's Plasma desktop running. Alpine provided quite a few challenges along the way, such as the usage of the more standards compliant musl libc instead of the commonly used glibc, but luckily [@mpyne](https://github.com/mpyne) [already provided patches](https://phabricator.kde.org/D6596) in KDE's bugtracker which we were able to use. [@bshah](https://github.com/bhush9) not only helped us with the port, but also [mentioned postmarketOS](https://www.reddit.com/r/postmarketOS/comments/6p1avq/postmarketos_at_the_kde_akademy_2017_presented_by/) in his plasma-mobile talk at KDE's Akademy 2017!
+Alpine Linux did not have any KDE programs or libraries packaged yet, so [@PureTryOut](https://github.com/PureTryOut) went through the colossal task of packaging, looking for patches, compiling and debugging **more than 80 pieces of plasma-mobile related software**. They are the very minimum to get the mobile version of KDE's Plasma desktop running. Alpine provided quite a few challenges along the way, such as the usage of the more standards compliant musl libc instead of the commonly used glibc, but luckily [@mpyne](https://phabricator.kde.org/p/mpyne) [already provided patches](https://phabricator.kde.org/D6596) in KDE's bugtracker which we were able to use. [@bshah](https://github.com/bhush9) not only helped us with the port, but also [mentioned postmarketOS](https://www.reddit.com/r/postmarketOS/comments/6p1avq/postmarketos_at_the_kde_akademy_2017_presented_by/) in his plasma-mobile talk at KDE's Akademy 2017!
 
 Althought non-developers may not see it this way, this surely is a huge step in the direction of making plasma-mobile work on postmarketOS! We're excited to see where this is heading, and **appreciate any help from interested developers**. Jump right in with QEMU and the [inofficial binary packages](https://github.com/PureTryOut/pmos-plasma-mobile)!
 
-*Thanks to: [@bshah](https://github.com/bhush9), [@mpyne](https://github.com/mpyne), [@PureTryOut](https://github.com/PureTryOut)*
+*Thanks to: [@bshah](https://github.com/bhush9), [@mpyne](https://phabricator.kde.org/p/mpyne), [@PureTryOut](https://github.com/PureTryOut)*
 
 
 [![Hildon in postmarketOS](/static/img/2017-09-03/hildon-thumb.png){: class="fr ml3 mb3" }](/static/img/2017-09-03/hildon.png)
