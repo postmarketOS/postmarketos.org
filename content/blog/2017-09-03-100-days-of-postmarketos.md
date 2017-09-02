@@ -46,23 +46,23 @@ cd pmbootstrap
 ./pmbootstrap install
 ./pmbootstrap qemu
 ```
-*Thanks to: @mmaret, @MartijnBraam, @PabloCastellano (#56, ??)*
+*Thanks to: @mmaret, @MartijnBraam, @PabloCastellano*
 
 
 ## Early work on new user interfaces
 
-Since postmarketOS was released, we have been using Wayland's reference compositor Weston as UI. But as stated in #62, it *"is a cool demo, but far from a usable day-to-day shell people can work with. **We need to provide a sane UI.**"*
+Since postmarketOS was released, we have been using Wayland's reference compositor Weston as UI. But as stated in [#62](https://github.com/postmarketOS/pmbootstrap/issues/62), it *"is a cool demo, but far from a usable day-to-day shell people can work with. **We need to provide a sane UI.**"*
 
 
 [![QEMU booting up to plasma-mobile](/static/img/2017-09-03/plasma-mobile-qemu-thumb.gif){: class="fr ml3 mb3" }](/static/video/2017-09-03/plasma-mobile-qemu.webm)
 
 ### plasma-mobile (KDE's plasma desktop for phones)
 
-Alpine Linux did not have any KDE programs or libraries packaged yet, so @PureTryOut went through the colossal task of packaging, looking for patches, compiling and debugging **more than 80 pieces of plasma-mobile related software**. They are the very minimum to get the mobile version of KDE's Plasma desktop running. Alpine provided quite a few challenges along the way, such as the usage of the more standards compliant musl libc instead of the commonly used glibc, but luckily @mpyne [already provided patches](https://phabricator.kde.org/D6596) in KDE's bugtracker which we were able to use.
+Alpine Linux did not have any KDE programs or libraries packaged yet, so @PureTryOut went through the colossal task of packaging, looking for patches, compiling and debugging **more than 80 pieces of plasma-mobile related software**. They are the very minimum to get the mobile version of KDE's Plasma desktop running. Alpine provided quite a few challenges along the way, such as the usage of the more standards compliant musl libc instead of the commonly used glibc, but luckily @mpyne [already provided patches](https://phabricator.kde.org/D6596) in KDE's bugtracker which we were able to use. @bshah not only helped us with the port, but also [mentioned postmarketOS](https://www.reddit.com/r/postmarketOS/comments/6p1avq/postmarketos_at_the_kde_akademy_2017_presented_by/) in his plasma-mobile talk at KDE's Akademy 2017!
 
 Althought non-developers may not see it this way, this surely is a huge step in the direction of making plasma-mobile work on postmarketOS! We're excited to see where this is heading, and **appreciate any help from interested developers**. Jump right in with QEMU and the [inofficial binary packages](https://github.com/PureTryOut/pmos-plasma-mobile)!
 
-*Thanks to: @PureTryOut, @bshah, @mpyne*
+*Thanks to: @bshah, @mpyne, @PureTryOut*
 
 
 [![Hildon in postmarketOS](/static/img/2017-09-03/hildon-thumb.png){: class="fr ml3 mb3" }](/static/img/2017-09-03/hildon.png)
@@ -106,9 +106,9 @@ We have **eight** new devices. The two from above plus the following:
 
 *Thanks to: @antonok, @ata2001, @Bloo, @drebrez, @kskarthik, @Victor9, @yuvadm and everyone who helped the porters in the chat*
 
-[photo: initramfs on screen keyboard on various devices]
-
 ## Initramfs is full of new features
+
+[![on screen keyboard](/static/img/2017-09-03/osk-thumb.png){: class="fr ml3 mb3" }](/static/img/2017-09-03/osk.png)
 
 The `initramfs` is a small filesystem with an init script, that prepares the environment before it passes control to the init system running in the real root partition. In case of postmarketOS, we use it to **find and optionally unlock the root** partition. When the "usb-shell" hook is installed, we also provide a **telnet shell**, which can be used to debug the initramfs (e.g. during new device ports).
 
@@ -118,13 +118,14 @@ To work around tight size limitations on some devices (regarding the `boot.img` 
 
 Speaking of small size: The system image generated in the installation step doesn't have a fixed size anymore, but adjusts dynamically! After flashing and booting, the initramfs will check if the flashed image takes up all available space of the system partition, and if it does not, **automatically resize the partition to use all available space**.
 
-[photo: devices with pmOS splash screen]
+[![Splash screen rendered for the Samsung Galaxy SII](/static/img/2017-09-03/splash-thumb.png){: class="fr ml3 mb3" }](/static/img/2017-09-03/splash.png)
 
-Check out that cool new splash screen! It gets built dynamically for the device's screen size whenever we build the initramfs. So it always fits perfectly! And in case you don't like it, it comes with a customizable [config](https://github.com/postmarketOS/pmbootstrap/blob/314c17e03cf8cddfd0f385d9db2f23f76f9a0418/aports/main/postmarketos-splash/config.ini)!
+
+Check out that cool new **splash screen** ([#206](https://github.com/postmarketOS/pmbootstrap/pull/206))! It gets built dynamically for the device's screen size whenever we build the initramfs. So it always fits perfectly! And in case you don't like it, it comes with a customizable [config](https://github.com/postmarketOS/pmbootstrap/blob/314c17e03cf8cddfd0f385d9db2f23f76f9a0418/aports/main/postmarketos-splash/config.ini)!
 
 Last but not least we did a lot of refactoring (such as placing the `deviceinfo` file inside the initramfs instead of variables that duplicated everything), and added support for a configfs based USB network setup (as some devices need that).
 
-*Thanks to: @craftyguy, @Defcat, @drebrez, @ollieparanoid, @pablog, @MartijnBraam* (TODO: PR IDs)
+*Thanks to: @craftyguy, @Defcat, @drebrez, @ollieparanoid, @pablog, @MartijnBraam*
 
 
 [photo: pmOS installation in TWRP]
