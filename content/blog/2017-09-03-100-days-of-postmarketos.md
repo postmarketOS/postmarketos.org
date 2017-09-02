@@ -150,8 +150,17 @@ With over 100 people in the [Matrix/IRC](https://wiki.postmarketos.org/wiki/Matr
 - 605 [/r/postmarketOS](https://www.reddit.com/r/postmarketOS/) readers
 - [pmbootstrap](https://github.com/postmarketOS/pmbootstrap)
     - 554 stargazers
+    - 223 closed PRs
+    - 185 closed issues
+    - 75 open issues
     - 54 watchers
     - 47 forks
     - 27 contributors (`git shortlog --summary --numbered | wc -l`)
 
 ## Closing words
+What you see here is only the tip of the iceberg. So much work has gone into fixing bugs, and little improvements, that it would be ridiculous to go through the effort and list them all. The community has grown so fast in such a short time, and we have **people with all kinds of skills** on board, ranging from Linux experts to kernel hackers to people who [reverse engineer bootloaders](https://wiki.postmarketos.org/wiki/Mediatek) (hi @McBitter!).
+
+So if you read through the whole post, you are probably interested in what we do. Consider contributing to the project, the **entry barrier is really low**. [`pmbootstrap`](https://github.com/postmarketOS/pmbootstrap/) automatizes everything for you, and we do live hand-holding in the [chat](https://wiki.postmarketos.org/wiki/Matrix_and_IRC) in case something goes wrong. There are a lot of [issues](https://github.com/postmarketOS/pmbootstrap/issues), so there's plenty to do. And plenty of fun to have. **Join us and tell your favorite media about us!**
+
+
+
