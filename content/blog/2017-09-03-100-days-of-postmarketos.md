@@ -84,7 +84,7 @@ Speaking of classic interfaces, @Opendata26 made the obligatory Doom port. On th
 
 [![Doom on pmOS with freedreno](/static/img/2017-09-03/doom-lg-lenok-thumb.png){: class="fr ml3 mb3" }](/static/img/2017-09-03/doom-lg-lenok.png)
 
-Shortly after that, @Bloo decided to port postmarketOS to his **[LG G Watch R](https://wiki.postmarketos.org/wiki/LG_G_Watch_R_(lg-lenok))**, giving us the **first smartwatch port**. In order to take out the watch and shout *"It's time to play Doom!"* whenever asked for the time, he decided to compile and run it on his device, too. In the photo on the right, Doom is running in its native resolution of 320x240 (the watch has 320x320) in Weston through XWayland. On both devices, [Chocolate Doom](https://www.chocolate-doom.org/) has been used, and it is packaged for postmarketOS now.
+Shortly after that, @Bloo decided to port postmarketOS to his **[LG G Watch R](https://wiki.postmarketos.org/wiki/LG_G_Watch_R_(lg-lenok))**, giving us the **first smartwatch port**. In order to take out the watch and shout *"It's time to play Doom!"* whenever asked for the time, he decided to compile and run it on his device, too. In the photo on the right, Doom is running in its **native resolution** of 320x240 (the watch has 320x320) in Weston through XWayland. On both devices, [Chocolate Doom](https://www.chocolate-doom.org/) has been used, and it is packaged for postmarketOS now.
 
 
 
@@ -144,14 +144,16 @@ Moreover desktop Linux distributions do not only provide the kernel from the sam
 
 ## New infrastructure
 
-We now have several different key pieces of infrastructure in place to support the ongoing project development. First of all, as you might have noticed, we have a brand new homepage that hosts both our main landing page as well as this blog, and has links to all of our online resources.
+We now have several different key pieces of infrastructure in place to support the ongoing project development. First of all, as you might have noticed, we have a brand new **homepage** that hosts both our main landing page as well as this blog, and has links to all of our online resources. You might have also seen our new **logo** which - besides looking great - is [rendered programatically](https://github.com/postmarketOS/postmarketos.org/blob/2e4be89ee8ec656620203fa825e088421afcf092/logo/__init__.py)!
 
-You might have also seen our new logo which - besides looking great - is [rendered programatically](https://github.com/postmarketOS/postmarketos.org/blob/2e4be89ee8ec656620203fa825e088421afcf092/logo/__init__.py)!
+Our GitHub-based **wiki** has served us well up until now, but we have larger plans for it. To that end, we've [migrated](https://gist.github.com/ollieparanoid/6ac9122e31258a7ab8498a362b249fa8) to a [proper MediaWiki server](https://wiki.postmarketos.org). It has a complete [public backup](https://github.com/postmarketOS/wiki). Did you know that `git` has [MediaWiki support](https://github.com/Git-Mediawiki/Git-Mediawiki/wiki) nowadays?
 
-Our Github-based wiki has served us well up until now, but we have larger plans for it. To that end, we've migrated [the wiki](https://wiki.postmarketos.org) over to a proper mediawiki server and have already finished most of the content migration.
+**Travis CI** verifies the checksums of downloads in our package recipes now, and we run `shellcheck` over more scripts across the source tree. These changes in combination with only making PRs for almost all changes and consequently fixing bugs, [`pmbootstrap`](https://github.com/postmarketOS/pmbootstrap) runs pretty stable now.
 
-Travis CI has been integrated into the `pmbootstrap` repository, so we get some basic static analysis coverage on new code.
+With over 100 people in the [Matrix/IRC](https://wiki.postmarketos.org/wiki/Matrix_and_IRC) channel and *lots* of messages coming in every day, we decided to create **`##postmarketOS-offtopic`** to keep the backlog in `#postmarketOS` a bit shorter.
 
-Finally, we've split off the off-topic conversations on IRC/Matrix into a new channel: `#postmarketos-offtopic` (use `##` on Freenode IRC).
+*Thanks to: @ata2001, @CmdrWgls, @MartijnBraam, @ollieparanoid, @yuvadm*
+
+## Raw numbers
 
 ## Closing words
