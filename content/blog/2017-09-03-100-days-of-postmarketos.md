@@ -130,14 +130,15 @@ Last but not least we did a lot of refactoring (such as placing the `deviceinfo`
 
 [photo: pmOS installation in TWRP]
 
-## New flash methods
+## Interoperability
 
-heimdall-isorec, android recovery zip
+With all the porting we have learned, that lots of devices have lots of different flashing methods, that we can or must use. In some cases it isn't even possible to directly write to the system partition for example, but it is possible to flash a **recovery zip** through a recovery operating system, such as the popular [TWRP](http://twrp.me/). @ata2001 made it possible to create such an image with `pmbootstrap install --android-recovery-zip`, and to *sideload* it while TWRP is running with `pmbootstrap flasher --method=adb sideload`!
 
+Some older Samsung phones are not `fastboot` compatible, but their bootloader implements a so-called `odin`-mode. Samsung expects people to install their proprietary and Windows-only *Odin* program to be able to flash images in that mode. The protocol has been reverse engineered for some devices and can be used with the open source [heimdall](http://glassechidna.com.au/heimdall/) program, even wrapped with our `pmbootstrap`. But for some older phones, the necessary reverse engineering work has not been done and you might consider running the proprietary program to get anything working at all. If you are in that position, you can use the **Odin-compatible export** now, because @drebrez implemented it: `pmbootstrap flasher export --odin`.
 
-## New export methods
+In any case, run `pmbootstrap flasher export` to get **symlinks to all resulting files** from `pmbootstrap`, so you can use your favorite flasher tool to bring it onto the device.
 
-odin, android recovery zip
+*Thanks to: @ata2001, @drebrez*
 
 ## Mainline kernel
 
