@@ -23,7 +23,7 @@ With that being said, there are also individuals in the project, to whom the mos
 
 ## Integrated QEMU support
 
-The idea of providing a device specific package for QEMU was introduced in July already with the words *"so it will be easier to try the project and/or develop userspace"*. Although the initial PR #56 didn't make it, the idea got picked up later and today we can provide you with an implementation of exactly that vision. **All you need to *dive right in* is to install Python (3.4+), git, QEMU and to run the following commands.** As usually, `pmbootstrap` does everything in chroots in the `install` step, so your host system does not get touched.
+The idea of providing a device specific package for QEMU was introduced in July already with the words *"so it will be easier to try the project and/or develop userspace"*. Although the initial PR [#56](https://github.com/postmarketOS/pmbootstrap/pull/56) didn't make it, the idea got picked up later and today we can provide you with an implementation of exactly that vision. **All you need to *dive right in* is to install Python (3.4+), git, QEMU and to run the following commands.** As usually, `pmbootstrap` does everything in chroots in the `install` step, so your host system does not get touched.
 
 ```shell
 git clone https://github.com/postmarketOS/pmbootstrap
@@ -133,7 +133,7 @@ One of our goals is using the mainline Linux kernel on **as many mobile devices 
 
 Moreover desktop Linux distributions do not only provide the kernel from the same source code, but also use **one binary kernel package for multiple devices** (of the same CPU architecture). As this makes maintenance easier again, we follow that approach with our `linux-postmarketos` package. It configures the kernel to support multiple devices at once (currently the N900 and QEMU) by supporting **kernel modules** and **multiple device trees**. On a side note, it is not possible for us to use Alpine's kernels right now, because it does not have support for smartphones configured and we wouldn't be as flexible as we are now (temporarily applying patches etc).
 
-*Thanks to: @craftyguy, @MartijnBraam (#228, #159)*
+*Thanks to: @craftyguy, @MartijnBraam ([#228](https://github.com/postmarketOS/pmbootstrap/pull/228), [#159](https://github.com/postmarketOS/pmbootstrap/pull/159))*
 
 
 ## New infrastructure
