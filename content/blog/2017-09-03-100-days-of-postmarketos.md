@@ -2,17 +2,6 @@ title: 100 days of postmarketOS
 date: 2017-09-03
 ---
 
-<!--
-
-TODO:
-- insert images
-- more links
-- link github issues
-- link usernames
-- QEMU screenshot filled with weston stuff and postmarketos-demos, similar to:
-    https://ollieparanoid.github.io/img/2017-05-26/i9100/filled.jpg
--->
-
 [TOC]
 
 ## Sustainable approach for Linux on the phone
@@ -31,9 +20,6 @@ Community based FLOSS projects need to **become known in the development phase t
 Furthermore, the postmarketOS community is not a company where everybody gets paid to work in the same direction. We are a collective of hackers who make this project in their free time. We won't tell someone who wants to extend postmarketOS to run Doom on his smartwatch that his idea has no benefit the projects vision. Because even though it may not be part of most peoples vision, it shows what can be done with our project, and all contributions will improve the codebase, as it gets improved to work with many different use-cases we have not thought about before. Doing such *fun* stuff also increases knowledge about the software and hardware we work with. But most importantly we don't take the fun away. **Because without fun, a free time project becomes a dead project.**
 
 With that being said, there are also individuals in the project, to whom the most fun is to [actually bring the project towards the daily-driver vision](https://wiki.postmarketos.org/wiki/Milestones). So read on to learn about both **incredibly beneficial efforts**, as well as **fun exercises** we have done since [the last post](https://ollieparanoid.github.io/post/50-days-of-postmarketOS/).
-
-[image: weston in qemu]
-
 
 ## Integrated QEMU support
 
@@ -86,8 +72,6 @@ Speaking of classic interfaces, @Opendata26 made the obligatory Doom port. On th
 
 Shortly after that, @Bloo decided to port postmarketOS to his **[LG G Watch R](https://wiki.postmarketos.org/wiki/LG_G_Watch_R_(lg-lenok))**, giving us the **first smartwatch port**. In order to take out the watch and shout *"It's time to play Doom!"* whenever asked for the time, he decided to compile and run it on his device, too. In the photo on the right, Doom is running in its **native resolution** of 320x240 (the watch has 320x320) in Weston through XWayland. On both devices, [Chocolate Doom](https://www.chocolate-doom.org/) has been used, and it is packaged for postmarketOS now.
 
-
-
 *Thanks to: @Bloo, @Opendata26*
 
 ## Other new devices
@@ -128,8 +112,6 @@ Last but not least we did a lot of refactoring (such as placing the `deviceinfo`
 *Thanks to: @craftyguy, @Defcat, @drebrez, @ollieparanoid, @pablog, @MartijnBraam*
 
 
-[photo: pmOS installation in TWRP]
-
 ## Interoperability
 
 With all the porting we have learned, that lots of devices have lots of different flashing methods, that we can or must use. In some cases it isn't even possible to directly write to the system partition for example, but it is possible to flash a **recovery zip** through a recovery operating system, such as the popular [TWRP](http://twrp.me/). @ata2001 made it possible to create such an image with `pmbootstrap install --android-recovery-zip`, and to *sideload* it while TWRP is running with `pmbootstrap flasher --method=adb sideload`!
@@ -150,8 +132,6 @@ Moreover desktop Linux distributions do not only provide the kernel from the sam
 
 *Thanks to: @craftyguy, @MartijnBraam (#228, #159)*
 
-
-## Reverse engineering Mediatek bootloaders
 
 ## New infrastructure
 
