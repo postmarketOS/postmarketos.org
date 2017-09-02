@@ -54,7 +54,7 @@ cd pmbootstrap
 Since postmarketOS was released, we have been using Wayland's reference compositor Weston as UI. But as stated in #62, it *"is a cool demo, but far from a usable day-to-day shell people can work with. **We need to provide a sane UI.**"*
 
 
-[![QEMU booting up to plasma-mobile](/static/img/2017-09-03/plasma-mobile-qemu-thumb.gif)](/static/video/2017-09-03/plasma-mobile-qemu.webm)
+[![QEMU booting up to plasma-mobile](/static/img/2017-09-03/plasma-mobile-qemu-thumb.gif){: class="fr ml3 mb3" }](/static/video/2017-09-03/plasma-mobile-qemu.webm)
 
 ### plasma-mobile (KDE's plasma desktop for phones)
 
@@ -65,7 +65,7 @@ Althought non-developers may not see it this way, this surely is a huge step in 
 *Thanks to: @PureTryOut, @bshah, @mpyne*
 
 
-[![Hildon in postmarketOS](/static/img/2017-09-03/hildon-thumb.png)](/static/img/2017-09-03/hildon.png)
+[![Hildon in postmarketOS](/static/img/2017-09-03/hildon-thumb.png){: class="fr ml3 mb3" }](/static/img/2017-09-03/hildon.png)
 
 ### Hildon
 
@@ -75,15 +75,23 @@ A modernized GTK+3 version of Hildon is being worked on at [talk.maemo.org](http
 *Thanks to: @NotKit*
 
 
-[![Doom on pmOS with freedreno](/static/img/2017-09-03/doom-thumb.jpg)](/static/img/2017-09-03/doom.jpg)
+[![Doom on pmOS with freedreno](/static/img/2017-09-03/doom-xperia-z2-thumb.png){: class="fr ml3 mb3" }](/static/img/2017-09-03/doom-xperia-z2.png)
 
-### "Of course it runs Doom"
+## "Of course it runs Doom!"
 
-Speaking of classic interfaces, @Opendata26 made the obligatory Doom port. On the photo is his **Xperia Z2 tablet** with a 4.3 kernel and the open source userspace driver **[freedreno](https://github.com/freedreno/freedreno/wiki)**. Furthermore he enabled that driver upstream in Alpine's `mesa` package, so everyone can use it. Check out his [/r/postmarketOS post](https://www.reddit.com/6temny/) for more photos of other games running. Please note, that freedreno still requires a proprietary firmware file for the 3D acceleration (but it makes the userspace code of the driver open source, in contrary to Android). Also the testing was made with X11, as it currently did not work with a Wayland compositor (which should be possible after some debugging though).
+Speaking of classic interfaces, @Opendata26 made the obligatory Doom port. On the photo is his **[Xperia Z2 tablet](https://wiki.postmarketos.org/wiki/Sony_Xperia_Z2_Tablet_(sony-castor-windy))** with a 4.3 kernel and the open source userspace driver **[freedreno](https://github.com/freedreno/freedreno/wiki)**. Furthermore he enabled that driver upstream in Alpine's `mesa` package, so everyone can use it. Check out his [/r/postmarketOS post](https://www.reddit.com/6temny/) for more photos of other games running. Please note, that freedreno still requires a proprietary firmware file for the 3D acceleration (but it makes the userspace code of the driver open source, in contrary to Android). Also the testing was made with X11, as it currently did not work with a Wayland compositor (which should be possible after some debugging though).
 
-*Thanks to: @Opendata26*
 
-## First smartwatch and other new devices
+[![Doom on pmOS with freedreno](/static/img/2017-09-03/doom-lg-lenok-thumb.png){: class="fr ml3 mb3" }](/static/img/2017-09-03/doom-lg-lenok.png)
+
+Shortly after that, @Bloo decided to port postmarketOS to his **[LG G Watch R](https://wiki.postmarketos.org/wiki/LG_G_Watch_R_(lg-lenok))**, giving us the **first smartwatch port**. In order to take out the watch and shout *"It's time to play Doom!"* whenever asked for the time, he decided to compile and run it on his device, too. In the photo on the right, Doom is running in its native resolution of 320x240 (the watch has 320x320) in Weston through XWayland. On both devices, [Chocolate Doom](https://www.chocolate-doom.org/) has been used, and it is packaged for postmarketOS now.
+
+
+
+*Thanks to: @Bloo, @Opendata26*
+
+
+## Other new devices
 
 ...
 
