@@ -166,5 +166,12 @@ With over 100 people in the [Matrix/IRC](https://wiki.postmarketos.org/wiki/Matr
 *Thanks to: @ata2001, @CmdrWgls, @MartijnBraam, @ollieparanoid, @yuvadm*
 
 ## Raw numbers
+- `>`100 people in the [channel](https://wiki.postmarketos.org/wiki/Matrix_and_IRC)
+- 605 [/r/postmarketOS](https://www.reddit.com/r/postmarketOS/) readers
+- [pmbootstrap](https://github.com/postmarketOS/pmbootstrap)
+    - 554 stargazers
+    - 54 watchers
+    - 47 forks
+    - 27 contributors (`git shortlog --summary --numbered | wc -l`)
 
 ## Closing words
