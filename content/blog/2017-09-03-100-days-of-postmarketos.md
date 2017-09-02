@@ -108,11 +108,11 @@ We have **eight** new devices. The two from above plus the following:
 
 ## Initramfs is full of new features
 
-[![on screen keyboard](/static/img/2017-09-03/osk-thumb.png){: class="fr ml3 mb3" }](/static/img/2017-09-03/osk.png)
+[![on screen keyboard](/static/img/2017-09-03/osk-wave-thumb.gif){: class="fr ml3 mb3" }](/static/img/2017-09-03/osk-wave.gif)
 
 The `initramfs` is a small filesystem with an init script, that prepares the environment before it passes control to the init system running in the real root partition. In case of postmarketOS, we use it to **find and optionally unlock the root** partition. When the "usb-shell" hook is installed, we also provide a **telnet shell**, which can be used to debug the initramfs (e.g. during new device ports).
 
-@craftyguy and @MartijnBraam have started to write a new **on-screen-keyboard** named [`osk-sdl`](https://github.com/postmarketOS/osk-sdl) from scratch (because we couldn't find an existing one that did not  depend on heavy GUI libraries), which will allow us to do the unlocking directly with the device's touch screen (of course keyboards are also supported). It is currently in the process of being integrated, so it will fully replace the unlocking via telnet (in case somebody still wants that, reach out and we'll work out together how we implement it as an optional hook).
+@craftyguy and @MartijnBraam have started to write a new **on-screen-keyboard** named [`osk-sdl`](https://github.com/postmarketOS/osk-sdl) from scratch (because we couldn't find an existing one that did not  depend on heavy GUI libraries), which will allow us to do the **unlocking** directly with the device's touch screen (of course keyboards are also supported). It is currently in the process of being integrated, so it will fully replace the unlocking via telnet (in case somebody still wants that, reach out and we'll work out together how we implement it as an optional hook).
 
 To work around tight size limitations on some devices (regarding the `boot.img` file, of which the `intiramfs` is a big part), @drebrez implemented the **`initramfs-extras`** trick: A second initramfs file will store **all the big files** and gets placed in the unencrypted `boot` partition. The real initramfs will detect that by its label and extract everything from `initramfs-extras`. At this point, the `init` script works like before and has all files it needs!
 
