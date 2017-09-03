@@ -19,7 +19,7 @@ Our philosophy is that community-based FLOSS projects need to **become known dur
 
 The postmarketOS community is a collective group of hackers who contribute to this project in their free time. We won't tell someone who wants to, for example, extend postmarketOS to run Doom on their smartwatch that their idea has no benefit to the project's vision. Such activities demonstrate the flexibility of postmarketOS and oftentimes leads to improvements to the project's codebase as new requirements are implemented to cover previously unforeseen use cases. In addition, these *fun* activities also increase our collective knowledge about the software and hardware we work with. But most importantly we don't want to, or plan to, take the fun away. **Because without being fun and rewarding, a free time project becomes a dead project.**
 
-It's not all about running Doom though, there are also individuals in the project who have the most fun by [actually bringing the project towards this daily-driver vision](https://wiki.postmarketos.org/wiki/Milestones). Read on to learn about both the **incredibly beneficial efforts** as well as the **fun exercises** we have done since [the last post!](https://ollieparanoid.github.io/post/50-days-of-postmarketOS/).
+It's not all about running Doom though, there are also individuals in the project who have the most fun by [actually bringing the project towards this daily-driver vision](https://wiki.postmarketos.org/wiki/Milestones). Read on to learn about both the **incredibly beneficial efforts** as well as the **fun exercises** we have done since [the last post](https://ollieparanoid.github.io/post/50-days-of-postmarketOS/)!
 
 ## Integrated QEMU Support
 
