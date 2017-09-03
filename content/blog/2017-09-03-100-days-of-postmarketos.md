@@ -110,7 +110,7 @@ Check out that cool new **splash screen** ([#206](https://github.com/postmarketO
 
 Last but not least we did a lot of refactoring, such as placing the `deviceinfo` file inside the initramfs for easy access to device-specific settings and adding support for a configfs-based USB network setup to help out some devices that need it.
 
-*Thanks to: [@craftyguy](https://github.com/craftyguy), [@Defcat](https://github.com/Defcat), [@drebrez](https://github.com/drebrez), [@ollieparanoid](https://github.com/ollieparanoid), [@pablog](https://github.com/pablog), [@MartijnBraam](https://github.com/MartijnBraam)*
+*Thanks to: [@craftyguy](https://github.com/craftyguy), [@Defcat](https://github.com/Defcat), [@drebrez](https://github.com/drebrez), [@ollieparanoid](https://github.com/ollieparanoid), [@PabloCastellano](https://github.com/PabloCastellano), [@MartijnBraam](https://github.com/MartijnBraam)*
 
 
 ## Interoperability
