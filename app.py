@@ -22,6 +22,7 @@ WIKI_REDIRECTS = {
     "devices": "Supported_devices",
     "irc": "Matrix_and_IRC",
     "matrix": "Matrix_and_IRC",
+    "osk-port": "Osk-sdl#Porting_to_New_Devices",
     "troubleshooting": "Troubleshooting",
     "usbhook": "Inspecting_the_initramfs",
     "warning-repo": "Troubleshooting#Installed_version_newer_than_the_version_in_the_repositories",
