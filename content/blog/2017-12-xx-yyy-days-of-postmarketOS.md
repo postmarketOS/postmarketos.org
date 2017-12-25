@@ -68,7 +68,7 @@ The only exception is the Droid 4, which **@NotKit** owns. He is actively workin
 
 ### New ports
 
-We added ports for **twenty** new devices.
+We added ports for **twenty-one** new devices.
 
 * [Amazon Kindle Fire HDX `(amazon-thor)`]( https://wiki.postmarketos.org/wiki/Amazon_Kindle_Fire_HDX)
 * [Fairphone 2 `(fairphone-fp2)`](https://wiki.postmarketos.org/wiki/Fairphone_2_(fairphone-fp2))
@@ -87,11 +87,12 @@ We added ports for **twenty** new devices.
 * [Samsung Galaxy SIII (LTE) `(samsung-i9305)`](https://wiki.postmarketos.org/wiki/Samsung_Galaxy_SIII_LTE_(samsung-i9305))
 * [Samsung Galaxy S4 (International) `(samsung-i9505)`](https://wiki.postmarketos.org/wiki/Samsung-i9505-(Samsung-Galaxy-S4-int))
 * [Samsung Galaxy SL `(samsung-i9003)`](https://wiki.postmarketos.org/wiki/Samsung_Galaxy_SL_(samsung-i9003))
+* [Samsung Galaxy Tab 2 10.1" `(samsung-espresso10)`](https://wiki.postmarketos.org/wiki/Samsung_Galaxy_Tab_2_10.1%22_(3G_and_Wifi)_(samsung-espresso10))
 * [Sony Xperia Z1 `(sony-honami)`](https://wiki.postmarketos.org/wiki/Sony_Xperia_Z1_(sony-honami))
 * [Sony Xperia Z3 Compact `(sony-aries)`](https://wiki.postmarketos.org/wiki/Sony_Xperia_Z3C_(sony-aries))
 * [Wiko Lenny 3 `(wiko-lenny3)`](https://wiki.postmarketos.org/wiki/Wiko_Lenny_3_(wiko-lenny3))
 
-*Thanks to: [@ata2001](https://github.com/ata2001) [@dakk](https://github.com/dakk) [@drebrez](https://github.com/drebrez) [@flacks](https://github.com/flacks) [@kaendfinger](https://github.com/kaendfinger) [@kskarthik](https://github.com/kskarthik) [@limiter121](https://github.com/limiter121) [@magmastonealex](https://github.com/magmastonealex) [@montvid](https://github.com/montvid) [@MoreRobustThanYou](https://github.com/MoreRobustThanYou) [@rendeko](https://github.com/rendeko) [@rrooij](https://github.com/rrooij) [@shwsh](https://github.com/shwsh) [@tyxieblub](https://github.com/tyxieblub) [@z3ntu](https://github.com/z3ntu) [@zhenyolka](https://github.com/zhenyolka) [@zhuowei](https://github.com/zhuowei) and everyone who helped them in the chat*
+*Thanks to: [@ata2001](https://github.com/ata2001) [@dakk](https://github.com/dakk) [@drebrez](https://github.com/drebrez) [@flacks](https://github.com/flacks) [@kaendfinger](https://github.com/kaendfinger) [@kskarthik](https://github.com/kskarthik) [@limiter121](https://github.com/limiter121) [@magmastonealex](https://github.com/magmastonealex) [@montvid](https://github.com/montvid) [@MoreRobustThanYou](https://github.com/MoreRobustThanYou) [@rendeko](https://github.com/rendeko) [@rrooij](https://github.com/rrooij) [@shwsh](https://github.com/shwsh) [@tyxieblub](https://github.com/tyxieblub) [@WilliamO7](https://github.com/WilliamO7) [@z3ntu](https://github.com/z3ntu) [@zhenyolka](https://github.com/zhenyolka) [@zhuowei](https://github.com/zhuowei) and everyone who helped them in the chat*
 
 
 ### Wifi working on many devices
