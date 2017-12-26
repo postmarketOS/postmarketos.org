@@ -11,58 +11,81 @@ date: 2017-12-31
 
 Most people around us have accepted, that it is necessary to **buy a new phone every other year**. As the few years of a smartphone's lifecycle pass by, it gets **[slower and slower](https://www.geekbench.com/blog/2017/12/iphone-performance-and-battery-age/)** and shiny new features become rare until it the support just completely drops. Even worse, after this period the devices don't get **[security updates](https://threatpost.com/stagefright-2-0-vulnerabilities-affect-1-billion-android-devices/114863/)** anymore (that means the bored IT student next door is able to look up on the Internet how to turn your phone into a surveillance device). Good reasons to buy a new phone after the support runs out, and you should really do that.
 
-We want to have another option: **postmarketOS** is a Linux distribution based on (lightning fast) [Alpine](https://alpinelinux.org) that aims for a **[ten year life-cycle](https://postmarketos.org/blog/2017/09/03/100-days-of-postmarketos/)**. Instead of having binaries and forked source code for every device, we unify them as much as possible. That allows us to provide updates for all devices at once. The project is still in an **early stage and no, you still can't make calls with it**. But it would be a mistake to wait for that and not inform you about **all the break-throughs we have had**. Read on for the diff since day [one hundred](https://postmarketos.org/blog/2017/09/03/100-days-of-postmarketos).
+We want to have another option: **postmarketOS** is a Linux distribution based on (lightning fast) [Alpine](https://alpinelinux.org) that aims for a **[ten year life-cycle](https://postmarketos.org/blog/2017/05/26/intro/)**. Instead of having binaries and forked source code for every device, we unify them as much as possible. That allows us to provide updates for all devices at once. The project is still in an **early stage and no, you still can't make calls with it**. But it would be a mistake to wait for that and not inform you about **all the break-throughs we have had**. Read on for the diff since day [one hundred](https://postmarketos.org/blog/2017/09/03/100-days-of-postmarketos).
 
-## Weston is not alone anymore!
-
-<!-- TODO:
-- put classic i9100 weston photo in the initial blog post again (it's missing there), add table of contents to it and link to it!
-- add photos of multiple devices running plasma mobile and the other interfaces, and describe which devices are on the photos in the text
--->
+## Weston got company
 
 ### Plasma Mobile
 
-Wayland reference compositor [Weston]() was the first interface we had running on our devices. Good enough for a demo, but to get a real tablet or smartphone experience, we always had an eye on KDE's **Plasma Mobile** project. After countless hours of hard work we are proud to finally present it running on a real devices: on the right is a photo where it runs on the Sony Xperia Z2 and [here is a video]().
+[![Plasma Mobile running on the sony-castor-windy with freedreno](/static/img/2017-12/plasma-castor-thumb.gif){: class="fr ml3 mb3" }](/static/video/2017-12/plasma-castor.mp4)
 
-* interesting tales? more photos?
+Wayland reference compositor [Weston](https://en.wikipedia.org/wiki/Wayland_(display_server_protocol)#Weston) was the first interface we [had running on our devices](https://postmarketos.org/static/img/2017-05-26/i9100-filled.jpg). Good enough for a demo, but to get a **real tablet/smartphone experience**, we always had an eye on KDE's [**Plasma Mobile**](https://plasma-mobile.org/) project. After countless hours of hard work we are proud to finally present it running **on real devices!**
+
+Running plasma on real devices with postmarketOS is brand new, which means it has not been tested much and it is **far from a polished experience**. With that being said, it looks like it starts on most devices where Weston is working already. The Z2 is one of the two devices postmarketOS runs on, which has hardware acceleration with the open user space driver  [freedreno](https://github.com/freedreno/freedreno/wiki). All others run with OpenGL emulation in software, which makes plasma mobile barely usable at this point. But we have various ideas on improving the situation, such as [better software rendering](https://wiki.postmarketos.org/wiki/Software_OpenGL) or mainlining the devices and using FLOSS userspace drivers where possible.
+
+The gif shows it running on the [Sony Xperia Z2 Tablet](https://wiki.postmarketos.org/wiki/Sony_Xperia_Z2_Tablet_(sony-castor-windy)) (click on it to see the full video). Below we have it on the [Google Nexus 5](https://wiki.postmarketos.org/wiki/Google_Nexus_5_(lg-hammerhead)), [Samsung Galaxy S Advance](https://wiki.postmarketos.org/wiki/Samsung_Galaxy_S_Advance_(samsung-i9070)), [Sony Xperia Z1 Compact](https://wiki.postmarketos.org/wiki/Sony_Xperia_Z1_Compact_(sony-amami)) and again on the Z2, but this time with @MartijnBraam's postmarketOS wallpaper straight from our new [artwork](https://github.com/postmarketOS/artwork) repository.
+
+
+[![](/static/img/2017-12/plasma-hammerhead-thumb.jpg){: class="fl mr3 mb3"}](/static/img/2017-12/plasma-hammerhead.jpg)
+
+[![](/static/img/2017-12/plasma-i9070-thumb.jpg){: class="fl mr3"}](/static/img/2017-12/plasma-i9070.jpg)
+
+[![](/static/img/2017-12/plasma-amami-3x-thumb.jpg){: class="fl mr3"}](/static/img/2017-12/plasma-amami-3x.jpg)
+
+[![](/static/img/2017-12/plasma-castor2-thumb.jpg){: class="fl mr3"}](/static/img/2017-12/plasma-castor2.jpg)
+
+<div class="cf"></div>
+
 
 ### LuneOS UI
-Historically LuneOS and its interface have its roots in webOS from late Palm devices. But it was rewritten from scratch to use modern technologies, such as Wayland. The UI is based on the concept of *cards* for various apps, which can be swiped away to be closed, and related cards can be grouped to *stacks*. That sounds familiar, right?
+
+[![](/static/img/2017-12/luna-qemu-thumb.png){: class="fr ml3 mb3" }](/static/img/2017-12/luna-qemu.png)
+
+Historically [LuneOS](https://en.wikipedia.org/wiki/LuneOS) and its interface have its roots in webOS from late Palm devices. But it was rewritten from scratch to use modern technologies, such as Wayland. The UI is based on the concept of *cards* for various apps, which can be swiped away to be closed, and related cards can be grouped to *stacks*. That sounds familiar, right?
 
 Much of the UI and default applications are actually implemented as HTML web applications, thus the name webOS. But during the porting, we have learned that it is possible to run non-HTML applications as well, such as Wayland or even [X applications](https://github.com/postmarketOS/pmbootstrap/issues/629#issuecomment-349463841).
 
+[![](/static/img/2017-12/luna-droid4-thumb.jpg){: class="fr cr ml3 mb3"}](/static/img/2017-12/luna-droid4.jpg)
 
-* initial work by PureTryOut
-* magmastonealex jumped in
-* zhuowei's xzibit method
-* NotKit ran it on a real device
-* all in less than two months (!)
+@PureTryOut did the initial packaging while he was stuck with Plasma at some point. Basic applications were packaged, but nothing ran yet. Then @magmastonealex picked it up, and with a **tremendous amount of work** he managed to get it going in Qemu. Afterwards @zhuowei got a proof of concept on his [Google Nexus 6P](https://wiki.postmarketos.org/wiki/Google_Nexus_6P) without hardware acceleration by using the [Xzibit-method](https://github.com/postmarketOS/pmbootstrap/issues/629#issuecomment-350810081) of running the LuneOS compositor inside of a running Weston compositor (that [also works with plasma](https://github.com/postmarketOS/pmbootstrap/issues/987#issuecomment-350856570) by the way). @NotKit showed us the real deal with his [Moterola Droid 4](https://github.com/postmarketOS/pmbootstrap/pull/1039) and hardware acceleration (photo on the right).
 
+Since Plasma Mobile and LuneOS share similar technologies, they have similar porting problems - and it's good for development to be able to look at problems from different angles through both UI ports. Before we continue, we should mention that **whole process** from asking *"hey how about packaging LuneOS UI"* to watching it on top of postmarketOS on a device took **less than two months!**
 
-### Hildon
-* upstream switched
-* running on real devices
+### Gnome, Hildon, MATE, XFCE4
+You see where we're heading with this, we got them all running on real devices. [**Hildon**](https://postmarketos.org/blog/2017/09/03/100-days-of-postmarketos/#hildon) was [updated](https://github.com/postmarketOS/pmbootstrap/pull/1015) by @NotKit to use upstream sources from the [Leste project](https://github.com/maemo-leste), which continues development upstream. More applications have been packaged, notably `hildon-home` which allows to launch apps by touching icons.
 
-### XFCE 4
-The classic and rock stable desktop interface that is XFCE4 was already packaged for Alpine Linux, which saved us the 
+The other three desktops are maintained upstream in Alpine already, which means we can just install them with little or no modifications. @opendata26 made a proof of concept running **Gnome 3** after applying a few hacks. @drebrez showed a working **MATE** desktop and has work-in-progress [PR](https://github.com/postmarketOS/pmbootstrap/pull/1012) for proper integration. Finally **XFCE4** was [pre-configured](https://github.com/postmarketOS/pmbootstrap/pull/695) by @pavelmachek. Now it works out of the box for most devices, where X11 is working.
 
-* big buttons!
-
-### Gnome and MATE
-
-* proof of concept
-
+**XFCE4 works notably well *without* hardware accelerated graphics**, so that's the interface he chose to run on his [Nokia N900](https://wiki.postmarketos.org/wiki/Nokia_N900_(nokia-rx51)). To make it slightly more usable, he contributed the `unicsy_demo` package, which reads various sensors and is able to send and receive SMS on his device after some manual preparation. @drebrez packaged the `matchbox-keyboard`, which can be used on XFCE4 and other interfaces lacking their own on screen keyboard.
 
 ## Libre drivers and libhybris
 
-In contrary to most Linux on smartphone projects, almost all these photos and the video are taken off devices which do not run proprietary code on the main CPU. We even have 3D video acceleration on the Xperia Z2 thanks to the Freedreno project!
+In contrary to most Linux on smartphone projects, almost all these photos and the video are taken off devices which do not run proprietary code on the main CPU. The only exception is the Droid 4, which **@NotKit** owns. He is [actively working](https://github.com/postmarketOS/pmbootstrap/pull/1002) on making proprietary Android drivers usable in postmarketOS with [**libhybris**](https://en.wikipedia.org/wiki/Hybris_(software)). That way devices where FLOSS drivers are missing could also make full use of their hardware.
 
-The only exception is the Droid 4, which **@NotKit** owns. He is actively working on making proprietary Android drivers usable in postmarketOS with libhybris. That way devices where FLOSS drivers are missing could also make full use of their hardware. While we don't welcome binary blobs and prefer to sandbox them where we ship them at all, we embrace this solution for people who want it. But we intend to keep [closed source components entirely optional](https://github.com/postmarketOS/pmbootstrap/issues/756), so you can run pmOS as libre as you want it.
+While we don't welcome binary blobs and prefer to sandbox them where we ship them at all, we embrace this solution for people who want it. But we intend to keep [closed source components entirely optional](https://github.com/postmarketOS/pmbootstrap/issues/756), so you can run pmOS as libre as you want it.
 
 ## Mainline Linux Kernel
 
+Shortly explain packaging:
+
+* linux-postmarketos-mainline
+* linux-postmarketos-stable
+
+### Android-based devices
+* Fairphone 2
+* Castor
+* ...
+
+### Nokia N9xx devices
+[Camera support for N900](https://www.youtube.com/watch?v=fH6zuK2OOVU) was merged by @pavelmachek. There's still a lot of work to do in kernel and userspace, but the classic keyboard device's hardware support is getting better. The only major areas not supported are Bluetooth and 3D acceleration.
+
+Related devices N9/N950 do not have a postmarketOS port yet, although [@fi1ippz](https://mobile.twitter.com/fi1ippz) [has it planned](https://mobile.twitter.com/fi1ippz/status/927581300197863427) for his N9. Therefore it's good to know that [@sre](https://github.com/sre) did a lot of work on display support for TI OMAP, which is slowly being merged into mainline. Support for battery status on both devices should be ready in v4.15. While that is amazing progress, lots more work needs to be done there. Light sensor drivers are working, but battery charging is not.
+
+
+
 ## Devices
 * we don't call them "supported" anymore (https://github.com/postmarketOS/wiki/issues/12)
+* Wifi working on many devices
 
 ### Google Glass
 
@@ -93,9 +116,6 @@ We added ports for **twenty-one** new devices.
 * [Wiko Lenny 3 `(wiko-lenny3)`](https://wiki.postmarketos.org/wiki/Wiko_Lenny_3_(wiko-lenny3))
 
 *Thanks to: [@ata2001](https://github.com/ata2001) [@dakk](https://github.com/dakk) [@drebrez](https://github.com/drebrez) [@flacks](https://github.com/flacks) [@kaendfinger](https://github.com/kaendfinger) [@kskarthik](https://github.com/kskarthik) [@limiter121](https://github.com/limiter121) [@magmastonealex](https://github.com/magmastonealex) [@montvid](https://github.com/montvid) [@MoreRobustThanYou](https://github.com/MoreRobustThanYou) [@rendeko](https://github.com/rendeko) [@rrooij](https://github.com/rrooij) [@shwsh](https://github.com/shwsh) [@tyxieblub](https://github.com/tyxieblub) [@WilliamO7](https://github.com/WilliamO7) [@z3ntu](https://github.com/z3ntu) [@zhenyolka](https://github.com/zhenyolka) [@zhuowei](https://github.com/zhuowei) and everyone who helped them in the chat*
-
-
-### Wifi working on many devices
 
 ## Enjoyable development!
 
@@ -137,6 +157,8 @@ Change them? (y/n) [n]:
 ```
 
 After `init` is through, you are just one command away from cross-compiling packages or building a full installation image. We have **whole new [porting](https://wiki.postmarketos.org/wiki/Porting_to_a_new_device) and [installation](https://wiki.postmarketos.org/wiki/Installation_guide) guides**, that talk you through the process step by step.
+
+[![https://wiki.postmarketos.org/wiki/Porting_to_a_new_device](/static/img/2017-12/porting-guide-thumb.png)](https://wiki.postmarketos.org/wiki/Porting_to_a_new_device)
 
 ### Binary repository
 In order to change something in *Android's* system code, you need to download its entire source codes of 100 GB, then do your change and build everything, which takes another 150 GB of storage, as well as 16 GB of RAM (or SWAP) and LOTS of time even on the strongest computers (numbers from [here](https://source.android.com/setup/requirements), 2017-12). Subsequent builds are faster, but still you have this initial build which seemingly takes forever.
@@ -190,6 +212,8 @@ weston() {
 ## Raw numbers
 
 ## How can you help?
+You read through the entire thing, didn't you? Looks like you have some interest in this project - and we can use every helping hand.
+
   * join the chat
   * documentation
     * apps
