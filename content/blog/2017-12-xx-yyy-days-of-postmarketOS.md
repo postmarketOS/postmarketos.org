@@ -4,7 +4,7 @@ date: 2017-12-31
 
 [TOC]
 
-## Few year old devices should not be electronic waste
+## Few years old devices should not be electronic waste
 
 Most people around us have accepted, that it is necessary to **buy a new phone every other year**. As the few years of a smartphone's lifecycle pass by, it gets **[slower and slower](https://www.geekbench.com/blog/2017/12/iphone-performance-and-battery-age/)** and shiny new features become rare until it the support just completely drops. Even worse, after this period the devices don't get **[security updates](https://threatpost.com/stagefright-2-0-vulnerabilities-affect-1-billion-android-devices/114863/)** anymore (that means the bored IT student next door is able to look up on the Internet how to turn your phone into a surveillance device). Good reasons to buy a new phone after the support runs out, and you should really do that.
 
