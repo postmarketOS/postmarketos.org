@@ -1,5 +1,5 @@
 from flask_frozen import Freezer
-from app import app, BLOG_CONTENT_DIR, WIKI_REDIRECTS
+from app import app, BLOG_CONTENT_DIR, PAGE_CONTENT_DIR, WIKI_REDIRECTS
 from os import listdir
 
 
@@ -15,6 +15,11 @@ def blog_post():
         slug = '-'.join(title)
         yield { 'y': y, 'm': m, 'd': d, 'slug': slug }
 
+@freezer.register_generator
+def static_page():
+    for f in listdir(PAGE_CONTENT_DIR):
+        page = f[:-3]
+        yield { 'page': page }
 
 @freezer.register_generator
 def wiki_redirect():
