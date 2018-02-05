@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+<article class="pa3 lh-copy">
+    <h1 class="f2 f2-ns">{{ title }}</h1>
+    {{ html|safe }}
+</article>
+{% endblock %}

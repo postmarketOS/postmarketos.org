@@ -13,6 +13,7 @@ from os import listdir
 app = Flask(__name__)
 
 BLOG_CONTENT_DIR = 'content/blog'
+PAGE_CONTENT_DIR = 'content/page'
 
 REGEX_SPLIT_FRONTMATTER = re.compile(r'^---$', re.MULTILINE)
 
@@ -98,6 +99,20 @@ def atom():
 def blog_post(y, m, d, slug):
     blog = parse_post('-'.join([y, m, d, slug]) + '.md')
     return render_template('blog-post.html', **blog)
+
+@app.route('/<page>.html')
+def static_page(page):
+    with open(os.path.join(PAGE_CONTENT_DIR, page + '.md')) as handle:
+        raw = handle.read()
+    frontmatter, content = REGEX_SPLIT_FRONTMATTER.split(raw, 2)
+    data = yaml.load(frontmatter)
+    data['html'] = markdown.markdown(content, extensions=[
+        'markdown.extensions.extra',
+        'markdown.extensions.codehilite',
+        'markdown.extensions.toc'
+    ])
+    return render_template('page.html', **data)
+
 
 @app.route('/<slug>/')
 def wiki_redirect(slug):
