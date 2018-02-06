@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 
 {% block body %}
+<h2 class="tc">A real Linux distribution on the phone</h2>
+
 <section class="fl w-100 pv4-ns flex items-center justify-center">
-    <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/banner.jpg') }}">
+    <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/flo-plasma.png') }}">
+    <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/s5-weston.png') }}">
+    <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/honami-htop.png') }}">
+</section>
+
+<section class="fl w-100 pv4-ns flex items-center justify-center">
     <div class="ph4 nt3">
-        <h2>A real Linux distribution on the phone</h2>
         <p class="f4">postmarketOS (<i>pmOS</i>), is a touch-optimized, pre-configured <a
                 href="https://alpinelinux.org">Alpine Linux</a> that can be installed on
         <a href="https://wiki.postmarketos.org/wiki/Supported_devices">smartphones and other mobile devices</a>.
@@ -27,7 +33,7 @@
         features</b> (such as full disk encryption) to newer devices either. We want to be able to use our devices <b>until they break!</b>
     </p>
     </div>
-    <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/phonepile.jpg') }}">
+    <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/n9-tty.jpg') }}">
 </section>
 
 <section class="fl w-100 pv4 flex items-center justify-center">
