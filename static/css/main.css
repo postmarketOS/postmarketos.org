@@ -4,9 +4,25 @@ main {
 a {
   color: #0d8000;
 }
+.light-headline {
+  font-size: 2.4em;
+  font-weight: 200;
+}
+.below-banner {
+  line-height: 1.5;
+}
+/* color #20c216 is from the fp2 mainlining photo */
 .inverted {
   color: white;
   background: #333;
-  border-top: 4px solid #0d8000;
-  border-bottom: 4px solid #0d8000;
+  border-top: 4px solid #20c216;
+  border-bottom: 4px solid #20c216;
+}
+.inverted a {
+  color: #20c216;
+}
+/* color #8a4621 is from the background of the N9 photo */
+.sustainable {
+  border-top: 4px solid #8a4621;
+  border-bottom: 4px solid #8a4621;
 }
