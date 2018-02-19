@@ -1,26 +1,24 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h2 class="tc" style="font-size: 2.4em">A real Linux distribution on the phone</h2>
+<h2 class="tc light-headline">A real Linux distribution on the phone.</h2>
 
 <section class="fl w-100 pv4-ns flex items-center justify-center">
-    <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/flo-plasma.png') }}">
-    <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/s5-weston.png') }}">
-    <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/honami-htop.png') }}">
+    <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/banner-big.jpg') }}">
 </section>
 
 <section class="fl w-100 pv4-ns flex items-center justify-center">
-    <div class="ph4 nt3">
+    <div class="ph4 nt3 below-banner">
         <p class="f4">postmarketOS (<i>pmOS</i>), is a touch-optimized, pre-configured <a
                 href="https://alpinelinux.org">Alpine Linux</a> that can be installed on
-        <a href="https://wiki.postmarketos.org/wiki/Supported_devices">smartphones and other mobile devices</a>.
+        <a href="https://wiki.postmarketos.org/wiki/Devices">smartphones and other mobile devices</a>.
         The project is at very early stages of development and is <b>not usable for most users yet.</b></p>
     </div>
 </section>
 
-<section class="fl w-100 pv4 flex items-center justify-center inverted">
+<section class="fl w-100 pv4 flex items-center justify-center inverted sustainable">
     <div class="ph4 nt3">
-    <h2>We develop a <em>sustainable</em> mobile OS</h2>
+    <h2>Creating a <em>sustainable</em> mobile OS</h2>
     <p>It is 2018. Pick an average PC from 2008 and install a minimal Linux based operating system. You will be able
         to do basic computing tasks (eg. surfing the web, reading e-mails, listening to music, chatting) just like on an
         expensive modern PC. You will even get security updates, so your old computer is protected, just like a new one.
@@ -43,11 +41,8 @@
     <p>
         postmarketOS is developed in the spirit of regular Linux distributions,
         so there's no problem in having
-        <b><a href="https://github.com/postmarketOS/pmbootstrap/issues/62">multiple phone interfaces</a></b>
-        <i>(e.g. <a href="https://ubports.com">UBports</a>, featurephone with big numbers, plain shell)</i> and let the
-        user choose. A lot of work already went into getting
-        <a href="https://wiki.postmarketos.org/wiki/Plasma_Mobile">KDE plasma mobile</a> running,
-        it is getting closer every day!
+        <b><a href="https://github.com/postmarketOS/pmbootstrap/issues/62">multiple phone interfaces</a></b> and let the
+        user choose. We have <a href="https://plasma-mobile.org/">KDE's Plasma Mobile</a>, <a href="https://wiki.postmarketos.org/wiki/LuneOS_UI">LuneOS UI</a>, <a href="https://wiki.postmarketos.org/wiki/Hildon">Hildon</a>, <a href="https://wiki.postmarketos.org/wiki/MATE">MATE</a>, <a href="https://wiki.postmarketos.org/wiki/XFCE4">XFCE4</a> and <a href="https://www.reddit.com/7wt8ig/">i3wm</a> packaged so far.
     </p>
     <p>
         Furthermore postmarketOS will <b>not impose arbitrary restrictions</b> on you. Use the apps from any ecosystem you want (even desktop software).
@@ -60,7 +55,7 @@
 
 <section class="fl w-100 pv4 flex items-center justify-center inverted">
     <div class="ph4 nt3">
-    <h2>We're evaluating our options for security holes in firmware</h2>
+    <h2>Evaluating options for security holes in firmware</h2>
     <p>
         Mobile phones have dedicated chips for the cellular modem and wifi
         functionality. These chips only run with firmware files, which are <b>little
@@ -91,6 +86,13 @@
         (instead of some outdated Android fork), so we can at least have a safer userspace.
     </p>
     </div>
-    <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/backlit.jpg') }}">
+    <img class="ph4 dn di-l" src="{{ url_for('static', filename='img/fp2-mainline.jpg') }}">
 </section>
+
+<section class="fl w-100 pv4 flex items-center justify-center">
+    <span>
+        Read more on our <a href="/blog/">blog</a>.
+    </span>
+</section>
+
 {% endblock %}
