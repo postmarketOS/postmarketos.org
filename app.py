@@ -5,7 +5,7 @@ import re
 import yaml
 
 from datetime import datetime
-from flask import Flask, render_template, url_for, Response, request
+from flask import Flask, render_template, url_for, Response, request, send_file
 from werkzeug.contrib.atom import AtomFeed
 from os import listdir
 
@@ -38,6 +38,14 @@ WIKI_REDIRECTS = {
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route('/robots.txt')
+def robots_txt():
+    return send_file('static/robots.txt')
+
+@app.route('/.well-known/dnt-policy.txt')
+def dnt_policy():
+    return send_file('static/dnt-policy.txt')
 
 def reading_time(content):
     content = re.sub('<[^<]+?>', '', content)
