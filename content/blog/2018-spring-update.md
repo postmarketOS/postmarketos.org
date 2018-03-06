@@ -1,3 +1,26 @@
+# postmarketOS and Low Level Liberation (Mediatek Phones)
+
+## Introducing #postmarketOS-lowlevel
+postmarketOS aims to give a ten year life cycle to mobile phones. It boils down to using a simple and sustainable architecture borrowed from typical Linux distributions instead of using Android's build system. The project is at an early stage and not useful for most people at this point. Check out the [front page we just updated](https://postmarketos.org) for more information, the [previous blog post for recent achievements](https://postmarketos.org/blog/2017/12/31/219-days-of-postmarketOS/), and the [closed pull requests](https://github.com/postmarketOS/pmbootstrap/pulls?q=is%3Apr+is%3Aclosed) to be informed about what's going on up to the current minute.
+
+As we are a community project, that [doesn't tell people what they can and can not work on](https://postmarketos.org/blog/2017/09/03/100-days-of-postmarketos/#why-we-evolve-in-many-directions), we have people on board with a broad range of interests and skill levels. Recently a small hacking group [#postmarketOS-lowlevel](https://matrix.to/#/#postmarketos-lowlevel:disroot.org) has emerged, and its driving forces [@craigcomstock](https://github.com/craigcomstock) and [@McBitter](https://github.com/McBitter) will introduce you to the madness that awaits you when digging deeper and deeper in the stack.
+
+## MT6735P: Trying To Run An Open Bootloader
+Let's start with what [@McBitter](https://github.com/McBitter) is doing: "Well, I'm currently trying to get MT6735P SoC to boot both preloader (1st programmable bootloader) and [Little Kernel](https://github.com/littlekernel/lk/wiki/Introduction) (LK) and in the process from time to time add some in depth documentation about the chipset [to the wiki](https://wiki.postmarketos.org/wiki/Mediatek)." LK is widely used for Android devices, besides booting the device it also implements the "fastboot mode" that can be used to flash new operating systems to the device. Furthermore, LK is open source under the MIT license, so typically vendors fork the code without sharing the source with customers of the device. This is also the case here, so one of the challenges is to adjust the mainline LK code in a way that it runs on the Mediatek devices. In order to do that, the aim of his work "is to get actual useful knowledge on how the chip could be programmed and from that knowledge the [mainline] Linux kernel could be booted" as high level goal. Ideally the same LK source could be shared between various SoCs, just like it is possible with other bootloaders like U-Boot.
+
+### No Serial Access
+In the postmarketOS community, we already know that having serial access to a device is an invaluable tool when you are debugging the booting process (on higher levels that is the kernel and initramfs). But the `UART0` serial port is not wired to the circuit board for most Mediatek phones. "I could do hardware modification, but all the side effects of this outweight the risks." So he evaluated alternative instrumentation methods: "just spam data to USB. But a more clever way would be to [interface Qemu with the USB interface](https://stackoverflow.com/a/2615816)."
+
+## MT6260: Blinking LED As First Step To Porting Open Baseband Firmware
+[@craigcomstock](https://github.com/craigcomstock) is working on libre cellular network firmware. "My hope is that I will accomplish porting [osmocom-bb](https://bb.osmocom.org/) (2G baseband) to fernvale (mt6260) and then possibly porting this work to mt6735 and other mediatek chipsets. I have an initial blink LED firmware in osmocom-bb, mostly by modifying linker scripts and startup assembly code."
+
+
+
+
+# TODO
+(original text below, needs to be integrated into the above)
+
+
 Due to lack of instrumentation reversing can be chaotic and face many dead ends even to the point of giving up. That being said, let's get started on this journey.
 
 To tackle this problem we (me and Unreasonable) decided that it would be helpful to implement qemu based instrumentation. In our heads we had this dream
