@@ -14,8 +14,61 @@ In the postmarketOS community, we already know that having serial access to a de
 ## MT6260: Blinking LED As First Step To Porting Open Baseband Firmware
 [@craigcomstock](https://github.com/craigcomstock) is working on libre cellular network firmware. "My hope is that I will accomplish porting [osmocom-bb](https://bb.osmocom.org/) (2G baseband) to fernvale (mt6260) and then possibly porting this work to mt6735 and other mediatek chipsets. I have an initial blink LED firmware in osmocom-bb, mostly by modifying linker scripts and startup assembly code."
 
+## Instrumentation with Qemu
+A lack of instrumentation makes reverse engineering an SoC difficult, and leads to a lot of dead ends.  To make it easier, we (McBitter and Unreasonable) decided to implement instrumentation using Qemu.  Our approach would be to send memory read commands to the board and store the results in Qemu's state machine.  We knew that the MediaTek Boot ROM had an interface that would let us do so.  The interface is found on UART0, which normally isn't accessible, but is also bootstrapped on the USB interface.
 
+After playing around a bit with the protocol {link documentation here}, I (McBitter) got to something like [this](https://github.com/McBitter/flasher/blob/master/main.c).  Most of the code was constructed from usbmon captures while flashing with the SP Flashtool.  After painstakingly reproducing the protocol in C and adding in some diagnostics for probing the memory area, I finally came up with the following code to dump the interrupt vector table:
 
+    for (int i = 0; i < 4; i++)
+    {
+        unsigned int addr = 0x00000000;
+        unsigned int numBytes = 0x1;
+        unsigned char comm = 0xD1;
+        addr += i * 4;
+        wprint(&comm, 1);
+        rprint(1);
+        littleToBig(&addr, 4);
+        wprint((unsigned char*)&addr, 4);
+        rprint(4);
+        littleToBig(&numBytes, 4);
+        wprint((unsigned char*)&numBytes, 4);
+        rprint(4);
+        rprint(2); // ack status
+        printf("-------------------------------------\n");
+        rprint(4); // read result
+        printf("-------------------------------------\n");
+        rprint(2); // command done
+    }
+
+Normally, the interrupt vector table on ARM chips is found at the address 0x00000000.  However, on some older SoCs, you can also find it at 0xffff0000 {bootrom location?}, which would allow the programmer to read the data from both addresses.  Armed with this knowledge, we tried to read the vector table; unfortunately, we only got results about read failures.  We were confused about those results, so we tried to read the address 0x10206044 (some eFUSE-related stuff).  This returned the result we were expecting.  After we tried a few more addresses connected to specific function blocks, it became apparent that MediaTek had added restrictions to the read32 and read16 commands.  As such, we were forced to admit defeat.
+
+{Unreasonable's block start}
+
+I (Unreasonable) did some experimenting with the Fernly bootloader for MediaTek chipsets, to find the config_base {what exactly is this?} for my ZTE Obsidian.  At 0x20000008 I saw 6735, which matched the number of the SoC (MT6735M).  The MT6260 has this at 0x80000008.  Finding the config_base could allow us to reverse more information, and let us work toward finding similar IP blocks {what does he mean here?} as are in the MT6235 and MT6260, which we already know about from OsmocomBB, Fernly, and other codebases.
+
+My hope is that I'll be able to port OsmocomBB (a 2G baseband) to Fernvale (MT6260), and then possibly be able to port it to other MediaTek chipsets, such as the MT6735.
+
+I've written an initial firmware to blink an LED in OsmocomBB, mostly by modifying linker scripts and startup assembly code.  Currently, I'm working on OsmocomBB layer 1 firmware by stubbing out all the Calypso-specific functions.  Once that's done, I'll gradually migrate those functions to equivalents that work on MT6260.
+
+I've acquired a Racal 6103E 2G GSM test set, which should be a great help in developing and debugging layer 1 firmware.
+
+{Unreasonable's block end}
+
+After the frustration we'd been through, we decided that it was a good time to take a break of a few weeks from working on this.  Once we returned, we, filled with Thor's lightning, thought it was time for round 2.  This time we took a step back to look over some leaked source files, which I had misplaced.
+
+After creating a new platform for Coolpad, everything seemed fine, until we tried to flash.  SP Flashtool reported that it wasn't able to initialize the DRAM.  Armed with new purpose, we looked at emi.c in the leaked source files, where memory gets initialized.  What we found seemed promising, so we fired up IDA to gather the actual timing information from the manufacturer's preloader.  (That is, the first bootloader after BootROM.)  On our first go, a byte search didn't return anything.
+
+Since emi.c contained calibration information, I decided to see if there was a similar pattern inside the original preloader.  For that search, we are going to use KMQ8X000SA_B414 calibration data that we found in emi.c.  Since it's all about getting lucky, I selected a random pattern of 0xAA00AA00 from the struct {which struct?}.
+
+After we ran the search, we immediately got a result.  It seemed obvious that we'd hit the jackpot.  A few fields from the source file {significance?}:
+
+    0x0, /* sub_version /
+    0x0203, / TYPE */
+    9,
+
+Finally, here's some unsorted data for everybody to decipher: https://gist.github.com/McBitter/3a90851a6bed1efecdeb03e358a68895
+
+That's it for now.  Let us know if you'd like us to write similar posts in the future!
 
 # TODO
 (original text below, needs to be integrated into the above)
