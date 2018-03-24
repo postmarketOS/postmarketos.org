@@ -52,14 +52,43 @@ Finally, here's some unsorted data for everybody to decipher: https://gist.githu
 In the postmarketOS community, we already know that having serial access to a device is an invaluable tool when you are debugging the booting process (on higher levels that is the kernel and initramfs). But the `UART0` serial port is not wired to the circuit board for most Mediatek phones. "I could do hardware modification, but all the side effects of this outweight the risks." So he evaluated alternative instrumentation methods: "just spam data to USB. But a more clever way would be to [interface Qemu with the USB interface](https://stackoverflow.com/a/2615816)."
 
 ## MT6260: Blinking LED As First Step To Porting Open Baseband Firmware
-I ([unreasonable](https://github.com/craigcomstock)) did some experimentation with the Fernly bootloader for MediaTek chipsets, to try to find the CONFIG_BASE {what exactly is this?} for my ZTE Obsidian.
+### Why is proprietary cellular firmware a problem again?
+Having the main processor of a phone running a secure operating system would already be a great achievement in today's mobile word. And in our opinion, that starts with running [official kernel releases](http://www.kroah.com/log/blog/2018/02/05/linux-kernel-release-model/) on these, instead of inofficial and outdated forks where no one can realistically keep up with security patches.
 
-At the address 0x20000008 I saw 6735, which matched the number of the SoC (MT6735M).  The MT6260 has its number at 0x80000008.  Finding the CONFIG_BASE could allow us to figure out more information, and let us work toward finding similar IP blocks to those in the MT6235 and MT6260.  We already know about the MT6235 and MT6260 from [OsmocomBB](https://bb.osmocom.org/), [Fernly](https://github.com/xobs/fernly), and other codebases.  If we were able to apply what we know about those chipsets to other chipsets, it could make reversing them much quicker.
+However, we must not forget about the peripherals inside the device, which run their own firmware. Oftentimes they are able to compromise the whole system, and they are ["of dubious quality, poorly understood, entirely proprietary, and wholly insecure by design"](https://www.osnews.com/story/27416/The_second_operating_system_hiding_in_every_mobile_phone).
 
-My hope is that I'll be able to port OsmocomBB to the Fernvale development platform (based on the MT6260), and then possibly be able to port it to other MediaTek chipsets, such as the MT6735.  OsmocomBB is a Free Software implementation of a GSM baseband which has the goal of completely replacing proprietary baseband firmware.  Porting it to newer platforms would give users the opportunity to rely less on proprietary sofware, with the end goal of eliminating it completely.  Unfortunately, OsmocomBB currently is only compatible with phones based on the TI Calypso chipset, such as the Motorola C123.  Given that the Motorola C123 came out in 2006 and is no longer produced, OsmocomBB's use is limited unless we can port it to newer platforms.
+One way to deal with these is implementing kill-switches and sandboxing the cellular modem (like it is planned for in the [Librem 5](https://puri.sm/shop/librem-5/) and [Neo900](https://neo900.org/)). That means while you still don't know what it is doing, you can at least be sure that it is turned off when it should be. Another way is analyzing and binary patching the existing firmware files.
 
-I've gotten a start on porting OsmocomBB to the MT6260 by writing a firmware that simply blinks an LED.  That was mostly done by modifying linker scripts and startup assembly code.  Currently, I'm working on porting the OsmocomBB layer 1 firmware by stubbing out all the Calypso-specific functions.  Once that's done, I'll gradually migrate those functions to equivalents that work on the MT6260.
+But let's be honest here, isn't it outrageous that even the projects coming from people who value free and open software, security and privacy, need to work around this gaping security hole present in every phone ever made? Yes it is a daunting task to truly fix this with an open source implementation and it will take forever. But we have to start somewhere, and letting more time pass by won't help either!
 
-I've acquired a Racal 6103E 2G GSM test set, which should be a great help in developing and debugging layer 1 firmware.
+### Porting OsmocomBB to Fernvale
+The good news is, there is already a free software implementation of a GSM baseband called [OsmocomBB](https://osmocom.org/projects/baseband/wiki). But it is only compatible with phones based on the TI Calypso chipset, such as the Motorola C123. Given that the Motorola C123 came out in 2006 and is no longer produced, OsmocomBB's use is limited unless we can port it to newer platforms.
 
-That's it for now.  Let us know if you'd like us to write similar posts in the future!
+<!-- add picture of motorola c123? -->
+
+[@unreasonable](https://github.com/craigcomstock) chose the Fernvale plattform as new target. There's a [nice introduction talk](https://media.ccc.de/v/31c3_-_6156_-_en_-_saal_1_-_201412282145_-_fernvale_an_open_hardware_and_software_platform_based_on_the_nominally_closed-source_mt6260_soc_-_bunnie_-_xobs) by its creators that explains how Fernvale was created to enable open source engineers to build phones and other small devices with the cheap MT6260 SoC. Not only do they hack the hardware, but also provide a justifiable concepts to re-implement necessary code from abstracting facts found in leaked source core instead of copy and pasting.
+
+So with Fernvale, you have three development boards centered around the MT6260 chip, and that way it is much easier to develop and debug your own software compared to having the chip integrated to a phone. But once custom firmware runs on the cellular modem on Fernvale, it will run on existing phones with the same SoC as well.
+
+Part of the Fernvale project are the first-stage boot environment called [Fernly](https://github.com/xobs/fernly/) as well as a port of the [NuttX](https://en.wikipedia.org/wiki/NuttX) real-time operating system.
+
+### Blinking LED
+[@unreasonable](https://github.com/craigcomstock) had the first success already, as you can see on the right: "Fernly already had simple code to turn on and off the LED on the Fernvale hardware. I reworked the linker scripts and startup assembly code in OsmocomBB to work on fernvale hardware and was able to make an LED blinking firmware in OsmocomBB!"
+
+<!-- TODO: add blinking LED gif! -->
+
+Afterwards he continued to replace the functions in the layer one firmware in OsmocomBB with stubs that work on Fernvale to see if he can get more of OsmocomBB running. But he found out that the configuration in his linker script didn't provide enough space for the compiled firmware.
+
+### Future Plans
+Now we need to compare again Fernly, Fernvale-NuttX and OsmocomBB and arrive at a solution. Possibly it will be to coordinate slightly with [@McBitter](https://github.com/McBitter)'s work regarding the much larger system memory (also called `EMI`, `DRAM` or `PSRAM`). It could be used to load a larger firmware needed for OsmocomBB layer one.
+
+
+The steps along the way are these:
+* Layer one firmware in OsmocomBB, will enable using say fernvale hardware along with a laptop to do 2G voice/text/data as you can currently with supported old motorola phones in OsmocomBB
+* Create layer1 as a library in OsmocomBB to use in an app for nuttx, bringing full userspace phone functionality to a small operating system like nuttx
+* Attempt to support this layer1 on newer chipsets like MT6735 use this layer1 library and other bits of OsmocomBB project to create a RILD or oFono compatible interface to Mediatek baseband/RF chipsets
+* Extend OsmocomBB to work with GSM protocols greater than 2G on mediatek chipsets (3G, 4G, LTE, ...)
+
+### Help Wanted
+
+(TODO)
